@@ -1,6 +1,4 @@
-var mongoose = require('mongoose');
-var User = require('../../../model/user/User');
-mongoose.model('User');
+const User = require('mongoose').model('User');
 module.exports = (req,res) =>{
             res.status(200).json({status:'success',
             error:'',

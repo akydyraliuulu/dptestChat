@@ -3,8 +3,8 @@ let autoIncrement = require("mongoose-auto-increment");
 
 let userSchema = new mongoose.Schema({
   userId: Number,
-  username: { type: String, unique: true },
-  password: String,
+  username: { type: String, unique: true, required: true},
+  password: { type: String, required: true },
   isOnline: { type: Boolean, default: true },
   createdOn: { type: Date, default: Date.now }
 });
