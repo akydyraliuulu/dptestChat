@@ -14,11 +14,7 @@
     "crypto": "^1.0.1",
     "express": "^4.16.1",
     "express-session": "^1.15.6",
-    "mongodb": "^2.2.31",
     "mongoose-auto-increment": "^5.0.1",
-    "morgan": "^1.9.1",
-    "path": "^0.12.7",
-    "react-animations": "^0.1.0",
     "react-bootstrap": "^0.31.3",
     "react-ionicons": "^1.5.9",
     "react-redux": "^5.0.6",
@@ -26,8 +22,6 @@
     "redux": "^3.7.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2",
-    "sha256": "^0.2.0",
-    "uuid": "^3.3.2",
     "validator": "^10.9.0"
   },
   "devDependencies": {
