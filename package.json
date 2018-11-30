@@ -1,0 +1,54 @@
+{
+  "name": "dptest",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "mongoose": "^5.3.14",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-scripts": "2.1.1",
+    "router-express": "^1.5.2",
+    "bcrypt": "^1.0.3",
+    "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
+    "express": "^4.16.1",
+    "express-session": "^1.15.6",
+    "mongodb": "^2.2.31",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "react-animations": "^0.1.0",
+    "react-bootstrap": "^0.31.3",
+    "react-ionicons": "^1.5.9",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.74.2",
+    "sha256": "^0.2.0",
+    "uuid": "^3.3.2",
+    "validator": "^10.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0"
+  },
+  "scripts": {
+    "start_react": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start_server": "node server"
+  },
+  "proxy": "http://localhost:5000/",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
