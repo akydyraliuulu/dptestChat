@@ -17,6 +17,15 @@ userSchema.statics.login = function(userData, callback){
         callback);
 };
 
+userSchema.statics.logout = function(userData, callback){
+  this.find(
+      {username: userData.username, password: userData.password},
+      'userId username isOnline',
+      {sort: 'modifiedOn'},
+      callback);
+};
+
+
 userSchema.statics.validateUserName = function(username, callback) {
   this.find(
     { username: username },

@@ -11,7 +11,7 @@ function save(req, res) {
   let userData = {
     username: req.body.user.username,
     password: req.body.user.password,
-    isOnline: false
+    isOnline: true
   };
 
   let newUser = new User(userData);

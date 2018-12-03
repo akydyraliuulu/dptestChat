@@ -31,6 +31,7 @@ class LoginForm extends Component {
         this.props.history.push("/main");
         break;
       case "error":
+      alert("username or password is incorrect!")
         console.log("errorResponse");
         break;
       default:

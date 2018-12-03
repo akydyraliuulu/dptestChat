@@ -1,6 +1,6 @@
-var express = require('express');
-var index = express.Router();
-var messages = require('./messages')
+let express = require('express');
+let index = express.Router();
+let messages = require('./messages')
 
 index.post('/', messages);
 

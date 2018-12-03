@@ -1,8 +1,11 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
+let autoIncrement = require("mongoose-auto-increment");
 
 var MessageSchema = new mongoose.Schema({
-    username: String,
-    msg: String,
-    createdOn: { type: Date, 'default': Date.now },
+  msgId: Number,
+  senderName: String,
+  msg: String,
+  createdOn: { type: Date, default: Date.now }
 });
-module.exports = mongoose.model('Message', MessageSchema);
+MessageSchema.plugin(autoIncrement.plugin, { model: "Message", field: "msgId" });
+module.exports = mongoose.model("Message", MessageSchema);
