@@ -50,7 +50,7 @@ class LoginForm extends Component {
         <Form onSubmit={this.onSubmit} style={{ marginTop: 60 }}>
           <Grid>
             <Grid.Column width={16}>
-              <label textalign="center" style={{ width: "100%" }}>
+              <label textalign="center" style={{ width: "100%" }} className="ui grey label">
                 {" "}
                 <h1>AUTHORIZATION</h1>
               </label>
@@ -85,6 +85,7 @@ class LoginForm extends Component {
 
             <Grid.Column width={16}>
               <Button
+              className="ui green button"
                 style={{ width: "100%" }}
                 loading={this.state.loading}
                 disabled={this.state.loading}

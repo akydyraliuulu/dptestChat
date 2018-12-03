@@ -11,7 +11,7 @@ class Registration extends Component {
       <Container className="sign_up" style={{ textalign: "center" }}>
         <Grid style={{ marginTop: 60 }}>
           <Grid.Column textalign="right" width={16}>
-            <Link to="/">LOGIN</Link>
+            <Link to="/" className="ui right floated blue button">LOGIN</Link>
           </Grid.Column>
         </Grid>
 
