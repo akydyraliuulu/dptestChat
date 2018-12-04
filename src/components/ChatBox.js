@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router";
 import { connect } from "react-redux";
-import { Grid, Input, Button } from "semantic-ui-react";
+import { withRouter } from "react-router";
+import { Button, Grid, Input } from "semantic-ui-react";
 import SendMessage from "../utils/SendMessage";
+import MessageList from "./MessageList";
 
 class ChatBox extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.sendMessage = this.sendMessage.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -15,7 +15,8 @@ class ChatBox extends Component {
   state = {
     username: this.props.username,
     message: "",
-    names: this.props.names
+    names: this.props.names,
+    messages: this.props.messages
   };
 
   handleClick = name => {
@@ -54,6 +55,7 @@ class ChatBox extends Component {
   onSendMessageSuccess = res => {
     switch (res.status) {
       case "success":
+        this.AddItemsToArray(res.mData);
         this.setState({
           message: "",
           username: ""
@@ -66,6 +68,15 @@ class ChatBox extends Component {
         break;
       default:
     }
+  };
+
+  AddItemsToArray = mData => {
+    let lists = this.state.messages;
+    lists.push(mData);
+
+    this.setState({
+      messages: lists
+    });
   };
 
   render() {
@@ -97,6 +108,10 @@ class ChatBox extends Component {
               className="ui left floated raised very padded text container segment"
               style={{ minHeight: "400px" }}
             >
+              <MessageList
+                messages={this.state.messages}
+                style={{ left: 10, position: "absolute" }}
+              />
               <Input
                 style={{
                   position: "absolute",
@@ -105,7 +120,7 @@ class ChatBox extends Component {
                   width: "85%"
                 }}
                 label={
-                  this.state.username === ""
+                  this.state.username === ("" || undefined)
                     ? "all"
                     : "only " + this.state.username
                 }

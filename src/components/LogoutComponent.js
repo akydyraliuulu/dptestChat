@@ -1,12 +1,19 @@
 import React, { Component } from "react";
-import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import { Grid } from "semantic-ui-react";
+import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
 class LogoutComponent extends Component {
   constructor(props) {
     super(props);
+    
+    this.state = {
+      username: this.props.username,
+    };
   }
+
+  
 
   logoutRequest = () => {
     let logoutRequest = new Logout();
@@ -23,6 +30,9 @@ class LogoutComponent extends Component {
   onLogoutSuccess = res => {
     switch (res.status) {
       case "success":
+        sessionStorage.setItem("user", null);
+        UserSocket.disconnect();
+        //UserSocket.connect();
         this.props.history.push("/");
         break;
       case "error":
@@ -51,9 +61,9 @@ class LogoutComponent extends Component {
 }
 
 function mapStateToProps({ user }) {
-    return {
-      user
-    };
-  }
-  
-  export default withRouter(connect(mapStateToProps)(LogoutComponent));
+  return {
+    user
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(LogoutComponent));

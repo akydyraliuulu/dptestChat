@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Button, Container, Form, Grid, Input } from "semantic-ui-react";
-import { loginRedux } from "../actions/UserActions";
+import { userActions } from "../actions/UserActions";
 import Login from "../utils/Login";
+import UserSocket from "../socket/socketsApi";
 
 class LoginForm extends Component {
   state = {
@@ -28,10 +29,18 @@ class LoginForm extends Component {
   onLoginSuccess = res => {
     switch (res.status) {
       case "success":
+      
+      this.props.login(res.user);
+        UserSocket.disconnect();
+        let userToSave = JSON.stringify(res.user);
+        sessionStorage.setItem("user", userToSave);
+        UserSocket.connectUser(res.user.userId, res.user.username);
+        console.log("user " );
+        console.log(res.user);
         this.props.history.push("/main");
         break;
       case "error":
-      alert("username or password is incorrect!")
+        alert("username or password is incorrect!");
         console.log("errorResponse");
         break;
       default:
@@ -50,7 +59,11 @@ class LoginForm extends Component {
         <Form onSubmit={this.onSubmit} style={{ marginTop: 60 }}>
           <Grid>
             <Grid.Column width={16}>
-              <label textalign="center" style={{ width: "100%" }} className="ui grey label">
+              <label
+                textalign="center"
+                style={{ width: "100%" }}
+                className="ui grey label"
+              >
                 {" "}
                 <h1>AUTHORIZATION</h1>
               </label>
@@ -85,7 +98,7 @@ class LoginForm extends Component {
 
             <Grid.Column width={16}>
               <Button
-              className="ui green button"
+                className="ui green button"
                 style={{ width: "100%" }}
                 loading={this.state.loading}
                 disabled={this.state.loading}
@@ -109,7 +122,9 @@ function mapStateToProps({ user }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    mapDispatchToLogin: data => dispatch(loginRedux({ params: data }))
+    login: function(user){
+      dispatch(userActions.login(user));
+    }
   };
 }
 

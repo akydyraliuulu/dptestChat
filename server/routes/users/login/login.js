@@ -1,5 +1,6 @@
 const User = require("mongoose").model("User");
 
+let onlineUsers = require('../../../sockets/actions/onlineUsers');
 module.exports = (req, res) => {
   console.log("response");
   let userData = {
@@ -22,6 +23,7 @@ module.exports = (req, res) => {
         hint: ""
       });
     } else {
+      onlineUsers.loginActionUsers(req.body.socketId, user[0]);
       res.status(200).json({
         status: "success",
         error: "",

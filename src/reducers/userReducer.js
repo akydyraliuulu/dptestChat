@@ -1,14 +1,14 @@
-import {
-  LOGIN,
-} from '../actions/UserActions'
+// import {
+//   LOGIN,
+// } from '../actions/UserActions'
 
 function user (state = {}, action) {
 
   switch (action.type) {
 
-    case LOGIN :
+    case 'LOGIN' :
     
-      const { user } = action.params
+      user = action.user
 
       return {
         ...state,

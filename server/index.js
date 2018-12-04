@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport')
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
+global.socketIO = require('./sockets/socketIO')
 const app = express();
 // app.use(session({
 //   store: new RedisStore({
@@ -26,10 +27,16 @@ app.use(bodyParser.json());
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+var http = require('http');
+var server = http.createServer(app);
+
 app.use("/api", routes);
 
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+socketIO.init(server)
+socketIO.connectUsersSocket()
 
 
