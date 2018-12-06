@@ -1,31 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import { store } from "../index";
 class MessageList extends Component {
-    render() {
-      return (
-        <ul style={this.props.style}>                 
-          {this.props.messages.map(message => {
-            return (
-             <li key={message.id} style={{ marginTop: 10 }}>
-               <div className="ui floated left grey label">
-                 {message.senderName}
-               </div>
+  render() {
+    return (
+      <div className="ui segment">
+        {this.props.messages.map(message => {
+          return (
+            <div className="ui list" key={message.id}>
+              <p className="ui green label">{message.senderName}</p>{" "}
+              {message.msg}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+}
+function mapStateToProps({ user }) {
+  return {
+    user
+  };
+}
 
-               <div className="ui floated left yellow">
-                 {message.message}
-               </div>
-             </li>
-           )
-         })}
-       </ul>
-      )
-    }
-  }
-  function mapStateToProps({ user }) {
-    return {
-      user
-    };
-  }
-  
-  export default withRouter(connect(mapStateToProps)(MessageList));
+export default withRouter(connect(mapStateToProps)(MessageList));

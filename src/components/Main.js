@@ -4,24 +4,32 @@ import { withRouter } from "react-router";
 import { Container } from "semantic-ui-react";
 import ChatBox from "./ChatBox";
 import LogoutComponent from "./LogoutComponent";
+import { store } from "..";
 
 const DUMMY_DATA = [
   {
     senderName: "perborgen",
-    message: "who'll win?"
+    msg: "who'll win?"
   },
   {
     senderName: "janedoe",
-    message: "I'll win"
+    msg: "I'll win"
+  },
+  {
+    senderName: "perborgen",
+    msg: "who'll win?"
+  },
+  {
+    senderName: "janedoe",
+    msg: "I'll win"
   }
 ]
 
 class Main extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      username: this.props.username,
+      username: "",
       message: "",
       names: ["beka", "andrei", "aibek", "hasan", "adilet"],
       messages: DUMMY_DATA
@@ -29,9 +37,12 @@ class Main extends Component {
   }
 
   render() {
+    const user = store.getState().user;
+    console.log("main");
+    console.log(user);
     return (
-      <Container className="main" style={{ textalign: "right" }} key={this.state.messages.senderName}>
-        <LogoutComponent username={this.state.username}/>
+      <Container className="main" style={{ textalign: "right" }} key={this.state.username}>
+        <LogoutComponent user={user}/>
         <ChatBox username={this.state.username} names={this.state.names} messages={this.state.messages}  />
       </Container>
     );

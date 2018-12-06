@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { Grid } from "semantic-ui-react";
 import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
 class LogoutComponent extends Component {
   constructor(props) {
     super(props);
-    
-    this.state = {
-      username: this.props.username,
-    };
-  }
 
-  
+    this.state = {
+      user: this.props.user
+    };
+    console.log("Logout");
+    console.log(this.state.user);
+  }
 
   logoutRequest = () => {
     let logoutRequest = new Logout();
@@ -45,8 +44,8 @@ class LogoutComponent extends Component {
 
   render() {
     return (
-      <Grid textalign="right" style={{ marginTop: 60 }}>
-        <Grid.Column textalign="right">
+      <div textalign="right" style={{ marginTop: 60 }}>
+        <div textalign="right">
           <button
             className="ui right floated right labeled icon button"
             onClick={() => this.logoutRequest()}
@@ -54,8 +53,8 @@ class LogoutComponent extends Component {
             <i className="right arrow icon" />
             LOGOUT
           </button>
-        </Grid.Column>
-      </Grid>
+        </div>
+      </div>
     );
   }
 }

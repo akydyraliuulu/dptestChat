@@ -12,7 +12,7 @@ class SendMessages {
         this.xhr.addEventListener('load', () => {
             if (this.xhr.status === 200) {
                 this.onSuccess(this.xhr.response);
-                console.log("response")
+                console.log(this.xhr.response)
             } else {
                 console.log("error")
                 this.onError();
