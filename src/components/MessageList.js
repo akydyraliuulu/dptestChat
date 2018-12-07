@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { store } from "../index";
 class MessageList extends Component {
   render() {
     return (
-      <div className="ui segment">
+      <div className="ui list">
         {this.props.messages.map(message => {
           return (
-            <div className="ui list" key={message.id}>
+            <div className="ui list" key={message.createdOn}>
               <p className="ui green label">{message.senderName}</p>{" "}
-              {message.msg}
+              {message.message}
             </div>
           );
         })}
@@ -18,9 +17,11 @@ class MessageList extends Component {
     );
   }
 }
-function mapStateToProps({ user }) {
+
+const mapStateToProps = (state) => {
   return {
-    user
+    messages:state.messageReducer.messages,
+    user:state.userReducer.user,
   };
 }
 

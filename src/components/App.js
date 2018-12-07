@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
 import { Route, Switch } from "react-router-dom";
-import { loginRedux } from "../actions/UserActions";
 import "../App.css";
 import Main from "./Main";
 import NoMatch from "./NoMatch";
@@ -31,21 +28,4 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ categories }) {
-  return {
-    categories
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    mapDispatchToLogin: data => dispatch(loginRedux({ params: data }))
-  };
-}
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-);
+export default App;

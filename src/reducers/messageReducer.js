@@ -1,13 +1,19 @@
-function msg(state = [], action) {
-    switch (action.type) {
-      case "ADD_MESSAGE":
-        return Object.assign({}, state, {
-          message: action.msg
-        });
-  
-      default:
-        return state;
-    }
+var initialState = { messages: [] };
+
+const messageReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "ADD_MESSAGE":
+      return addMessage(state, action.msg);
+    default:
+      return state;
   }
-  
-  export default msg;
+}
+function addMessage(state, message) {
+  let newMessages = state.messages.slice();
+  newMessages.push(message);
+  return Object.assign({}, state, {
+    messages: newMessages
+  });
+}
+
+export default messageReducer;

@@ -5,40 +5,60 @@ import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 
 class ChatBox extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
   }
 
   state = {
-    username: this.props.username,
-    message: "",
-    names: this.props.names,
-    messages: this.props.messages
+    sendTo: ""
+  };
+
+  handleClick = name => {
+    this.setState({
+      sendTo: "@" + name
+    });
+  };
+
+  resetUser = e => {
+    this.setState({
+      sendTo: ""
+    });
   };
 
   render() {
-    const listItems = this.state.names.map(name => (
-      <a className="ui green label" key={name} value={name}>
-        {name}
+    console.log(this.props.users);
+
+    const listItems = this.props.users.map((item, i) => (
+      <a
+        className="ui green label"
+        key={i}
+        value={item.username}
+        onClick={() => this.handleClick(item.username)}
+      >
+        {item.username}
       </a>
     ));
     return (
       <div className="ui segment" style={{ top: 60 }}>
-        <a className="ui left floated button label">online users:</a>
+        <a className="ui left floated button label" onClick={this.resetUser}>
+          online users:
+        </a>
         <div className="ui left floated horizontal list">{listItems}</div>
         <br />
         <br />
 
-        <MessageList messages={this.state.messages} />
-        <MessageInput />
+        <MessageList />
+        <MessageInput sendTo={this.state.sendTo} />
       </div>
     );
   }
 }
-function mapStateToProps({ user }) {
+const mapStateToProps = state => {
   return {
-    user
+    user: state.userReducer.user,
+    users: state.userReducer.users
   };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(ChatBox));

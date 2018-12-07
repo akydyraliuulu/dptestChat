@@ -1,10 +1,8 @@
-const User = require('mongoose').model('User');
+const User = require("mongoose").model("User");
 const validator = require("validator");
 
 module.exports = (req, res) => {
-  console.log("response");
   validateForm(req, res);
-  
 };
 
 function save(req, res) {
@@ -40,7 +38,7 @@ function validateForm(req, res) {
     hint: ""
   };
 
-  if (validator.isLength(req.body.user.username,5)) {
+  if (validator.isLength(req.body.user.username, 5)) {
     resObj.bool = true;
     resObj.status = "success";
     resObj.error = "";
@@ -65,6 +63,7 @@ function validateForm(req, res) {
       res.status(200).json({
         status: "error",
         error: "server error",
+        user: user[0],
         hint: ""
       });
     } else {
@@ -81,8 +80,7 @@ function validateForm(req, res) {
           } else {
             resObj.bool = false;
             resObj.status = "verifiedFalseSendFalse";
-            resObj.error =
-              "hehe";
+            resObj.error = "hehe";
           }
         } else {
           resObj.bool = false;
@@ -97,6 +95,7 @@ function validateForm(req, res) {
         res.status(200).json({
           status: resObj.status,
           error: resObj.error,
+          user: user[0],
           hint: ""
         });
       }

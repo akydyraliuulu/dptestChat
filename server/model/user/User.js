@@ -29,7 +29,7 @@ userSchema.statics.logout = function(userData, callback){
 userSchema.statics.validateUserName = function(username, callback) {
   this.find(
     { username: username },
-    "username",
+    "userId username password isOnline createdOn",
     { sort: "modifiedOn" },
     callback
   );

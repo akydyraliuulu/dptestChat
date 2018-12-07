@@ -4,22 +4,13 @@ import { withRouter } from "react-router";
 import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
 class LogoutComponent extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: this.props.user
-    };
-    console.log("Logout");
-    console.log(this.state.user);
-  }
 
   logoutRequest = () => {
     let logoutRequest = new Logout();
     logoutRequest.data = {
       user: {
-        username: "noname",
-        password: 123456
+        username: this.props.user.username,
+        password: this.props.user.password
       }
     };
     logoutRequest.onSuccess = this.onLogoutSuccess;
@@ -59,9 +50,9 @@ class LogoutComponent extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+const mapStateToProps = (state) => {
   return {
-    user
+    user:state.userReducer.user
   };
 }
 

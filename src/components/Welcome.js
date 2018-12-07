@@ -21,11 +21,4 @@ class Welcome extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  return {
-    user
-  };
-}
-
-// export default withRouter(MainPage);
-export default withRouter(connect(mapStateToProps)(Welcome));
+export default withRouter(connect(null)(Welcome));

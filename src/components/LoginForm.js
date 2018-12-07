@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { Button, Container, Form, Grid, Input } from "semantic-ui-react";
+import { Button, Container, Form, Input } from "semantic-ui-react";
 import { userActions } from "../actions/UserActions";
-import Login from "../utils/Login";
 import UserSocket from "../socket/socketsApi";
+import Login from "../utils/Login";
 
 class LoginForm extends Component {
   state = {
@@ -29,14 +29,11 @@ class LoginForm extends Component {
   onLoginSuccess = res => {
     switch (res.status) {
       case "success":
-      
-      this.props.login(res.user);
+        this.props.login(res.user);
         UserSocket.disconnect();
         let userToSave = JSON.stringify(res.user);
         sessionStorage.setItem("user", userToSave);
         UserSocket.connectUser(res.user.userId, res.user.username);
-        console.log("user " );
-        console.log(res.user);
         this.props.history.push("/main");
         break;
       case "error":
@@ -55,74 +52,56 @@ class LoginForm extends Component {
     const { username, password } = this.state;
 
     return (
-      <Container text className="login_form">
+      <Container className="ui segment" style={{ padding: 60 }}>
         <Form onSubmit={this.onSubmit} style={{ marginTop: 60 }}>
-          <Grid>
-            <Grid.Column width={16}>
-              <label
-                textalign="center"
-                style={{ width: "100%" }}
-                className="ui grey label"
-              >
-                {" "}
-                <h1>AUTHORIZATION</h1>
-              </label>
-            </Grid.Column>
-            <br />
-            <br />
-            <Grid.Column textalign="left" width={16}>
-              <label>Username</label>
-              <Input
-                style={{ width: "100%" }}
-                icon="mail outline"
-                iconPosition="left"
-                name="username"
-                onChange={this.handleChange}
-                value={username}
-                placeholder="username"
-              />
-            </Grid.Column>
-
-            <Grid.Column textalign="left" width={16}>
-              <label>Password</label>
-              <Input
-                style={{ width: "100%" }}
-                icon="key"
-                iconPosition="left"
-                name="password"
-                onChange={this.handleChange}
-                value={password}
-                placeholder="********"
-              />
-            </Grid.Column>
-
-            <Grid.Column width={16}>
-              <Button
-                className="ui green button"
-                style={{ width: "100%" }}
-                loading={this.state.loading}
-                disabled={this.state.loading}
-                type="submit"
-              >
-                LOGIN
-              </Button>
-            </Grid.Column>
-          </Grid>
+          <div>
+            <label
+              textalign="center"
+              style={{ width: "100%", margin: 20 }}
+              className="ui grey label"
+            >
+              {" "}
+              <h1>AUTHORIZATION</h1>
+            </label>
+            <label>Username</label>
+            <Input
+              style={{ width: "100%", margin: 20 }}
+              icon="mail outline"
+              iconPosition="left"
+              name="username"
+              onChange={this.handleChange}
+              value={username}
+              placeholder="username"
+            />
+            <label>Password</label>
+            <Input
+              style={{ width: "100%", margin: 20 }}
+              icon="key"
+              iconPosition="left"
+              name="password"
+              onChange={this.handleChange}
+              value={password}
+              placeholder="********"
+            />
+            <Button
+              className="ui green button"
+              style={{ width: "100%", margin: 20 }}
+              loading={this.state.loading}
+              disabled={this.state.loading}
+              type="submit"
+            >
+              LOGIN
+            </Button>
+          </div>
         </Form>
       </Container>
     );
   }
 }
 
-function mapStateToProps({ user }) {
-  return {
-    user
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
-    login: function(user){
+    login: function(user) {
       dispatch(userActions.login(user));
     }
   };
@@ -130,7 +109,7 @@ function mapDispatchToProps(dispatch) {
 
 export default withRouter(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )(LoginForm)
 );

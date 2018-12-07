@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { Button, Container, Form, Grid, Input } from "semantic-ui-react";
-import { loginRedux } from "../actions/UserActions";
+import { Button, Container, Form, Input } from "semantic-ui-react";
+import { userActions } from "../actions/UserActions";
 import Register from "../utils/Register";
 
 class RegistrationForm extends Component {
@@ -28,6 +28,9 @@ class RegistrationForm extends Component {
   onRegisteringSuccess = res => {
     switch (res.status) {
       case "success":
+      console.log("res.user");
+      console.log(res.user);
+      this.props.login(res.user);
         this.props.history.push("/main");
         break;
       case "error":
@@ -45,78 +48,63 @@ class RegistrationForm extends Component {
     const { username, password } = this.state;
 
     return (
-      <Container text className="registration_form">
+      <Container className="ui segment" style={{ padding: 60 }}>
         <Form onSubmit={this.onSubmit} style={{ marginTop: 60 }}>
-          <Grid>
-            <Grid.Column width={16}>
-              <label textalign="center" style={{ width: "100%" }} className="ui grey label">
-                {" "}
-                <h1>REGISTRATION</h1>
-              </label>
-            </Grid.Column>
-            <br />
-            <br />
-
-            <Grid.Column textalign="left" width={16}>
-              <label>Username</label>
-              <Input
-                style={{ width: "100%" }}
-                icon="mail outline"
-                iconPosition="left"
-                name="username"
-                onChange={this.handleChange}
-                value={username}
-                placeholder="username"
-              />
-            </Grid.Column>
-
-            <Grid.Column textalign="left" width={16}>
-              <label>Password</label>
-              <Input
-                style={{ width: "100%" }}
-                icon="key"
-                iconPosition="left"
-                name="password"
-                onChange={this.handleChange}
-                value={password}
-                placeholder="********"
-              />
-            </Grid.Column>
-
-            <Grid.Column width={16}>
-              <Button
+          <div>
+            <label
+              textalign="center"
+              style={{ width: "100%", margin: 20 }}
+              className="ui grey label"
+            >
+              {" "}
+              <h1>REGISTRATION</h1>
+            </label>
+            <label>Username</label>
+            <Input
+              style={{ width: "100%", margin: 20 }}
+              icon="mail outline"
+              iconPosition="left"
+              name="username"
+              onChange={this.handleChange}
+              value={username}
+              placeholder="username"
+            />
+            <label>Password</label>
+            <Input
+              style={{ width: "100%", margin: 20 }}
+              icon="key"
+              iconPosition="left"
+              name="password"
+              onChange={this.handleChange}
+              value={password}
+              placeholder="********"
+            />
+            <Button
               className="ui green button"
-                style={{ width: "100%" }}
-                loading={this.state.loading}
-                disabled={this.state.loading}
-                type="submit"
-              >
-                REGISTER
-              </Button>
-            </Grid.Column>
-          </Grid>
+              style={{ width: "100%", margin: 20 }}
+              loading={this.state.loading}
+              disabled={this.state.loading}
+              type="submit"
+            >
+              REGISTER
+            </Button>
+          </div>
         </Form>
       </Container>
     );
   }
 }
 
-function mapStateToProps({ user }) {
-  return {
-    user
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
-    mapDispatchToLogin: data => dispatch(loginRedux({ params: data }))
+    login: function(user) {
+      dispatch(userActions.login(user));
+    }
   };
 }
-
-// export default withRouter(MainPage);
 export default withRouter(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )(RegistrationForm)
 );

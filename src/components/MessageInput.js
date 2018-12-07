@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import SendMessage from "../utils/SendMessage";
 import { store } from "../index";
-import {messageActions} from "../actions/MessageActions"
+import { messageActions } from "../actions/MessageActions";
 
 class MessageInput extends Component {
   constructor(props) {
@@ -17,24 +17,23 @@ class MessageInput extends Component {
   };
 
   sendMessage = e => {
-    if (this.state.value !== '') {
+    if (this.state.value !== "") {
+      // const to = this.state.sendTo === "" ? "" : this.state.sendTo + " ";
       let msg = {
-        senderName: "noname",
+        senderName: this.props.user.username,
         createdOn: Date.now(),
         message: this.state.value
       };
 
-      store.dispatch(messageActions.add(msg))
+      store.dispatch(messageActions.add(msg));
       this.setState({
         value: ""
       });
-      const saved = store.getState().msg
-      console.log(saved)
-
-    //   let sendMessageRequest = new SendMessage();
-    //   sendMessageRequest.data = msg;
-    //   sendMessageRequest.onSuccess = this.onSendMessageSuccess;
-    //   sendMessageRequest.send();
+      
+      //   let sendMessageRequest = new SendMessage();
+      //   sendMessageRequest.data = msg;
+      //   sendMessageRequest.onSuccess = this.onSendMessageSuccess;
+      //   sendMessageRequest.send();
     } else {
       alert("message is empty");
     }
@@ -65,8 +64,12 @@ class MessageInput extends Component {
   };
 
   render() {
+    const sendTo = this.props.sendTo;
     return (
       <div className="ui input">
+        <label className="ui label" style={{ padding: 10 }}>
+          {sendTo === "" ? "all:" : sendTo}
+        </label>
         <input onChange={this.onChange} value={this.state.value} type="text" />
         <button
           onClick={this.sendMessage}
@@ -80,9 +83,10 @@ class MessageInput extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+const mapStateToProps = (state) => {
   return {
-    user
+    messages:state.messageReducer.messages,
+    user:state.userReducer.user,
   };
 }
 

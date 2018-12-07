@@ -2,7 +2,6 @@ const User = require("mongoose").model("User");
 
 let onlineUsers = require('../../../sockets/actions/onlineUsers');
 module.exports = (req, res) => {
-  console.log("response");
   let userData = {
     username: req.body.user.username,
     password: req.body.user.password

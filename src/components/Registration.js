@@ -21,10 +21,4 @@ class Registration extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  return {
-    user
-  };
-}
-
-export default withRouter(connect(mapStateToProps)(Registration));
+export default withRouter(connect(null)(Registration));

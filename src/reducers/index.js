@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import user from './userReducer'
-import msg from './messageReducer'
+import userReducer from './userReducer'
+import messageReducer from './messageReducer'
 
 export default combineReducers({
-  user,
-  msg
+  userReducer,
+  messageReducer
 })

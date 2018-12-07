@@ -11,20 +11,20 @@ class OnlineUsers {
             socketId:socketIdwithoutNamespace,
         }
         await SocketContainer.users.push(onlineUser)
-        socketIO.sendToUsers('get_users_list', SocketContainer.users);
+        socketIO.sendToAll('getUserList', SocketContainer.users);
     }
 
     static async setUserOffline({socketId, userId}){
         SocketContainer.users = await SocketContainer.users.filter(_user => _user.userId !== userId);
-        socketIO.sendToUsers('get_users_list', SocketContainer.users);
+        socketIO.sendToAll('getUserList', SocketContainer.users);
     }
     
     static getUsers(){
-        socketIO.sendToUsers('get_users_list', SocketContainer.users);
+        socketIO.sendToAll('getUserList', SocketContainer.users);
     }
     
     static loginActionUsers(socketId,user){
-        socketIO.sendToUser(socketId,'get_users_list', SocketContainer.users);
+        socketIO.sendToAll(socketId,'getUserList', SocketContainer.users);
     }
 
     static logOutActionUsers(socketId){

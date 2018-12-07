@@ -27,8 +27,7 @@ app.use(bodyParser.json());
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-var http = require('http');
-var server = http.createServer(app);
+var server = require('http').createServer(app);
 
 app.use("/api", routes);
 

@@ -10,6 +10,7 @@
     "crypto": "^1.0.1",
     "express": "^4.16.1",
     "express-session": "^1.15.6",
+    "http-proxy-middleware": "^0.19.1",
     "mongoose": "^5.3.14",
     "mongoose-auto-increment": "^5.0.1",
     "passport": "^0.4.0",
