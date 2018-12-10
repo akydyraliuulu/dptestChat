@@ -1,7 +1,7 @@
-let express = require('express');
+let express = require("express");
 let index = express.Router();
-let messages = require('./messages')
+let messages = require("./messages");
 
-index.post('/', messages);
+index.post("/", messages);
 
 module.exports = index;

@@ -1,15 +1,15 @@
-const Message = require('mongoose').model('Message');
+const Message = require("mongoose").model("Message");
 
 module.exports = (req, res) => {
   console.log(req.body);
   console.log("msg keldi");
   save(req, res);
-  
 };
 
 function save(req, res) {
   let mData = {
     senderName: req.body.senderName,
+    receiverName: req.body.receiverName,
     msg: req.body.message
   };
 
@@ -24,7 +24,8 @@ function save(req, res) {
       return false;
     }
     res.status(200).json({
-      status: "success",mData ,
+      status: "success",
+      mData,
       error: "",
       hint: ""
     });

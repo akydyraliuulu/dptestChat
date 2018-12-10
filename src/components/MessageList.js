@@ -18,11 +18,11 @@ class MessageList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    messages:state.messageReducer.messages,
-    user:state.userReducer.user,
+    messages: state.messageReducer.messages,
+    user: state.userReducer.user
   };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(MessageList));

@@ -1,5 +1,4 @@
-class SocketContainer {
-}
+class SocketContainer {}
 
 SocketContainer.users = [];
 

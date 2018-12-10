@@ -4,7 +4,6 @@ import { withRouter } from "react-router";
 import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
 class LogoutComponent extends Component {
-
   logoutRequest = () => {
     let logoutRequest = new Logout();
     logoutRequest.data = {
@@ -22,7 +21,6 @@ class LogoutComponent extends Component {
       case "success":
         sessionStorage.setItem("user", null);
         UserSocket.disconnect();
-        //UserSocket.connect();
         this.props.history.push("/");
         break;
       case "error":
@@ -50,10 +48,10 @@ class LogoutComponent extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    user:state.userReducer.user
+    user: state.userReducer.user
   };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(LogoutComponent));

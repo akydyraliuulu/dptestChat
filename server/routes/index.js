@@ -3,7 +3,8 @@ var routes = express.Router();
 var users = require("./users");
 var messages = require("./messages");
 
-console.log('api/')
+console.log("api/");
+
 routes.use("/users", users);
 routes.use("/messages", messages);
 module.exports = routes;

@@ -11,7 +11,9 @@ class Welcome extends Component {
       <Container className="welcome" style={{ textAlign: "center" }}>
         <Grid style={{ marginTop: 60 }}>
           <Grid.Column textAlign="right" width={16}>
-            <Link to="/registration" className="ui right floated blue button">REGISTRATION</Link>
+            <Link to="/registration" className="ui right floated blue button">
+              REGISTRATION
+            </Link>
           </Grid.Column>
         </Grid>
 

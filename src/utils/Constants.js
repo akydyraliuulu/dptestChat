@@ -1,1 +1,1 @@
-export const serverUrl = '/';
+export const serverUrl = "/";

@@ -7,7 +7,6 @@ class Logout {
     this.xhr.responseType = "json";
   }
   send = () => {
-    //this.data.socketId=sessionStorage.getItem("socketId");
     this.xhr.addEventListener("load", () => {
       if (this.xhr.status === 200) {
         this.onSuccess(this.xhr.response);

@@ -7,7 +7,7 @@ const messageReducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 function addMessage(state, message) {
   let newMessages = state.messages.slice();
   newMessages.push(message);

@@ -3,28 +3,29 @@ let autoIncrement = require("mongoose-auto-increment");
 
 let userSchema = new mongoose.Schema({
   userId: Number,
-  username: { type: String, unique: true, required: true},
+  username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   isOnline: { type: Boolean, default: true },
   createdOn: { type: Date, default: Date.now }
 });
 
-userSchema.statics.login = function(userData, callback){
-    this.find(
-        {username: userData.username, password: userData.password},
-        'userId username password isOnline createdOn',
-        {sort: 'modifiedOn'},
-        callback);
-};
-
-userSchema.statics.logout = function(userData, callback){
+userSchema.statics.login = function(userData, callback) {
   this.find(
-      {username: userData.username, password: userData.password},
-      'userId username isOnline',
-      {sort: 'modifiedOn'},
-      callback);
+    { username: userData.username, password: userData.password },
+    "userId username password isOnline createdOn",
+    { sort: "modifiedOn" },
+    callback
+  );
 };
 
+userSchema.statics.logout = function(userData, callback) {
+  this.find(
+    { username: userData.username, password: userData.password },
+    "userId username isOnline",
+    { sort: "modifiedOn" },
+    callback
+  );
+};
 
 userSchema.statics.validateUserName = function(username, callback) {
   this.find(

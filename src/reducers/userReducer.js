@@ -3,38 +3,23 @@ var initialState = {
   users: [
     {
       username: "Beka",
-      userId: 5,
-      isOnline: true,
-      createdOn: Date.now,
-      password: "admin"
+      userId: 5
     },
     {
       username: "Hasan",
-      userId: 6,
-      isOnline: true,
-      createdOn: Date.now,
-      password: "admin"
+      userId: 6
     },
     {
       username: "Andrey",
-      userId: 7,
-      isOnline: true,
-      createdOn: Date.now,
-      password: "admin"
+      userId: 7
     },
     {
       username: "Adilet",
-      userId: 8,
-      isOnline: true,
-      createdOn: Date.now,
-      password: "admin"
+      userId: 8
     },
     {
       username: "Ulan",
-      userId: 9,
-      isOnline: true,
-      createdOn: Date.now,
-      password: "admin"
+      userId: 9
     }
   ]
 };

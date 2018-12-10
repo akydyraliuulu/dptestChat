@@ -1,4 +1,4 @@
-import {serverUrl} from '../utils/Constants'
+import { serverUrl } from "../utils/Constants";
 class Login {
   constructor() {
     this.xhr = new XMLHttpRequest();
@@ -7,7 +7,6 @@ class Login {
     this.xhr.responseType = "json";
   }
   send = () => {
-   // this.data.socketId=sessionStorage.getItem("socketId");
     this.xhr.addEventListener("load", () => {
       if (this.xhr.status === 200) {
         this.onSuccess(this.xhr.response);
@@ -16,7 +15,7 @@ class Login {
       }
     });
     this.xhr.send(JSON.stringify(this.data));
-    console.log(this.data)
+    console.log(this.data);
   };
   onSuccess = function() {};
   onError = function() {};

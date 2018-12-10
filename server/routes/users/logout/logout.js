@@ -1,4 +1,4 @@
-const User = require('mongoose').model("User");
+const User = require("mongoose").model("User");
 
 module.exports = (req, res) => {
   console.log(res.body);
@@ -20,7 +20,7 @@ module.exports = (req, res) => {
         error: "not allowed",
         hint: ""
       });
-    }   else {
+    } else {
       res.status(200).json({
         status: "success",
         error: "",

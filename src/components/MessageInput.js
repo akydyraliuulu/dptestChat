@@ -11,16 +11,15 @@ class MessageInput extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-
   state = {
     value: ""
   };
 
   sendMessage = e => {
     if (this.state.value !== "") {
-      // const to = this.state.sendTo === "" ? "" : this.state.sendTo + " ";
       let msg = {
         senderName: this.props.user.username,
+        receiverName: e.target.value,
         createdOn: Date.now(),
         message: this.state.value
       };
@@ -29,11 +28,11 @@ class MessageInput extends Component {
       this.setState({
         value: ""
       });
-      
-      //   let sendMessageRequest = new SendMessage();
-      //   sendMessageRequest.data = msg;
-      //   sendMessageRequest.onSuccess = this.onSendMessageSuccess;
-      //   sendMessageRequest.send();
+
+      let sendMessageRequest = new SendMessage();
+      sendMessageRequest.data = msg;
+      sendMessageRequest.onSuccess = this.onSendMessageSuccess;
+      sendMessageRequest.send();
     } else {
       alert("message is empty");
     }
@@ -64,16 +63,16 @@ class MessageInput extends Component {
   };
 
   render() {
-    const sendTo = this.props.sendTo;
     return (
       <div className="ui input">
         <label className="ui label" style={{ padding: 10 }}>
-          {sendTo === "" ? "all:" : sendTo}
+          {this.props.sendTo === "all" ? "all:" : "@" + this.props.sendTo}
         </label>
         <input onChange={this.onChange} value={this.state.value} type="text" />
         <button
           onClick={this.sendMessage}
           className="ui primary button"
+          value={this.props.sendTo}
           type="submit"
         >
           Send
@@ -83,11 +82,11 @@ class MessageInput extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    messages:state.messageReducer.messages,
-    user:state.userReducer.user,
+    messages: state.messageReducer.messages,
+    user: state.userReducer.user
   };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(MessageInput));

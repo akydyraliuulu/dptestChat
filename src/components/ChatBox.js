@@ -11,18 +11,18 @@ class ChatBox extends Component {
   }
 
   state = {
-    sendTo: ""
+    sendTo: "all"
   };
 
   handleClick = name => {
     this.setState({
-      sendTo: "@" + name
+      sendTo: name
     });
   };
 
   resetUser = e => {
     this.setState({
-      sendTo: ""
+      sendTo: "all"
     });
   };
 
