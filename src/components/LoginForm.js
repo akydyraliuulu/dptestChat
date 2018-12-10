@@ -30,10 +30,10 @@ class LoginForm extends Component {
     switch (res.status) {
       case "success":
         this.props.login(res.user);
-        UserSocket.disconnect();
-        let userToSave = JSON.stringify(res.user);
-        sessionStorage.setItem("user", userToSave);
-        UserSocket.connectUser(res.user.userId, res.user.username);
+        // UserSocket.disconnect();
+        // let userToSave = JSON.stringify(res.user);
+        // sessionStorage.setItem("user", userToSave);
+        // UserSocket.connectUser(res.user.userId, res.user.username);
         this.props.history.push("/main");
         break;
       case "error":

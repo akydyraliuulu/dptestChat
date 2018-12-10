@@ -1,32 +1,34 @@
 import { store } from "../index";
 import openSocket from "socket.io-client";
 import { userActions } from "../actions/UserActions";
+
+const socketUrl = "http://localhost";
 class UserSocket {
   static socket = null;
   static usocket = null;
+
   static connect = () => {
-    UserSocket.socket = openSocket('http://localhost:8000');
+    UserSocket.socket = openSocket(socketUrl);
     UserSocket.addListenerToSocket(UserSocket.socket);
 
-    UserSocket.socket.on("connected", socketIdData => {
+    UserSocket.socket.on("connect", socketIdData => {
       console.log("socketIdData.sockedId")
-      console.log(socketIdData.sockedId)
-      sessionStorage.setItem("socketId", socketIdData.socketId);
+     console.log(socketIdData)
     });
   };
 
   static addListenerToSocket = skt => {
-    skt.on("getUserList", userList => {
+    skt.on("news", userList => {
       console.log("getUsersList");
       console.log(userList);
-      userList = userList.map(user => {
-        return {
-          userId: Number(user.userId),
-          userSocketId: user.userSocketId,
-          socketId: user.sockedId
-        };
-      });
-      store.dispatch(userActions.setOnlineUsers(userList));
+      // userList = userList.map(user => {
+      //   return {
+      //     userId: Number(user.userId),
+      //     userSocketId: user.userSocketId,
+      //     socketId: user.sockedId
+      //   };
+      // });
+     // store.dispatch(userActions.setOnlineUsers(userList));
     });
   };
 
@@ -44,16 +46,14 @@ class UserSocket {
     UserSocket.usocket = openSocket("/users", {
       query: `userId=${userId}&username=${username}`
     });
-    UserSocket.usocket = openSocket('http://localhost:8000');
+    UserSocket.usocket = openSocket(socketUrl);
 
     UserSocket.addListenerToSocket(UserSocket.usocket);
     UserSocket.addListenerToUserSocket(UserSocket.usocket);
 
-    UserSocket.usocket.on("connected", socketIdData => {
+    UserSocket.usocket.on("connect", socketIdData => {
       console.log("socketIdData");
       console.log(socketIdData);
-      sessionStorage.setItem("usocketId", socketIdData.socketId);
-      sessionStorage.setItem("socketId", socketIdData.socketId);
     });
     UserSocket.usocket.on("disconnect", () => {
       console.log("USOCKET DISCONNECTED");

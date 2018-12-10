@@ -1,4 +1,4 @@
-const port2 = 8000;
+const port2 = 80;
   
 const socketsUser = require('./socketsUser')
 
@@ -6,18 +6,20 @@ module.exports = class socketIO {
 
 static init(server){
   global.io = require('socket.io')(server);
-  // global.io.listen(0);port2
+  server.listen(port2);
 }
 
 static connectUsersSocket(){
   console.log("Client Successfully Connected");
-  global.io.of('/users').on('connection', (socket) => {
-    let userId = socket.handshake.query['userId']
-    let username = socket.handshake.query['username']
-    socketsUser.onConnection({ socket, userId, username })
-    socket.on('disconnect', (reason) => {
-      socketsUser.onDisconnect({socket, userId}, reason);
-  });
+  global.io.on('connection', (socket) => {
+    console.log("Socket id:" + socket.id)
+    socket.emit('news', { hello: 'world' });
+    socket.on('getData', function (data) {
+      console.log(data);
+    });
+    // let userId = socket.handshake.query['userId']
+    // let username = socket.handshake.query['username']
+    // socketsUser.onConnection({ socket, userId, username })
   })
 }
 
