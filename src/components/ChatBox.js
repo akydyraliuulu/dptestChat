@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { messageActions } from "../actions/MessageActions";
-import getMessage from "../utils/GetMessage";
 import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 
@@ -11,27 +9,6 @@ class ChatBox extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
-
-  componentDidMount() {
-    this.getMessages();
-    setInterval(this.getMessages, 30000);
-  }
-
-  getMessages = () => {
-    try {
-      let getAllMessagesRequest = new getMessage();
-      getAllMessagesRequest.onSuccess = this.onGotAllMessages;
-      getAllMessagesRequest.send();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  onGotAllMessages = res => {
-    console.log("res.messages");
-    console.log(res.messages);
-    this.props.getAllMessages(res.messages);
-  };
 
   state = {
     sendTo: "all"
@@ -84,17 +61,4 @@ const mapStateToProps = state => {
   };
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getAllMessages: function(messages) {
-      dispatch(messageActions.getAllMessages(messages));
-    }
-  };
-}
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ChatBox)
-);
+export default withRouter(connect(mapStateToProps)(ChatBox));
