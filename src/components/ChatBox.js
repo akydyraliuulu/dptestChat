@@ -5,6 +5,7 @@ import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
+import { Button } from "@material-ui/core";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -35,14 +36,11 @@ class ChatBox extends Component {
       </a>
     ));
     return (
-      <div className="ui segment" style={{ top: 60 }}>
-        <a className="ui left floated button label" onClick={this.resetUser}>
+      <div className="list" style={{ top: 60,justifyContent:'center', alignItems:'center' }}>
+        <Button color="primary" className="button" onClick={this.resetUser}>
           online users:
-        </a>
+        </Button>
         <div className="ui left floated horizontal list">{listItems}</div>
-        <br />
-        <br />
-
         <MessageList />
         <MessageInput />
       </div>

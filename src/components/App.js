@@ -11,7 +11,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" style={{maxHeight: '400px', maxWidth: '500px' }}>
         <Switch>
           <Route exact path="/" render={() => <Welcome />} />
 

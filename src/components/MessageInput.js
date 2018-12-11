@@ -4,6 +4,31 @@ import { withRouter } from "react-router";
 import SendMessage from "../utils/SendMessage";
 import { store } from "../index";
 import { messageActions } from "../actions/MessageActions";
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import { InputLabel, TextField } from "@material-ui/core";
+
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit* 1.5,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  textField: {
+    margin: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
+  },
+});
+
 
 class MessageInput extends Component {
   constructor(props) {
@@ -62,20 +87,32 @@ class MessageInput extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="ui input">
-        <label className="ui label" style={{ padding: 10 }}>
+        <InputLabel className="ui label" style={{ padding: 10 }}>
           {this.props.name === "all" ? "all:" : "@" + this.props.name}
-        </label>
-        <input onChange={this.onChange} value={this.state.value} type="text" />
-        <button
+        </InputLabel>
+        <TextField 
+          onChange={this.onChange} 
+          value={this.state.value} 
+          type="text"
+          id="outlined-dense"
+          label="message"
+          margin="dense"
+          className={classNames(classes.textField)}
+          variant="outlined" />
+        <Button
+          style={{ padding: 10 }}
           onClick={this.sendMessage}
-          className="ui primary button"
-          value={this.props.name}
           type="submit"
+          variant="contained" 
+          color="primary" 
+          size="large"
+          className={classes.button}
         >
           Send
-        </button>
+        </Button>
       </div>
     );
   }
@@ -89,4 +126,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(MessageInput));
+MessageInput.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps
+  )(withRouter(MessageInput))
+);

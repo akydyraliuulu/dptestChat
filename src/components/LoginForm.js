@@ -23,15 +23,15 @@ class LoginForm extends Component {
     console.log(username);
     console.log(password);
 
-    // let loginRequest = new Login();
-    // loginRequest.data = {
-    //   user: {
-    //     username: username,
-    //     password: password
-    //   }
-    // };
-    // loginRequest.onSuccess = this.onLoginSuccess;
-    // loginRequest.send();
+    let loginRequest = new Login();
+    loginRequest.data = {
+      user: {
+        username: username,
+        password: password
+      }
+    };
+    loginRequest.onSuccess = this.onLoginSuccess;
+    loginRequest.send();
   };
 
   onLoginSuccess = res => {
@@ -86,7 +86,7 @@ class LoginForm extends Component {
             type="password"
             placeholder="********"
           />
-          <Button
+          <Button size="small"
             variant="contained"
             color="primary"
             margin="dense"
@@ -130,7 +130,7 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   textField: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   formControl: {
     margin: theme.spacing.unit

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
+import Button from "@material-ui/core/Button"
+import { FormLabel } from "@material-ui/core";
 class LogoutComponent extends Component {
   logoutRequest = () => {
     let logoutRequest = new Logout();
@@ -35,14 +37,16 @@ class LogoutComponent extends Component {
     return (
       <div textalign="right" style={{ marginTop: 60 }}>
         <div textalign="right">
-          <label className="ui label">{this.props.user.username} </label>
-          <button
-            className="ui right floated right labeled icon button"
+          <FormLabel >{this.props.user.username} </FormLabel>
+          <Button
+            className="colored primary"
+            variant="contained"
+            color="primary"
+            margin="dense"
             onClick={() => this.logoutRequest()}
           >
-            <i className="right arrow icon" />
             LOGOUT
-          </button>
+          </Button>
         </div>
       </div>
     );

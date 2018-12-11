@@ -5,7 +5,18 @@ import { messageActions } from "../actions/MessageActions";
 import getMessage from "../utils/GetMessage";
 import { store } from "../index";
 import { userActions } from "../actions/UserActions";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Scrollbar from 'perfect-scrollbar-react';
+import 'perfect-scrollbar-react/dist/style.min.css';
+
 class MessageList extends Component {
+
+  state = {
+    dense: false,
+    secondary: false,
+  };
+
   handleClick = name => {
     store.dispatch(userActions.setReceiver(name));
   };
@@ -31,22 +42,30 @@ class MessageList extends Component {
   };
 
   render() {
+    const { dense, secondary } = this.state;
     return (
-      <div className="ui list">
+      <div
+        className="list-data"
+        style={{ display: 'flex', maxHeight: '350px' }}
+      >
+      <Scrollbar>
+      <List dense={dense}>
         {this.props.messages.map(message => {
           return (
-            <div className="ui list" key={message.id}>
-              <p
-                className="ui green image header"
+            <ListItem className="list" key={message.id}
+                color="primary"
+                className="header"
                 onClick={() => this.handleClick(message.senderName)}
-              >
+             >
                 {message.senderName}
-              </p>
+            
               {":  "}
               {message.text}
-            </div>
+            </ListItem>
           );
         })}
+      </List>
+      </Scrollbar>
       </div>
     );
   }

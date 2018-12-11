@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { CardContent } from "@material-ui/core/CardContent";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import ChatBox from "./ChatBox";
@@ -7,8 +6,6 @@ import LogoutComponent from "./LogoutComponent";
 import UserSocket from "../socket/socketsApi";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
-
-UserSocket.disconnect();
 
 class Main extends Component {
   constructor(props) {
@@ -19,6 +16,8 @@ class Main extends Component {
       store.dispatch(userActions.login(user));
       UserSocket.disconnect();
       UserSocket.connectUser(user.userId, user.username);
+    } else {
+      this.props.history.push("/");
     }
   }
 
@@ -29,10 +28,10 @@ class Main extends Component {
 
   render() {
     return (
-      <CardContent className="main">
+      <div className="main" container spacing={24}>
         <LogoutComponent />
         <ChatBox />
-      </CardContent>
+      </div>
     );
   }
 }
