@@ -9,7 +9,7 @@ class MessageList extends Component {
           return (
             <div className="ui list" key={message.createdOn}>
               <p className="ui green label">{message.senderName}</p>{" "}
-              {message.message}
+              {message.text}
             </div>
           );
         })}

@@ -18,13 +18,8 @@ class Main extends Component {
     if (user && user !== null && user.username !== "") {
       store.dispatch(userActions.login(user));
       UserSocket.disconnect();
-      //UserSocket.connect();
       UserSocket.connectUser(user.userId, user.username);
     }
-  }
-
-  componentWillMount() {
-    //this.initSocket();
   }
 
   initSocket = () => {

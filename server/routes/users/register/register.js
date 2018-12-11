@@ -25,7 +25,8 @@ function save(req, res) {
     res.status(200).json({
       status: "success",
       error: "",
-      hint: "hint"
+      hint: "hint",
+      user: userData
     });
   });
 }
@@ -51,7 +52,7 @@ function validateForm(req, res) {
   if (req.body.user.password.match(/^([a-zA-Z0-9]{8,})$/) === null) {
     resObj.bool = false;
     resObj.status = "error";
-    resObj.error = "hoho";
+    resObj.error = "password required";
   } else {
     resObj.bool = true;
     resObj.status = "success";
@@ -63,7 +64,6 @@ function validateForm(req, res) {
       res.status(200).json({
         status: "error",
         error: "server error",
-        user: user[0],
         hint: ""
       });
     } else {
@@ -95,7 +95,6 @@ function validateForm(req, res) {
         res.status(200).json({
           status: resObj.status,
           error: resObj.error,
-          user: user[0],
           hint: ""
         });
       }

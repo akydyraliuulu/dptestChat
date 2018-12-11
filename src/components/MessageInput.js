@@ -20,8 +20,7 @@ class MessageInput extends Component {
       let msg = {
         senderName: this.props.user.username,
         receiverName: e.target.value,
-        createdOn: Date.now(),
-        message: this.state.value
+        text: this.state.value
       };
 
       store.dispatch(messageActions.add(msg));

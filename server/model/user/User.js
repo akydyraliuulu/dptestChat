@@ -5,14 +5,13 @@ let userSchema = new mongoose.Schema({
   userId: Number,
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  isOnline: { type: Boolean, default: true },
   createdOn: { type: Date, default: Date.now }
 });
 
 userSchema.statics.login = function(userData, callback) {
   this.find(
     { username: userData.username, password: userData.password },
-    "userId username password isOnline createdOn",
+    "userId username password createdOn",
     { sort: "modifiedOn" },
     callback
   );
@@ -21,7 +20,7 @@ userSchema.statics.login = function(userData, callback) {
 userSchema.statics.logout = function(userData, callback) {
   this.find(
     { username: userData.username, password: userData.password },
-    "userId username isOnline",
+    "userId username",
     { sort: "modifiedOn" },
     callback
   );
@@ -30,7 +29,7 @@ userSchema.statics.logout = function(userData, callback) {
 userSchema.statics.validateUserName = function(username, callback) {
   this.find(
     { username: username },
-    "userId username password isOnline createdOn",
+    "userId username password createdOn",
     { sort: "modifiedOn" },
     callback
   );

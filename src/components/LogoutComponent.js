@@ -35,6 +35,7 @@ class LogoutComponent extends Component {
     return (
       <div textalign="right" style={{ marginTop: 60 }}>
         <div textalign="right">
+          <label className="ui label">{this.props.user.username} </label>
           <button
             className="ui right floated right labeled icon button"
             onClick={() => this.logoutRequest()}

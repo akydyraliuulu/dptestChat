@@ -1,8 +1,8 @@
 const Message = require("mongoose").model("Message");
 
 module.exports = (req, res) => {
-  console.log(req.body);
   console.log("msg keldi");
+  console.log(req.body);
   save(req, res);
 };
 
@@ -10,7 +10,7 @@ function save(req, res) {
   let mData = {
     senderName: req.body.senderName,
     receiverName: req.body.receiverName,
-    msg: req.body.message
+    text: req.body.text
   };
 
   let newMessage = new Message(mData);

@@ -5,7 +5,7 @@ var MessageSchema = new mongoose.Schema({
   msgId: Number,
   senderName: String,
   receiverName: String,
-  msg: String,
+  text: String,
   createdOn: { type: Date, default: Date.now }
 });
 MessageSchema.plugin(autoIncrement.plugin, {

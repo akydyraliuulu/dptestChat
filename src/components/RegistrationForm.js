@@ -4,6 +4,7 @@ import { withRouter } from "react-router";
 import { Button, Container, Form, Input } from "semantic-ui-react";
 import { userActions } from "../actions/UserActions";
 import Register from "../utils/Register";
+import Login from "../utils/Login";
 
 class RegistrationForm extends Component {
   state = {
@@ -28,9 +29,35 @@ class RegistrationForm extends Component {
   onRegisteringSuccess = res => {
     switch (res.status) {
       case "success":
-      console.log("res.user");
-      console.log(res.user);
-      this.props.login(res.user);
+        console.log("res.user");
+        console.log(res.user);
+        this.loginForm(res.user);
+        break;
+      case "error":
+        console.log("errorResponse");
+        break;
+      default:
+    }
+  };
+
+  loginForm = user => {
+    let signInRequest = new Login();
+    signInRequest.data = {
+      user: {
+        username: user.username,
+        password: user.password
+      }
+    };
+    signInRequest.onSuccess = this.onLoginSuccess;
+    signInRequest.send();
+  };
+
+  onLoginSuccess = res => {
+    switch (res.status) {
+      case "success":
+        this.props.login(res.user);
+        let userToSave = JSON.stringify(res.user);
+        sessionStorage.setItem("user", userToSave);
         this.props.history.push("/main");
         break;
       case "error":
@@ -77,6 +104,7 @@ class RegistrationForm extends Component {
               name="password"
               onChange={this.handleChange}
               value={password}
+              type="password"
               placeholder="********"
             />
             <Button
