@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
+import { userActions } from "../actions/UserActions";
+import { store } from "../index";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -10,20 +12,13 @@ class ChatBox extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  state = {
-    sendTo: "all"
-  };
-
   handleClick = name => {
-    this.setState({
-      sendTo: name
-    });
+    store.dispatch(userActions.setReceiver(name));
   };
 
   resetUser = e => {
-    this.setState({
-      sendTo: "all"
-    });
+    let name = "all";
+    store.dispatch(userActions.setReceiver(name));
   };
 
   render() {
@@ -49,7 +44,7 @@ class ChatBox extends Component {
         <br />
 
         <MessageList />
-        <MessageInput sendTo={this.state.sendTo} />
+        <MessageInput />
       </div>
     );
   }

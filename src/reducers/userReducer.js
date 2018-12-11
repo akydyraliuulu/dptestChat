@@ -1,5 +1,6 @@
 var initialState = {
   user: {},
+  name: "all",
   users: [
     {
       username: "Beka",
@@ -33,6 +34,11 @@ const userReducer = (state = initialState, action) => {
     case "SET_ONLINE_USERS":
       return Object.assign({}, state, {
         users: action.users
+      });
+
+    case "SET_RECEIVER":
+      return Object.assign({}, state, {
+        name: action.name
       });
 
     default:

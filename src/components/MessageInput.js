@@ -65,13 +65,13 @@ class MessageInput extends Component {
     return (
       <div className="ui input">
         <label className="ui label" style={{ padding: 10 }}>
-          {this.props.sendTo === "all" ? "all:" : "@" + this.props.sendTo}
+          {this.props.name === "all" ? "all:" : "@" + this.props.name}
         </label>
         <input onChange={this.onChange} value={this.state.value} type="text" />
         <button
           onClick={this.sendMessage}
           className="ui primary button"
-          value={this.props.sendTo}
+          value={this.props.name}
           type="submit"
         >
           Send
@@ -84,7 +84,8 @@ class MessageInput extends Component {
 const mapStateToProps = state => {
   return {
     messages: state.messageReducer.messages,
-    user: state.userReducer.user
+    user: state.userReducer.user,
+    name: state.userReducer.name
   };
 };
 

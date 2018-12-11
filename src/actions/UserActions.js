@@ -9,5 +9,9 @@ export const userActions = {
   setOnlineUsers: users => ({
     type: "SET_ONLINE_USERS",
     users
+  }),
+  setReceiver: name => ({
+    type: "SET_RECEIVER",
+    name
   })
 };

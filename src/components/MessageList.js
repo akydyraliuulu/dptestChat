@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import getMessage from "../utils/GetMessage";
+import { store } from "../index";
+import { userActions } from "../actions/UserActions";
 class MessageList extends Component {
+  handleClick = name => {
+    store.dispatch(userActions.setReceiver(name));
+  };
   componentDidMount() {
     this.getMessages();
     setInterval(this.getMessages, 30000);
@@ -31,7 +36,12 @@ class MessageList extends Component {
         {this.props.messages.map(message => {
           return (
             <div className="ui list" key={message.id}>
-              <p className="ui green image header">{message.senderName}</p>
+              <p
+                className="ui green image header"
+                onClick={() => this.handleClick(message.senderName)}
+              >
+                {message.senderName}
+              </p>
               {":  "}
               {message.text}
             </div>
