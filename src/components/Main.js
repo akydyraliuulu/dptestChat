@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container } from "semantic-ui-react";
+import { CardContent } from "@material-ui/core/CardContent";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import ChatBox from "./ChatBox";
@@ -29,10 +29,10 @@ class Main extends Component {
 
   render() {
     return (
-      <Container className="main">
+      <CardContent className="main">
         <LogoutComponent />
         <ChatBox />
-      </Container>
+      </CardContent>
     );
   }
 }

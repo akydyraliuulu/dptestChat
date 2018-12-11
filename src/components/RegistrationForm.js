@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { Button, Container, Form, Input } from "semantic-ui-react";
-import { userActions } from "../actions/UserActions";
 import Register from "../utils/Register";
+import TextField from "@material-ui/core/TextField";
+import classNames from "classnames";
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router";
+import { userActions } from "../actions/UserActions";
 import Login from "../utils/Login";
+import { FormControl } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 class RegistrationForm extends Component {
   state = {
@@ -12,7 +17,7 @@ class RegistrationForm extends Component {
     password: ""
   };
 
-  onSubmit = () => {
+  onHandleClick = e => {
     const { username, password } = this.state;
 
     let signUpRequest = new Register();
@@ -67,58 +72,53 @@ class RegistrationForm extends Component {
     }
   };
 
-  handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value });
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
   };
 
   render() {
+    const { classes } = this.props;
     const { username, password } = this.state;
 
     return (
-      <Container className="ui segment" style={{ padding: 60 }}>
-        <Form onSubmit={this.onSubmit} style={{ marginTop: 60 }}>
-          <div>
-            <label
-              textalign="center"
-              style={{ width: "100%", margin: 20 }}
-              className="ui grey label"
-            >
-              {" "}
-              <h1>REGISTRATION</h1>
-            </label>
-            <label>Username</label>
-            <Input
-              style={{ width: "100%", margin: 20 }}
-              icon="mail outline"
-              iconPosition="left"
-              name="username"
-              onChange={this.handleChange}
-              value={username}
-              placeholder="username"
-            />
-            <label>Password</label>
-            <Input
-              style={{ width: "100%", margin: 20 }}
-              icon="key"
-              iconPosition="left"
-              name="password"
-              onChange={this.handleChange}
-              value={password}
-              type="password"
-              placeholder="********"
-            />
-            <Button
-              className="ui green button"
-              style={{ width: "100%", margin: 20 }}
-              loading={this.state.loading}
-              disabled={this.state.loading}
-              type="submit"
-            >
-              REGISTER
-            </Button>
-          </div>
-        </Form>
-      </Container>
+      <div style={{ marginTop: 60 }}>
+        <FormControl className={classes.container}>
+          <label className={classes.button}>
+            <h3>sign up</h3>
+          </label>
+          <TextField
+            id="outlined-dense"
+            label="username"
+            className={classNames(classes.textField)}
+            variant="outlined"
+            onChange={this.handleChange("username")}
+            value={username}
+            margin="dense"
+            placeholder="username"
+          />
+          <TextField
+            id="outlined-dense"
+            label="password"
+            className={classNames(classes.textField)}
+            variant="outlined"
+            onChange={this.handleChange("password")}
+            value={password}
+            margin="dense"
+            type="password"
+            placeholder="********"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            margin="dense"
+            className={classes.button}
+            type="submit"
+            onClick={this.onHandleClick}
+          >
+            REGISTER
+          </Button>
+        </FormControl>
+      </div>
     );
   }
 }
@@ -130,9 +130,30 @@ function mapDispatchToProps(dispatch) {
     }
   };
 }
-export default withRouter(
+
+RegistrationForm.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(
   connect(
     null,
     mapDispatchToProps
-  )(RegistrationForm)
+  )(withRouter(RegistrationForm))
 );
+
+const styles = theme => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  button: {
+    margin: theme.spacing.unit
+  },
+  textField: {
+    margin: theme.spacing.unit
+  },
+  formControl: {
+    margin: theme.spacing.unit
+  }
+});

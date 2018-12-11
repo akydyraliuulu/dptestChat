@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "./reducers";
 import { Provider } from "react-redux";
 
-import "semantic-ui-css/semantic.min.css";
+import "@material-ui/core";
 
 const logger = store => next => action => {
   console.group(action.type);

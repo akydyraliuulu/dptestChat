@@ -1,8 +1,6 @@
 const Message = require("mongoose").model("Message");
 
 module.exports = (req, res) => {
-  console.log("msg keldi");
-  console.log(req.body);
   save(req, res);
 };
 
