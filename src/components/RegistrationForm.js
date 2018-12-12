@@ -1,20 +1,24 @@
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Register from "../utils/Register";
-import TextField from "@material-ui/core/TextField";
-import classNames from "classnames";
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import Login from "../utils/Login";
-import { FormControl } from "@material-ui/core";
-import PropTypes from "prop-types";
+import Register from "../utils/Register";
 
 class RegistrationForm extends Component {
   state = {
     username: "",
     password: ""
+  };
+
+  handleKeyPress = e => {
+    if (e.key === "Enter") {
+      this.onHandleClick();
+    }
   };
 
   onHandleClick = e => {
@@ -77,48 +81,51 @@ class RegistrationForm extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { username, password } = this.state;
 
     return (
-      <div style={{ marginTop: 60 }}>
-        <FormControl className={classes.container}>
-          <label className={classes.button}>
-            <h3>sign up</h3>
-          </label>
+        <FormControl
+          container
+          style={{
+            marginTop: 60,
+            alignItems: "center",
+            alignContent: "center"
+          }}
+        >
+          <Typography gutterBottom variant="outlined" component="h1">
+            sign up
+          </Typography>
           <TextField
             id="outlined-dense"
             label="username"
-            className={classNames(classes.textField)}
             variant="outlined"
+            margin="normal"
             onChange={this.handleChange("username")}
             value={username}
-            margin="dense"
             placeholder="username"
           />
           <TextField
             id="outlined-dense"
             label="password"
-            className={classNames(classes.textField)}
+            margin="normal"
             variant="outlined"
             onChange={this.handleChange("password")}
             value={password}
-            margin="dense"
+            onKeyPress={this.handleKeyPress}
             type="password"
             placeholder="********"
           />
           <Button
-            variant="contained"
+            size="large"
+            variant="outlined"
             color="primary"
-            margin="dense"
-            className={classes.button}
+            margin="normal"
             type="submit"
             onClick={this.onHandleClick}
           >
             REGISTER
           </Button>
         </FormControl>
-      </div>
     );
   }
 }
@@ -131,29 +138,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-RegistrationForm.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(
+export default withRouter(
   connect(
     null,
     mapDispatchToProps
-  )(withRouter(RegistrationForm))
+  )(RegistrationForm)
 );
-
-const styles = theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  button: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    margin: theme.spacing.unit
-  },
-  formControl: {
-    margin: theme.spacing.unit
-  }
-});

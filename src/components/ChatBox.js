@@ -5,7 +5,11 @@ import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Chip from "@material-ui/core/Chip";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import TagFacesIcon from "@material-ui/icons/TagFaces";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -25,24 +29,43 @@ class ChatBox extends Component {
   render() {
     console.log(this.props.users);
 
+    let icon = <TagFacesIcon />;
     const listItems = this.props.users.map((item, i) => (
-      <a
-        className="ui green label"
+      <Chip
+        style={{ margin: 4, position: "relative", left: 148 }}
         key={i}
-        value={item.username}
+        icon={icon}
+        label={item.username}
         onClick={() => this.handleClick(item.username)}
       >
         {item.username}
-      </a>
+      </Chip>
     ));
     return (
-      <div className="list" style={{ top: 60,justifyContent:'center', alignItems:'center' }}>
-        <Button color="primary" className="button" onClick={this.resetUser}>
-          online users:
-        </Button>
-        <div className="ui left floated horizontal list">{listItems}</div>
-        <MessageList />
-        <MessageInput />
+      <div>
+        <Paper
+          style={{
+            display: "flex",
+            justifyContent: "left",
+            flexWrap: "wrap",
+            padding: 12
+          }}
+        >
+          <Button
+            color="primary"
+            style={{ position: "absolute", left: 16 }}
+            variant="outlined"
+            margin="normal"
+            onClick={this.resetUser}
+          >
+            online users:
+          </Button>
+          {listItems}
+        </Paper>
+        <Grid container spacing={24}>
+          <MessageList />
+          <MessageInput />
+        </Grid>
       </div>
     );
   }

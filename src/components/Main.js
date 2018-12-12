@@ -16,9 +16,7 @@ class Main extends Component {
       store.dispatch(userActions.login(user));
       UserSocket.disconnect();
       UserSocket.connectUser(user.userId, user.username);
-    } else {
-      this.props.history.push("/");
-    }
+    } 
   }
 
   initSocket = () => {
@@ -28,7 +26,7 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="main" container spacing={24}>
+      <div className="main" container spacing={40}>
         <LogoutComponent />
         <ChatBox />
       </div>

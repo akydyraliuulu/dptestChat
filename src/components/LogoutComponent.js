@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
-import Button from "@material-ui/core/Button"
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import { FormLabel } from "@material-ui/core";
 class LogoutComponent extends Component {
   logoutRequest = () => {
@@ -35,20 +38,23 @@ class LogoutComponent extends Component {
 
   render() {
     return (
-      <div textalign="right" style={{ marginTop: 60 }}>
-        <div textalign="right">
-          <FormLabel >{this.props.user.username} </FormLabel>
-          <Button
-            className="colored primary"
-            variant="contained"
-            color="primary"
-            margin="dense"
-            onClick={() => this.logoutRequest()}
-          >
-            LOGOUT
-          </Button>
-        </div>
-      </div>
+      <AppBar position="static" color="#009688">
+        <Toolbar>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <FormLabel>{this.props.user.username} </FormLabel>
+            <Button
+              style={{ position: "absolute", right: 16, bottom: 16 }}
+              className="colored primary"
+              variant="outlined"
+              color="primary"
+              margin="normal"
+              onClick={() => this.logoutRequest()}
+            >
+              LOGOUT
+            </Button>
+          </Typography>
+        </Toolbar>
+      </AppBar>
     );
   }
 }

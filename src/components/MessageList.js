@@ -5,16 +5,16 @@ import { messageActions } from "../actions/MessageActions";
 import getMessage from "../utils/GetMessage";
 import { store } from "../index";
 import { userActions } from "../actions/UserActions";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Scrollbar from 'perfect-scrollbar-react';
-import 'perfect-scrollbar-react/dist/style.min.css';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
+import Grid from "@material-ui/core/Grid";
 
 class MessageList extends Component {
-
   state = {
     dense: false,
-    secondary: false,
+    secondary: false
   };
 
   handleClick = name => {
@@ -42,31 +42,38 @@ class MessageList extends Component {
   };
 
   render() {
-    const { dense, secondary } = this.state;
     return (
-      <div
-        className="list-data"
-        style={{ display: 'flex', maxHeight: '350px' }}
-      >
-      <Scrollbar>
-      <List dense={dense}>
-        {this.props.messages.map(message => {
-          return (
-            <ListItem className="list" key={message.id}
-                color="primary"
-                className="header"
-                onClick={() => this.handleClick(message.senderName)}
-             >
-                {message.senderName}
-            
-              {":  "}
-              {message.text}
-            </ListItem>
-          );
-        })}
-      </List>
-      </Scrollbar>
-      </div>
+      <Grid style={{ maxHeight: 500, padding: 20 }}>
+        <PerfectScrollbar
+          style={{
+            maxHeight: 450,
+            maxWidth: 450,
+            overflow: "hidden",
+            position: "absolute",
+            height: "100%",
+            left: "30%"
+          }}
+        >
+          <List>
+            {this.props.messages.map(message => {
+              return (
+                <ListItem
+                  className="list"
+                  key={message.id}
+                  color="primary"
+                  className="header"
+                  onClick={() => this.handleClick(message.senderName)}
+                >
+                  {message.senderName}
+
+                  {":  "}
+                  {message.text}
+                </ListItem>
+              );
+            })}
+          </List>
+        </PerfectScrollbar>
+      </Grid>
     );
   }
 }

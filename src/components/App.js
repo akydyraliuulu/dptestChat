@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "../App.css";
 import Main from "./Main";
 import NoMatch from "./NoMatch";
@@ -7,17 +7,27 @@ import Registration from "./Registration";
 import Welcome from "./Welcome";
 
 class App extends Component {
-  componentDidMount() {}
-
   render() {
+    let logedIn = false;
+    let user = sessionStorage.getItem("user");
+    user = JSON.parse(user);
+    if (!user) {
+     logedIn = false;
+    } else {
+      logedIn = true;
+    }
     return (
-      <div className="App" style={{maxHeight: '400px', maxWidth: '500px' }}>
+      <div className="App">
         <Switch>
           <Route exact path="/" render={() => <Welcome />} />
 
           <Route exact path="/notfound" component={NoMatch} />
 
-          <Route exact path="/main" render={() => <Main />} />
+          <Route
+            exact
+            path="/main"
+            render={() => (logedIn ? <Main /> : <Redirect to="/" />)}
+          />
 
           <Route exact path="/registration" render={() => <Registration />} />
 
