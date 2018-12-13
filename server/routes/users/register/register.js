@@ -17,7 +17,7 @@ function save(req, res) {
       res.status(200).json({
         status: "error",
         error: "server error",
-        hint: ""
+        hint: "required"
       });
       return false;
     }
@@ -38,32 +38,12 @@ function validateForm(req, res) {
     hint: ""
   };
 
-  if (validator.isLength(req.body.user.username, 5)) {
-    resObj.bool = true;
-    resObj.status = "success";
-    resObj.error = "";
-  } else {
-    resObj.bool = false;
-    resObj.status = "error";
-    resObj.error = "";
-  }
-
-  if (req.body.user.password.match(/^([a-zA-Z0-9]{8,})$/) === null) {
-    resObj.bool = false;
-    resObj.status = "error";
-    resObj.error = "password required";
-  } else {
-    resObj.bool = true;
-    resObj.status = "success";
-    resObj.error = "";
-  }
-
   User.validateUserName(req.body.user.username, (err, user) => {
     if (err) {
       res.status(200).json({
         status: "error",
         error: "server error",
-        hint: ""
+        hint: "hi"
       });
     } else {
       if (user.length === 0) {
@@ -94,7 +74,7 @@ function validateForm(req, res) {
         res.status(200).json({
           status: resObj.status,
           error: resObj.error,
-          hint: ""
+          hint: "so"
         });
       }
     }

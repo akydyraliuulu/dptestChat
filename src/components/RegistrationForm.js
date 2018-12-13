@@ -13,15 +13,13 @@ class RegistrationForm extends Component {
   state = {
     username: "",
     password: "",
-    disabled: true,
-    error: ""
+    error: "",
+    required: ""
   };
 
   handleKeyPress = e => {
-    if (!this.state.disabled) {
-      if (e.key === "Enter") {
-        this.onHandleClick();
-      }
+    if (e.key === "Enter") {
+      this.onHandleClick();
     }
   };
 
@@ -48,7 +46,14 @@ class RegistrationForm extends Component {
         break;
       case "error":
         console.log("errorResponse");
-        console.log(res.error);
+        console.log(res.hint);
+        if (res.hint === "required") {
+          if (this.state.username === "") {
+            this.setState({ error: "username is required" });
+          } else if (this.state.password === "") {
+            this.setState({ required: "password is required" });
+          }
+        }
         break;
       case "verifiedTrue":
         console.log("verifiedTrue");
@@ -88,11 +93,10 @@ class RegistrationForm extends Component {
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
-    this.setState({ error: "" });
-    if (this.state.username !== "" && this.state.password !== "") {
-      this.setState({ disabled: false });
+    if (name === "username") {
+      this.setState({ error: "" });
     } else {
-      this.setState({ disabled: true });
+      this.setState({ required: "" });
     }
   };
 
@@ -124,17 +128,17 @@ class RegistrationForm extends Component {
         />
         <TextField
           id="outlined-dense"
-          label="password"
+          label={this.state.required ? this.state.required : "password"}
           margin="normal"
           variant="outlined"
           onChange={this.handleChange("password")}
           value={password}
           onKeyPress={this.handleKeyPress}
           type="password"
+          error={this.state.required}
           placeholder="********"
         />
         <Button
-          disabled={this.state.disabled}
           size="large"
           variant="outlined"
           color="primary"
