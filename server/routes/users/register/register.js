@@ -8,8 +8,7 @@ module.exports = (req, res) => {
 function save(req, res) {
   let userData = {
     username: req.body.user.username,
-    password: req.body.user.password,
-    isOnline: true
+    password: req.body.user.password
   };
 
   let newUser = new User(userData);
@@ -24,7 +23,7 @@ function save(req, res) {
     }
     res.status(200).json({
       status: "success",
-      error: "",
+      error: "error",
       hint: "hint",
       user: userData
     });
@@ -85,7 +84,7 @@ function validateForm(req, res) {
         } else {
           resObj.bool = false;
           resObj.status = "verifiedTrue";
-          resObj.error = "haha";
+          resObj.error = "username exist";
         }
       }
 

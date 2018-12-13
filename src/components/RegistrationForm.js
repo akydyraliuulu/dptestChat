@@ -12,12 +12,16 @@ import Register from "../utils/Register";
 class RegistrationForm extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    disabled: true,
+    error: ""
   };
 
   handleKeyPress = e => {
-    if (e.key === "Enter") {
-      this.onHandleClick();
+    if (!this.state.disabled) {
+      if (e.key === "Enter") {
+        this.onHandleClick();
+      }
     }
   };
 
@@ -44,6 +48,12 @@ class RegistrationForm extends Component {
         break;
       case "error":
         console.log("errorResponse");
+        console.log(res.error);
+        break;
+      case "verifiedTrue":
+        console.log("verifiedTrue");
+        console.log(res.error);
+        this.setState({ error: res.error });
         break;
       default:
     }
@@ -78,54 +88,63 @@ class RegistrationForm extends Component {
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
+    this.setState({ error: "" });
+    if (this.state.username !== "" && this.state.password !== "") {
+      this.setState({ disabled: false });
+    } else {
+      this.setState({ disabled: true });
+    }
   };
 
   render() {
     const { username, password } = this.state;
 
     return (
-        <FormControl
-          container
-          style={{
-            marginTop: 60,
-            alignItems: "center",
-            alignContent: "center"
-          }}
+      <FormControl
+        container
+        style={{
+          marginTop: 60,
+          alignItems: "center",
+          alignContent: "center"
+        }}
+      >
+        <Typography gutterBottom variant="outlined" component="h1">
+          sign up
+        </Typography>
+        <TextField
+          id="outlined-dense"
+          label={this.state.error ? this.state.error : "username"}
+          variant="outlined"
+          margin="normal"
+          onChange={this.handleChange("username")}
+          value={username}
+          onKeyPress={this.handleKeyPress}
+          error={this.state.error}
+          placeholder="username"
+        />
+        <TextField
+          id="outlined-dense"
+          label="password"
+          margin="normal"
+          variant="outlined"
+          onChange={this.handleChange("password")}
+          value={password}
+          onKeyPress={this.handleKeyPress}
+          type="password"
+          placeholder="********"
+        />
+        <Button
+          disabled={this.state.disabled}
+          size="large"
+          variant="outlined"
+          color="primary"
+          margin="normal"
+          type="submit"
+          onClick={this.onHandleClick}
         >
-          <Typography gutterBottom variant="outlined" component="h1">
-            sign up
-          </Typography>
-          <TextField
-            id="outlined-dense"
-            label="username"
-            variant="outlined"
-            margin="normal"
-            onChange={this.handleChange("username")}
-            value={username}
-            placeholder="username"
-          />
-          <TextField
-            id="outlined-dense"
-            label="password"
-            margin="normal"
-            variant="outlined"
-            onChange={this.handleChange("password")}
-            value={password}
-            onKeyPress={this.handleKeyPress}
-            type="password"
-            placeholder="********"
-          />
-          <Button
-            size="large"
-            variant="outlined"
-            color="primary"
-            margin="normal"
-            type="submit"
-            onClick={this.onHandleClick}
-          >
-            REGISTER
-          </Button>
-        </FormControl>
+          REGISTER
+        </Button>
+      </FormControl>
     );
   }
 }
