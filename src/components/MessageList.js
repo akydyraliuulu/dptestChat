@@ -1,5 +1,8 @@
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import ImageIcon from "@material-ui/icons/Image";
 import React, { Component } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
@@ -10,15 +13,23 @@ import { userActions } from "../actions/UserActions";
 import { store } from "../index";
 import getMessage from "../utils/GetMessage";
 import Typography from "@material-ui/core/Typography";
+import Popper from "@material-ui/core/Popper";
+import Fade from "@material-ui/core/Fade";
+import Paper from "@material-ui/core/Paper";
 
 class MessageList extends Component {
   state = {
-    dense: false,
-    secondary: false
+    anchorEl: null,
+    open: false
   };
 
-  handleClick = name => {
-    store.dispatch(userActions.setReceiver(name));
+  handleClick = (id) => {
+    console.log(id);
+    // store.dispatch(userActions.setReceiver(name));
+    this.setState(state => ({
+      anchorEl: id.currentTarget,
+      open: !state.open
+    }));
   };
   componentDidMount() {
     this.getMessages();
@@ -42,6 +53,8 @@ class MessageList extends Component {
   };
 
   render() {
+    const { anchorEl, open } = this.state;
+    const id = open ? "simple-popper" : null;
     return (
       <div style={{ maxWidth: 550, padding: 10, alignItems: "center" }}>
         <PerfectScrollbar
@@ -55,22 +68,27 @@ class MessageList extends Component {
           <List>
             {this.props.messages.map(message => {
               return (
-                <ListItem
-                  className="list"
-                  key={message.id}
-                  color="primary"
-                  className="header"
-                  onClick={() => this.handleClick(message.senderName)}
-                >
-                  <Typography variant="headline" color="textPrimary" align="left">
-                    {message.senderName}
-                    {":  "}{" "}
-                  </Typography>
-                  <Typography variant="body1" style={{marginLeft:10}}>{message.text}</Typography>
+                <ListItem aria-describedby={id} onClick={() => this.handleClick(message._id)}>
+                  <Avatar>
+                    <ImageIcon />
+                  </Avatar>
+                  <ListItemText
+                    primary={message.senderName}
+                    secondary={message.text}
+                  />
                 </ListItem>
               );
             })}
           </List>
+          <Popper id={id} open={open} anchorEl={anchorEl} transition>
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+                <Paper style={{margin:20}}>
+                  <Typography>The content of the Popper.</Typography>
+                </Paper>
+              </Fade>
+            )}
+          </Popper>
         </PerfectScrollbar>
       </div>
     );

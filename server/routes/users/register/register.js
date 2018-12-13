@@ -1,8 +1,8 @@
 const User = require("mongoose").model("User");
-const validator = require("validator");
 
 module.exports = (req, res) => {
   validateForm(req, res);
+  
 };
 
 function save(req, res) {

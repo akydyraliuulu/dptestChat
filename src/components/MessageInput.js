@@ -99,7 +99,6 @@ class MessageInput extends Component {
           value={this.state.value}
           type="text"
           id="outlined-dense"
-          label="message"
           onKeyPress={this.handleKeyPress}
           variant="outlined"
           InputProps={{
@@ -125,7 +124,6 @@ class MessageInput extends Component {
             )
           }}
         />
-
         <Button
           style={{ height: 56 }}
           onClick={this.sendMessage}

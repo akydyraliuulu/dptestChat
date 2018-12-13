@@ -9,7 +9,7 @@ require("./model/db");
 
 var routes = require("./routes");
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
