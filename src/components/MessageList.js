@@ -1,15 +1,15 @@
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import React, { Component } from "react";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
-import getMessage from "../utils/GetMessage";
-import { store } from "../index";
 import { userActions } from "../actions/UserActions";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import "react-perfect-scrollbar/dist/css/styles.css";
-import Grid from "@material-ui/core/Grid";
+import { store } from "../index";
+import getMessage from "../utils/GetMessage";
+import Typography from "@material-ui/core/Typography";
 
 class MessageList extends Component {
   state = {
@@ -43,15 +43,13 @@ class MessageList extends Component {
 
   render() {
     return (
-      <Grid style={{ maxHeight: 500, padding: 20 }}>
+      <div style={{ maxWidth: 550, padding: 10, alignItems: "center" }}>
         <PerfectScrollbar
           style={{
-            maxHeight: 450,
-            maxWidth: 450,
+            maxHeight: 550,
+            minHeight: 550,
             overflow: "hidden",
-            position: "absolute",
-            height: "100%",
-            left: "30%"
+            height: "100%"
           }}
         >
           <List>
@@ -64,16 +62,17 @@ class MessageList extends Component {
                   className="header"
                   onClick={() => this.handleClick(message.senderName)}
                 >
-                  {message.senderName}
-
-                  {":  "}
-                  {message.text}
+                  <Typography variant="headline" color="textPrimary" align="left">
+                    {message.senderName}
+                    {":  "}{" "}
+                  </Typography>
+                  <Typography variant="body1" style={{marginLeft:10}}>{message.text}</Typography>
                 </ListItem>
               );
             })}
           </List>
         </PerfectScrollbar>
-      </Grid>
+      </div>
     );
   }
 }

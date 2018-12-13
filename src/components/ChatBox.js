@@ -8,8 +8,8 @@ import { store } from "../index";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
+import Grid from "@material-ui/core/Grid";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class ChatBox extends Component {
         >
           <Button
             color="primary"
-            style={{ position: "absolute", left: 16 }}
+            style={{ position: "relative", left: 16 }}
             variant="outlined"
             margin="normal"
             onClick={this.resetUser}
@@ -62,8 +62,16 @@ class ChatBox extends Component {
           </Button>
           {listItems}
         </Paper>
-        <Grid container spacing={24}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+        >
           <MessageList />
+          <br/>
+          <br/>
           <MessageInput />
         </Grid>
       </div>

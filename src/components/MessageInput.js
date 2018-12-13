@@ -1,5 +1,11 @@
-import { TextField, Typography, InputLabel } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Paper from "@material-ui/core/Paper";
+import TagFacesIcon from "@material-ui/icons/TagFaces";
+import KeyboardIcon from "@material-ui/icons/Keyboard";
+import PhotoIcon from "@material-ui/icons/Photo";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -15,7 +21,8 @@ class MessageInput extends Component {
     this.onChange = this.onChange.bind(this);
   }
   state = {
-    value: ""
+    value: "",
+    openSticker: true
   };
 
   handleKeyPress = e => {
@@ -28,7 +35,7 @@ class MessageInput extends Component {
     if (this.state.value !== "") {
       let msg = {
         senderName: this.props.user.username,
-        receiverName: e.target.value,
+        receiverName: this.props.name,
         text: this.state.value
       };
 
@@ -70,14 +77,23 @@ class MessageInput extends Component {
     });
   };
 
+  handleClickSendSticker = () => {
+    this.setState(state => ({ openSticker: !state.openSticker }));
+  };
+
+  handleClickImage = () => {
+    alert("send image");
+  };
+
   render() {
     return (
-      <div style={{ position: "absolute", bottom: "10%", left: "30%" }}>
-        <InputLabel>
-          <Typography gutterBottom="false" component="h1">
+      <Paper>
+        <Button variant="text">
+          <Typography gutterBottom="false" variant="caption" component="h6">
             {this.props.name === "all" ? "all:" : "@" + this.props.name}
           </Typography>
-        </InputLabel>
+        </Button>
+
         <TextField
           onChange={this.onChange}
           value={this.state.value}
@@ -86,9 +102,32 @@ class MessageInput extends Component {
           label="message"
           onKeyPress={this.handleKeyPress}
           variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickSendSticker}
+                >
+                  {this.state.openSticker ? <TagFacesIcon /> : <KeyboardIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickImage}
+                >
+                  <PhotoIcon />
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
         />
+
         <Button
-          style={{ margin: 5 }}
+          style={{ height: 56 }}
           onClick={this.sendMessage}
           type="submit"
           variant="contained"
@@ -97,7 +136,7 @@ class MessageInput extends Component {
         >
           Send
         </Button>
-      </div>
+      </Paper>
     );
   }
 }

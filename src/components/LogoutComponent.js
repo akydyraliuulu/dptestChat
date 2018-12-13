@@ -41,9 +41,9 @@ class LogoutComponent extends Component {
       <AppBar position="static" color="#009688">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            <FormLabel>{this.props.user.username} </FormLabel>
+            <FormLabel style={{ position: "absolute", right: 136, top: 20 }}>{this.props.user.username} </FormLabel>
             <Button
-              style={{ position: "absolute", right: 16, bottom: 16 }}
+              style={{ position: "absolute", right: 16, top: 16 }}
               className="colored primary"
               variant="outlined"
               color="primary"
