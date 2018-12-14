@@ -14,29 +14,58 @@ import { store } from "../index";
 import getMessage from "../utils/GetMessage";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
-const options = ["Edit", "Delete"];
+const options = [
+  { action: "Edit", icon: <EditIcon /> },
+  { action: "Delete", icon: <DeleteIcon /> }
+];
 
 class MessageList extends Component {
   state = {
     anchorEl: null,
     open: false,
-    selectedIndex: 1
+    selectedIndex: 0
   };
 
-  handleClick = event => {
-    // console.log(id);
+  handleClick = (event, message) => {
+    console.log(message);
     // store.dispatch(userActions.setReceiver(name));
     this.setState({ anchorEl: event.currentTarget, open: !this.state.open });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null, open: !this.state.open });
+    this.setState({
+      anchorEl: null,
+      open: !this.state.open
+    });
+  };
+
+  handleMenuItemClick = (event, index) => {
+    this.setState({
+      selectedIndex: index,
+      anchorEl: null,
+      open: !this.state.open
+    });
+    switch (index) {
+      case 0:
+        console.log("edit", index);
+        console.log("event", event);
+        break;
+      case 1:
+        console.log("delete", index);
+        break;
+      default:
+        console.log("default");
+        break;
+    }
   };
 
   componentDidMount() {
     this.getMessages();
-    setInterval(this.getMessages, 30000);
+    // setInterval(this.getMessages, 30000);
   }
 
   getMessages = () => {
@@ -71,11 +100,12 @@ class MessageList extends Component {
             {this.props.messages.map(message => {
               return (
                 <ListItem
+                  key={message._id}
                   button
                   aria-haspopup="true"
                   aria-controls="lock-menu"
                   aria-label="When device is locked"
-                  onClick={this.handleClick}
+                  onClick={event => this.handleClick(event, message)}
                 >
                   <Avatar>
                     <ImageIcon />
@@ -95,8 +125,11 @@ class MessageList extends Component {
             onClose={this.handleClose}
           >
             {options.map((option, index) => (
-              <MenuItem key={option} onClick={this.handleClose}>
-                {option}
+              <MenuItem
+                onClick={event => this.handleMenuItemClick(event, index)}
+              >
+                <ListItemText  primary={option.action} />
+                <ListItemIcon>{option.icon}</ListItemIcon>
               </MenuItem>
             ))}
           </Menu>
