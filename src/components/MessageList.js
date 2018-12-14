@@ -12,25 +12,28 @@ import { messageActions } from "../actions/MessageActions";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
 import getMessage from "../utils/GetMessage";
-import Typography from "@material-ui/core/Typography";
-import Popper from "@material-ui/core/Popper";
-import Fade from "@material-ui/core/Fade";
-import Paper from "@material-ui/core/Paper";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
+const options = ["Edit", "Delete"];
 
 class MessageList extends Component {
   state = {
     anchorEl: null,
-    open: false
+    open: false,
+    selectedIndex: 1
   };
 
-  handleClick = (id) => {
-    console.log(id);
+  handleClick = event => {
+    // console.log(id);
     // store.dispatch(userActions.setReceiver(name));
-    this.setState(state => ({
-      anchorEl: id.currentTarget,
-      open: !state.open
-    }));
+    this.setState({ anchorEl: event.currentTarget, open: !this.state.open });
   };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null, open: !this.state.open });
+  };
+
   componentDidMount() {
     this.getMessages();
     setInterval(this.getMessages, 30000);
@@ -54,7 +57,6 @@ class MessageList extends Component {
 
   render() {
     const { anchorEl, open } = this.state;
-    const id = open ? "simple-popper" : null;
     return (
       <div style={{ maxWidth: 550, padding: 10, alignItems: "center" }}>
         <PerfectScrollbar
@@ -68,7 +70,13 @@ class MessageList extends Component {
           <List>
             {this.props.messages.map(message => {
               return (
-                <ListItem aria-describedby={id} onClick={() => this.handleClick(message._id)}>
+                <ListItem
+                  button
+                  aria-haspopup="true"
+                  aria-controls="lock-menu"
+                  aria-label="When device is locked"
+                  onClick={this.handleClick}
+                >
                   <Avatar>
                     <ImageIcon />
                   </Avatar>
@@ -80,15 +88,18 @@ class MessageList extends Component {
               );
             })}
           </List>
-          <Popper id={id} open={open} anchorEl={anchorEl} transition>
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Paper style={{margin:20}}>
-                  <Typography>The content of the Popper.</Typography>
-                </Paper>
-              </Fade>
-            )}
-          </Popper>
+          <Menu
+            id="lock-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={this.handleClose}
+          >
+            {options.map((option, index) => (
+              <MenuItem key={option} onClick={this.handleClose}>
+                {option}
+              </MenuItem>
+            ))}
+          </Menu>
         </PerfectScrollbar>
       </div>
     );

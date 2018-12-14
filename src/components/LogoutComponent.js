@@ -8,6 +8,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { FormLabel } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import AccountIcon from "@material-ui/icons/AccountBox";
 class LogoutComponent extends Component {
   logoutRequest = () => {
     let logoutRequest = new Logout();
@@ -36,12 +38,34 @@ class LogoutComponent extends Component {
     }
   };
 
+  onHandleClick = () => {
+    this.props.history.push("/profileSettings");
+  };
+
+  onNameClick = () => {
+    this.props.history.push("/main");
+  };
+
   render() {
     return (
       <AppBar position="static" color="#009688">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            <FormLabel style={{ position: "absolute", right: 136, top: 20 }}>{this.props.user.username} </FormLabel>
+            <Avatar
+              onClick={() => this.onHandleClick()}
+              style={{
+                position: "absolute",
+                right: 136,
+                width: 40,
+                height: 40,
+                top: 16
+              }}
+            >
+              <AccountIcon />
+            </Avatar>
+            <FormLabel onClick={() => this.onNameClick()}>
+              {this.props.user.username}{" "}
+            </FormLabel>
             <Button
               style={{ position: "absolute", right: 16, top: 16 }}
               className="colored primary"

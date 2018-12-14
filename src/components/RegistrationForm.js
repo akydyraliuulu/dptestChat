@@ -8,13 +8,17 @@ import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import Login from "../utils/Login";
 import Register from "../utils/Register";
+import Input from "@material-ui/core/Input";
+import Avatar from "@material-ui/core/Avatar";
+import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
 
 class RegistrationForm extends Component {
   state = {
     username: "",
     password: "",
     error: "",
-    required: ""
+    required: "",
+    file: null
   };
 
   handleKeyPress = e => {
@@ -100,6 +104,16 @@ class RegistrationForm extends Component {
     }
   };
 
+  onImageChange = event => {
+    if (event.target.files[0]) {
+      this.setState({
+        file: URL.createObjectURL(event.target.files[0])
+      });
+      console.log("event.target");
+      console.log(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
   render() {
     const { username, password } = this.state;
 
@@ -115,6 +129,24 @@ class RegistrationForm extends Component {
         <Typography gutterBottom variant="outlined" component="h1">
           sign up
         </Typography>
+        <Input
+          style={{ display: "none" }}
+          type="file"
+          onChange={this.onImageChange}
+          inputRef={fileInput => (this.fileInput = fileInput)}
+        />
+        <Avatar
+          style={{
+            margin: 10,
+            width: 70,
+            height: 70
+          }}
+          onClick={() => this.fileInput.click()}
+          src={this.state.file}
+        >
+          <AddPhotoIcon />
+        </Avatar>
+
         <TextField
           id="outlined-dense"
           label={this.state.error ? this.state.error : "username"}

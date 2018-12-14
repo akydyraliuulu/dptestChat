@@ -5,6 +5,7 @@ import Main from "./Main";
 import NoMatch from "./NoMatch";
 import Registration from "./Registration";
 import Welcome from "./Welcome";
+import ProfileSettings from "./ProfileSettings";
 
 class App extends Component {
   render() {
@@ -12,7 +13,7 @@ class App extends Component {
     let user = sessionStorage.getItem("user");
     user = JSON.parse(user);
     if (!user) {
-     logedIn = false;
+      logedIn = false;
     } else {
       logedIn = true;
     }
@@ -27,6 +28,11 @@ class App extends Component {
             exact
             path="/main"
             render={() => (logedIn ? <Main /> : <Redirect to="/" />)}
+          />
+          <Route
+            exact
+            path="/profileSettings"
+            render={() => (logedIn ? <ProfileSettings /> : <Redirect to="/" />)}
           />
 
           <Route exact path="/registration" render={() => <Registration />} />

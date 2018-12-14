@@ -29,12 +29,11 @@ class ChatBox extends Component {
   render() {
     console.log(this.props.users);
 
-    let icon = <TagFacesIcon />;
     const listItems = this.props.users.map((item, i) => (
       <Chip
-        style={{ margin: 4, position: "relative", left: 148 }}
+        style={{ margin: 4, position: "relative", left: 32 }}
         key={i}
-        icon={icon}
+        icon={<TagFacesIcon />}
         label={item.username}
         onClick={() => this.handleClick(item.username)}
       >
@@ -70,8 +69,8 @@ class ChatBox extends Component {
           justify="center"
         >
           <MessageList />
-          <br/>
-          <br/>
+          <br />
+          <br />
           <MessageInput />
         </Grid>
       </div>
