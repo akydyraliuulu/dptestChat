@@ -10,5 +10,9 @@ export const messageActions = {
   delete: index => ({
     type: "DELETE_MESSAGE",
     index
+  }),
+  edit: msg => ({
+    type: "EDIT_MESSAGE",
+    msg
   })
 };

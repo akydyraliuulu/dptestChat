@@ -9,7 +9,6 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
-import { userActions } from "../actions/UserActions";
 import { store } from "../index";
 import getMessage from "../utils/GetMessage";
 import Menu from "@material-ui/core/Menu";
@@ -27,13 +26,14 @@ class MessageList extends Component {
   state = {
     anchorEl: null,
     open: false,
-    selectedIndex: 0
+    selectedIndex: 0,
+    messageItem: ""
   };
 
   handleClick = (event, message) => {
     console.log(message);
-    // store.dispatch(userActions.setReceiver(name));
     this.setState({ anchorEl: event.currentTarget, open: !this.state.open });
+    this.setState({ messageItem: message });
   };
 
   handleClose = () => {
@@ -53,9 +53,13 @@ class MessageList extends Component {
       case 0:
         console.log("edit", index);
         console.log("event", event);
+        store.dispatch(messageActions.edit(this.state.messageItem));
         break;
       case 1:
         console.log("delete", index);
+        store.dispatch(messageActions.delete(this.state.messageItem.msgId));
+        console.log("this.state.messageItem.msgId");
+        console.log(this.state.messageItem.msgId);
         break;
       default:
         console.log("default");
@@ -111,7 +115,7 @@ class MessageList extends Component {
                     <ImageIcon />
                   </Avatar>
                   <ListItemText
-                    primary={message.senderName}
+                    primary={message.senderId}
                     secondary={message.text}
                   />
                 </ListItem>
@@ -128,7 +132,7 @@ class MessageList extends Component {
               <MenuItem
                 onClick={event => this.handleMenuItemClick(event, index)}
               >
-                <ListItemText  primary={option.action} />
+                <ListItemText primary={option.action} />
                 <ListItemIcon>{option.icon}</ListItemIcon>
               </MenuItem>
             ))}

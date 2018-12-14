@@ -6,9 +6,11 @@ module.exports = (req, res) => {
 
 function save(req, res) {
   let mData = {
-    senderName: req.body.senderName,
-    receiverName: req.body.receiverName,
-    text: req.body.text
+    senderId: req.body.senderId,
+    receiverId: req.body.receiverId,
+    text: req.body.text,
+    image: req.body.image,
+    sticker: req.body.sticker
   };
 
   let newMessage = new Message(mData);

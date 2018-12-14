@@ -17,27 +17,26 @@ class ChatBox extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick = name => {
-    store.dispatch(userActions.setReceiver(name));
+  handleClick = userItem => {
+    store.dispatch(userActions.setReceiver(userItem));
   };
 
   resetUser = e => {
-    let name = "all";
-    store.dispatch(userActions.setReceiver(name));
+    store.dispatch(userActions.setReceiver(""));
   };
 
   render() {
     console.log(this.props.users);
 
-    const listItems = this.props.users.map((item, i) => (
+    const listItems = this.props.users.map((userItem, i) => (
       <Chip
         style={{ margin: 4, position: "relative", left: 32 }}
         key={i}
         icon={<TagFacesIcon />}
-        label={item.username}
-        onClick={() => this.handleClick(item.username)}
+        label={userItem.username}
+        onClick={() => this.handleClick(userItem)}
       >
-        {item.username}
+        {userItem.username}
       </Chip>
     ));
     return (

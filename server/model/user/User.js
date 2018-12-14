@@ -5,13 +5,14 @@ let userSchema = new mongoose.Schema({
   userId: Number,
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
+  avatarUrl: String,
   createdOn: { type: Date, default: Date.now }
 });
 
 userSchema.statics.login = function(userData, callback) {
   this.find(
     { username: userData.username, password: userData.password },
-    "userId username password createdOn",
+    "userId username password createdOn avatarUrl",
     { sort: "modifiedOn" },
     callback
   );
@@ -29,7 +30,7 @@ userSchema.statics.logout = function(userData, callback) {
 userSchema.statics.validateUserName = function(username, callback) {
   this.find(
     { username: username },
-    "userId username password createdOn",
+    "userId username password createdOn avatarUrl",
     { sort: "modifiedOn" },
     callback
   );

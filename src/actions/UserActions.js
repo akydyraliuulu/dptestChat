@@ -10,8 +10,8 @@ export const userActions = {
     type: "SET_ONLINE_USERS",
     users
   }),
-  setReceiver: name => ({
+  setReceiver: receiverUser => ({
     type: "SET_RECEIVER",
-    name
+    receiverUser
   })
 };

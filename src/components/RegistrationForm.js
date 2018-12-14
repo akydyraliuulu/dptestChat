@@ -13,13 +13,16 @@ import Avatar from "@material-ui/core/Avatar";
 import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
 
 class RegistrationForm extends Component {
-  state = {
-    username: "",
-    password: "",
-    error: "",
-    required: "",
-    file: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      error: "",
+      required: "",
+      file: null
+    };
+  }
 
   handleKeyPress = e => {
     if (e.key === "Enter") {

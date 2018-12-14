@@ -3,9 +3,11 @@ let autoIncrement = require("mongoose-auto-increment");
 
 var MessageSchema = new mongoose.Schema({
   msgId: Number,
-  senderName: String,
-  receiverName: String,
+  senderId: Number,
+  receiverId: Number,
   text: String,
+  imageUrl: String,
+  sticker: String,
   createdOn: { type: Date, default: Date.now }
 });
 MessageSchema.plugin(autoIncrement.plugin, {

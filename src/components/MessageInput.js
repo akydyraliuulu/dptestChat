@@ -19,11 +19,11 @@ class MessageInput extends Component {
     super(props);
     this.sendMessage = this.sendMessage.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.state = {
+      value: "",
+      openSticker: true
+    };
   }
-  state = {
-    value: "",
-    openSticker: true
-  };
 
   handleKeyPress = e => {
     if (e.key === "Enter") {
@@ -34,9 +34,11 @@ class MessageInput extends Component {
   sendMessage = e => {
     if (this.state.value !== "") {
       let msg = {
-        senderName: this.props.user.username,
-        receiverName: this.props.name,
-        text: this.state.value
+        senderId: this.props.user.userId,
+        receiverId: this.props.receiverUser.userId,
+        text: this.state.value,
+        image: "image",
+        sticker: "sticker"
       };
 
       store.dispatch(messageActions.add(msg));
@@ -90,7 +92,9 @@ class MessageInput extends Component {
       <Paper>
         <Button variant="text">
           <Typography gutterBottom="false" variant="caption" component="h6">
-            {this.props.name === "all" ? "all:" : "@" + this.props.name}
+            {this.props.receiverUser === ""
+              ? "all:"
+              : "@" + this.props.receiverUser.username}
           </Typography>
         </Button>
 
@@ -142,8 +146,9 @@ class MessageInput extends Component {
 const mapStateToProps = state => {
   return {
     messages: state.messageReducer.messages,
+    editMessage: state.messageReducer.editMessage,
     user: state.userReducer.user,
-    name: state.userReducer.name
+    receiverUser: state.userReducer.receiverUser
   };
 };
 

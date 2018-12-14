@@ -1,4 +1,4 @@
-var initialState = { messages: [] };
+var initialState = { messages: [], editMessage: {} };
 
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -6,6 +6,8 @@ const messageReducer = (state = initialState, action) => {
       return addMessage(state, action.msg);
     case "GET_ALL_MESSAGES":
       return allMessage(state, action.msg);
+    case "EDIT_MESSAGE":
+      return editMessage(state, action.msg);
     default:
       return state;
   }
@@ -24,14 +26,18 @@ function allMessage(state, message) {
 
   let newMessage = message.filter(messages => {
     return (
-      messages.receiverName === "all" ||
-      messages.senderName === user.username ||
-      messages.receiverName === user.username
+      messages.senderId === user.userId || messages.receiverId === user.userId
     );
   });
 
   return Object.assign({}, state, {
     messages: newMessage
+  });
+}
+
+function editMessage(state, message) {
+  return Object.assign({}, state, {
+    editMessage: message
   });
 }
 

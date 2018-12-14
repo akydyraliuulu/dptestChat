@@ -8,7 +8,8 @@ module.exports = (req, res) => {
 function save(req, res) {
   let userData = {
     username: req.body.user.username,
-    password: req.body.user.password
+    password: req.body.user.password,
+    avatarUrl: req.body.user.avatarUrl
   };
 
   let newUser = new User(userData);
