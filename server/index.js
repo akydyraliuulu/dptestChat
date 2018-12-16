@@ -9,6 +9,7 @@ require("./model/db");
 
 var routes = require("./routes");
 
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

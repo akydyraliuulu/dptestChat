@@ -9,7 +9,7 @@ function save(req, res) {
   let userData = {
     username: req.body.user.username,
     password: req.body.user.password,
-    avatarUrl: req.body.user.avatarUrl
+    avatarUrl: req.file.path 
   };
 
   let newUser = new User(userData);

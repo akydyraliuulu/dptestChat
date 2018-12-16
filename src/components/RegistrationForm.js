@@ -11,6 +11,7 @@ import Register from "../utils/Register";
 import Input from "@material-ui/core/Input";
 import Avatar from "@material-ui/core/Avatar";
 import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
+import axios from "axios";
 
 class RegistrationForm extends Component {
   constructor(props) {
@@ -30,18 +31,35 @@ class RegistrationForm extends Component {
     }
   };
 
-  onHandleClick = e => {
+  onHandleClick = (e) => {
     const { username, password } = this.state;
 
-    let signUpRequest = new Register();
-    signUpRequest.data = {
-      user: {
-        username: username,
-        password: password
-      }
-    };
-    signUpRequest.onSuccess = this.onRegisteringSuccess;
-    signUpRequest.send();
+    const fd = new FormData();
+
+    var data = {user: {
+      username: username,
+      password: password
+    }}
+
+    //fd.append("avatarUrl", this.state.file, this.state.file.name);
+    fd.set("data", data);
+
+    console.log(fd);
+
+    axios.post("/api/users/register",fd)
+         .then(res => {console.log("res", res)});
+
+
+
+    // let signUpRequest = new Register();
+    // signUpRequest.data = {
+    //   user: {
+    //     username: username,
+    //     password: password
+    //   }
+    // };
+    // signUpRequest.onSuccess = this.onRegisteringSuccess;
+    // signUpRequest.send();
   };
 
   onRegisteringSuccess = res => {
