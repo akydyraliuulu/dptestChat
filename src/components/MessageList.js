@@ -10,12 +10,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
-import getMessage from "../utils/GetMessage";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import axios from "axios";
 
 const options = [
   { action: "Edit", icon: <EditIcon /> },
@@ -49,45 +49,40 @@ class MessageList extends Component {
       anchorEl: null,
       open: !this.state.open
     });
-    switch (index) {
-      case 0:
-        console.log("edit", index);
-        console.log("event", event);
-        store.dispatch(messageActions.edit(this.state.messageItem));
-        break;
-      case 1:
-        console.log("delete", index);
-        store.dispatch(messageActions.delete(this.state.messageItem.msgId));
-        console.log("this.state.messageItem.msgId");
-        console.log(this.state.messageItem.msgId);
-        break;
-      default:
-        console.log("default");
-        break;
+    if (this.props.user.userId === this.state.messageItem.senderId) {
+      switch (index) {
+        case 0:
+          store.dispatch(messageActions.edit(this.state.messageItem));
+          break;
+        case 1:
+          this.deletMessage(this.state.messageItem._id);
+          break;
+        default:
+          console.log("default");
+          break;
+      }
+    } else {
+      alert("This is not your message")
     }
+  };
+
+  deletMessage = msgId => {
+    axios.post("/api/messages/deleteMessage", { _id: msgId }).then(res => {
+      console.log("res", res);
+      this.getMessages();
+    });
   };
 
   componentDidMount() {
     this.getMessages();
-    // setInterval(this.getMessages, 30000);
   }
 
   getMessages = () => {
-    try {
-      let getAllMessagesRequest = new getMessage();
-      getAllMessagesRequest.onSuccess = this.onGotAllMessages;
-      getAllMessagesRequest.send();
-    } catch (e) {
-      console.log(e);
-    }
+    axios.get("/api/messages").then(res => {
+      console.log("res", res);
+      this.props.getAllMessages(res.data.messages);
+    });
   };
-
-  onGotAllMessages = res => {
-    console.log("res.messages");
-    console.log(res.messages);
-    this.props.getAllMessages(res.messages);
-  };
-
   render() {
     const { anchorEl, open } = this.state;
     return (

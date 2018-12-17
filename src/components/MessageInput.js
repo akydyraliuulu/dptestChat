@@ -1,5 +1,6 @@
 import { TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Paper from "@material-ui/core/Paper";
@@ -12,7 +13,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
-import SendMessage from "../utils/SendMessage";
+import axios from "axios";
 
 class MessageInput extends Component {
   constructor(props) {
@@ -21,8 +22,11 @@ class MessageInput extends Component {
     this.onChange = this.onChange.bind(this);
     this.state = {
       value: "",
-      openSticker: true
+      openSticker: true,
+      image: null
     };
+
+    this.handleClickImage = this.handleClickImage.bind(this);
   }
 
   handleKeyPress = e => {
@@ -37,19 +41,17 @@ class MessageInput extends Component {
         senderId: this.props.user.userId,
         receiverId: this.props.receiverUser.userId,
         text: this.state.value,
-        image: "image",
         sticker: "sticker"
       };
 
-      store.dispatch(messageActions.add(msg));
       this.setState({
         value: ""
       });
 
-      let sendMessageRequest = new SendMessage();
-      sendMessageRequest.data = msg;
-      sendMessageRequest.onSuccess = this.onSendMessageSuccess;
-      sendMessageRequest.send();
+      axios.post("/api/messages", msg).then(res => {
+        console.log("res", res);
+        this.onSendMessageSuccess(res.data);
+      });
     } else {
       alert("message is empty");
     }
@@ -60,6 +62,7 @@ class MessageInput extends Component {
       case "success":
         console.log("Response");
         console.log(res.mData);
+        store.dispatch(messageActions.add(res.mData));
         this.setState({
           value: ""
         });
@@ -83,9 +86,27 @@ class MessageInput extends Component {
     this.setState(state => ({ openSticker: !state.openSticker }));
   };
 
-  handleClickImage = () => {
-    alert("send image");
-  };
+  handleClickImage(e) {
+    if (e.target.files[0]) {
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = e => {
+        console.log("img data", e.target.result);
+
+        let msg = {
+          senderId: this.props.user.userId,
+          receiverId: this.props.receiverUser.userId,
+          text: this.state.value,
+          image: e.target.result,
+          sticker: "sticker"
+        };
+
+        axios.post("/api/messages/image", msg).then(res => {
+          console.log("res", res);
+        });
+      };
+    }
+  }
 
   render() {
     return (
@@ -100,7 +121,7 @@ class MessageInput extends Component {
 
         <TextField
           onChange={this.onChange}
-          value={this.state.value}
+          value={this.state.value || ""}
           type="text"
           id="outlined-dense"
           onKeyPress={this.handleKeyPress}
@@ -118,11 +139,14 @@ class MessageInput extends Component {
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  aria-label="Toggle password visibility"
-                  onClick={this.handleClickImage}
-                >
-                  <PhotoIcon />
+                <IconButton>
+                  <Input
+                    style={{ display: "none" }}
+                    type="file"
+                    onClick={this.handleClickImage}
+                    inputRef={fileInput => (this.fileInput = fileInput)}
+                  />
+                  <PhotoIcon onClick={() => this.fileInput.click()} />
                 </IconButton>
               </InputAdornment>
             )

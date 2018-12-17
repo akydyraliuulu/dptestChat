@@ -1,5 +1,6 @@
 var createError = require("http-errors");
 let express = require("express");
+var path = require('path');
 global.socketIO = require("./sockets/socketIO");
 let app = express();
 let port = process.env.PORT || 5000;
@@ -9,7 +10,7 @@ require("./model/db");
 
 var routes = require("./routes");
 
-app.use('/uploads', express.static('uploads'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

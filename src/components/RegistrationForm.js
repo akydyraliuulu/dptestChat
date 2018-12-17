@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import Login from "../utils/Login";
-import Register from "../utils/Register";
 import Input from "@material-ui/core/Input";
 import Avatar from "@material-ui/core/Avatar";
 import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
@@ -21,8 +20,11 @@ class RegistrationForm extends Component {
       password: "",
       error: "",
       required: "",
-      file: null
+      file: null,
+      review: null
     };
+
+    this.onImageChange = this.onImageChange.bind(this);
   }
 
   handleKeyPress = e => {
@@ -31,35 +33,23 @@ class RegistrationForm extends Component {
     }
   };
 
-  onHandleClick = (e) => {
+  onHandleClick = e => {
     const { username, password } = this.state;
 
-    const fd = new FormData();
+    var data = {
+      user: {
+        username: username,
+        password: password,
+        avatarImg: this.state.file
+      }
+    };
 
-    var data = {user: {
-      username: username,
-      password: password
-    }}
+    console.log(data);
 
-    //fd.append("avatarUrl", this.state.file, this.state.file.name);
-    fd.set("data", data);
-
-    console.log(fd);
-
-    axios.post("/api/users/register",fd)
-         .then(res => {console.log("res", res)});
-
-
-
-    // let signUpRequest = new Register();
-    // signUpRequest.data = {
-    //   user: {
-    //     username: username,
-    //     password: password
-    //   }
-    // };
-    // signUpRequest.onSuccess = this.onRegisteringSuccess;
-    // signUpRequest.send();
+    axios.post("/api/users/register", data).then(res => {
+      console.log("res", res);
+      this.onRegisteringSuccess(res.data);
+    });
   };
 
   onRegisteringSuccess = res => {
@@ -125,15 +115,19 @@ class RegistrationForm extends Component {
     }
   };
 
-  onImageChange = event => {
-    if (event.target.files[0]) {
-      this.setState({
-        file: URL.createObjectURL(event.target.files[0])
-      });
-      console.log("event.target");
-      console.log(URL.createObjectURL(event.target.files[0]));
+  onImageChange(e) {
+    if (e.target.files[0]) {
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = e => {
+        console.log("img data", e.target.result);
+        this.setState({
+          file: e.target.result,
+          review: e.target.result
+        });
+      };
     }
-  };
+  }
 
   render() {
     const { username, password } = this.state;
@@ -163,7 +157,7 @@ class RegistrationForm extends Component {
             height: 70
           }}
           onClick={() => this.fileInput.click()}
-          src={this.state.file}
+          src={this.state.review}
         >
           <AddPhotoIcon />
         </Avatar>
