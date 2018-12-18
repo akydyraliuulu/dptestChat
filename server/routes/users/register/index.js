@@ -3,7 +3,16 @@ const path = require("path");
 const User = require("mongoose").model("User");
 let router = express.Router();
 let Jimp = require("jimp");
-let uuid = require('uuid');
+let uuid = require("uuid");
+const multer = require("multer");
+const fs = require("fs");
+
+const storage = multer.diskStorage({
+  destination: function(req, res, cb) {
+    cb(null, "public/uploads/");
+  }
+});
+const upload = multer({ storage: storage });
 
 function saveAvatar(req, res) {
   let buffer = new Buffer(req.body.user.avatarImg.split(",")[1], "base64");
@@ -15,7 +24,7 @@ function saveAvatar(req, res) {
       .resize(250, 250) // resize
       .quality(60) // set JPEG quality
       .write(`public/uploads/`); // save
-      save(req, res);
+    save(req, res);
   });
 }
 

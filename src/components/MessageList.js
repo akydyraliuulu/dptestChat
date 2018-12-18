@@ -27,7 +27,8 @@ class MessageList extends Component {
     anchorEl: null,
     open: false,
     selectedIndex: 0,
-    messageItem: ""
+    messageItem: "",
+    img: ""
   };
 
   handleClick = (event, message) => {
@@ -62,7 +63,7 @@ class MessageList extends Component {
           break;
       }
     } else {
-      alert("This is not your message")
+      alert("This is not your message");
     }
   };
 
@@ -81,10 +82,25 @@ class MessageList extends Component {
     axios.get("/api/messages").then(res => {
       console.log("res", res);
       this.props.getAllMessages(res.data.messages);
+      var base64Flag = "data:image/jpeg;base64,";
+      var imageStr = this.arrayBufferToBase64(
+        res.data.messages.imageUrl
+      );
+      this.setState({
+        img: base64Flag + imageStr
+      });
     });
   };
+
+  arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach(b => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
+
   render() {
-    const { anchorEl, open } = this.state;
+    const { anchorEl, open, img } = this.state;
     return (
       <div style={{ maxWidth: 550, padding: 10, alignItems: "center" }}>
         <PerfectScrollbar
@@ -113,6 +129,7 @@ class MessageList extends Component {
                     primary={message.senderId}
                     secondary={message.text}
                   />
+                  <img src={img} alt="Helpful alt text" />
                 </ListItem>
               );
             })}
