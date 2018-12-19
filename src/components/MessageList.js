@@ -32,6 +32,7 @@ class MessageList extends Component {
   };
 
   handleClick = (event, message) => {
+    event.preventDefault();
     console.log(message);
     this.setState({ anchorEl: event.currentTarget, open: !this.state.open });
     this.setState({ messageItem: message });
@@ -45,6 +46,8 @@ class MessageList extends Component {
   };
 
   handleMenuItemClick = (event, index) => {
+    event.preventDefault();
+
     this.setState({
       selectedIndex: index,
       anchorEl: null,
@@ -67,8 +70,8 @@ class MessageList extends Component {
     }
   };
 
-  deletMessage = msgId => {
-    axios.post("/api/messages/deleteMessage", { _id: msgId }).then(res => {
+  deletMessage = _id => {
+    axios.delete(`/api/messages/deleteMessage/${_id}`).then(res => {
       console.log("res", res);
       this.getMessages();
     });
@@ -80,24 +83,33 @@ class MessageList extends Component {
 
   getMessages = () => {
     axios.get("/api/messages").then(res => {
-      console.log("res", res);
-      this.props.getAllMessages(res.data.messages);
+
+    //  const img =  new Buffer(res.data.messages.map(message => {
+    //     return message.imageUrl.data.data
+    //   }), 'binary').toString('base64')
+
+      console.log("allMessage", res);
       var base64Flag = "data:image/jpeg;base64,";
       var imageStr = this.arrayBufferToBase64(
-        res.data.messages.imageUrl
+        res.data.messages.map(message => {
+          return message.imageUrl.data;
+        })
       );
       this.setState({
         img: base64Flag + imageStr
       });
+      console.log("imageStr",base64Flag + imageStr);
+
+      this.props.getAllMessages(res.data.messages);
     });
   };
 
   arrayBufferToBase64(buffer) {
-    var binary = "";
+    var binary = '';
     var bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach(b => (binary += String.fromCharCode(b)));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
     return window.btoa(binary);
-  }
+};
 
   render() {
     const { anchorEl, open, img } = this.state;
@@ -129,7 +141,7 @@ class MessageList extends Component {
                     primary={message.senderId}
                     secondary={message.text}
                   />
-                  <img src={img} alt="Helpful alt text" />
+                  <img src={img} />
                 </ListItem>
               );
             })}

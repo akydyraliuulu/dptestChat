@@ -11,7 +11,7 @@ require("./model/db");
 
 var routes = require("./routes");
 
-app.use(express.static(path.join(__dirname, "public/uploads")));
+app.use(express.static(path.join(__dirname, "public/assets")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -61,8 +61,8 @@ class MessageInput extends Component {
     switch (res.status) {
       case "success":
         console.log("Response");
-        console.log(res.mData);
-        store.dispatch(messageActions.add(res.mData));
+        console.log(res.messages);
+        store.dispatch(messageActions.add(res.messages));
         this.setState({
           value: ""
         });
@@ -87,42 +87,44 @@ class MessageInput extends Component {
   };
 
   handleClickImage(e) {
-    // if (e.target.files[0]) {
-    //   let reader = new FileReader();
-    //   reader.readAsDataURL(e.target.files[0]);
-    //   reader.onload = e => {
-    //     console.log("img data", e.target.result);
-
-    //     let msg = {
-    //       senderId: this.props.user.userId,
-    //       receiverId: this.props.receiverUser.userId,
-    //       text: this.state.value,
-    //       image: e.target.result,
-    //       sticker: "sticker"
-    //     };
-
-    //     axios.post("/api/messages/image", msg).then(res => {
-    //       console.log("res", res);
-    //     });
-    //   };
-    // }
-
+    // e.preventDefault();
     if (e.target.files[0]) {
-      e.preventDefault();
-      const data = new FormData(e.target);
-      data.append("file", e.target.files[0]);
-      data.append("filename", "nature");
-      var options = { content: data };
-      console.log(options);
-      axios
-        .post("/api/messages/images", options)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
+  
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = e => {
+        console.log("img data", e.target.result);
+
+        let msg = {
+          senderId: this.props.user.userId,
+          receiverId: this.props.receiverUser.userId,
+          text: this.state.value,
+          image: e.target.result,
+          sticker: "sticker"
+        };
+
+        axios.post("/api/messages/image", msg).then(res => {
+          console.log("res", res);
         });
+      };
     }
+
+    // if (e.target.files[0]) {
+    //   e.preventDefault();
+    //   const data = new FormData(e.target);
+    //   data.append("file", e.target.files[0]);
+    //   data.append("filename", "nature");
+    //   var options = { content: data };
+    //   console.log(options);
+    //   axios
+    //     .post("/api/messages/images", options)
+    //     .then(function(response) {
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       console.log(error);
+    //     });
+    // }
   }
 
   render() {
@@ -160,9 +162,6 @@ class MessageInput extends Component {
                   <Input
                     style={{ display: "none" }}
                     type="file"
-                    ref={ref => {
-                      this.uploadInput = ref;
-                    }}
                     onClick={this.handleClickImage}
                     inputRef={fileInput => (this.fileInput = fileInput)}
                   />

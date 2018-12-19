@@ -9,7 +9,7 @@ const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function(req, res, cb) {
-    cb(null, "public/uploads/");
+    cb(null, "public/assets/");
   }
 });
 const upload = multer({ storage: storage });
@@ -23,7 +23,7 @@ function saveAvatar(req, res) {
     avatarImg
       .resize(250, 250) // resize
       .quality(60) // set JPEG quality
-      .write(`public/uploads/`); // save
+      .write(`public/assets/`); // save
     save(req, res);
   });
 }
@@ -37,11 +37,11 @@ function save(req, res) {
   let userData = {
     username: req.body.user.username,
     password: req.body.user.password,
-    avatarUrl: `uploads/${uuid()}`
+    avatarUrl: `assets/${uuid()}`
   };
 
   let newUser = new User(userData);
-  newUser.save(err => {
+  newUser.save((err,user) => {
     if (err) {
       res.status(200).json({
         status: "error",
@@ -54,7 +54,7 @@ function save(req, res) {
       status: "success",
       error: "error",
       hint: "hint",
-      user: userData
+      user: user
     });
   });
 }

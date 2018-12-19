@@ -1,16 +1,15 @@
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
+import axios from "axios";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
-import Login from "../utils/Login";
-import Input from "@material-ui/core/Input";
-import Avatar from "@material-ui/core/Avatar";
-import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
-import axios from "axios";
 
 class RegistrationForm extends Component {
   constructor(props) {
@@ -57,7 +56,10 @@ class RegistrationForm extends Component {
       case "success":
         console.log("res.user");
         console.log(res.user);
-        this.loginForm(res.user);
+        this.props.login(res.user);
+        let userToSave = JSON.stringify(res.user);
+        sessionStorage.setItem("user", userToSave);
+        this.props.history.push("/main");
         break;
       case "error":
         console.log("errorResponse");
@@ -74,33 +76,6 @@ class RegistrationForm extends Component {
         console.log("verifiedTrue");
         console.log(res.error);
         this.setState({ error: res.error });
-        break;
-      default:
-    }
-  };
-
-  loginForm = user => {
-    let signInRequest = new Login();
-    signInRequest.data = {
-      user: {
-        username: user.username,
-        password: user.password
-      }
-    };
-    signInRequest.onSuccess = this.onLoginSuccess;
-    signInRequest.send();
-  };
-
-  onLoginSuccess = res => {
-    switch (res.status) {
-      case "success":
-        this.props.login(res.user);
-        let userToSave = JSON.stringify(res.user);
-        sessionStorage.setItem("user", userToSave);
-        this.props.history.push("/main");
-        break;
-      case "error":
-        console.log("errorResponse");
         break;
       default:
     }
