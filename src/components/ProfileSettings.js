@@ -62,7 +62,7 @@ class ProfileSettings extends Component {
 
     console.log(data);
 
-    axios.update("/api/users/register/update", data).then(res => {
+    axios.post("/api/users/register/update", data).then(res => {
       console.log("res", res);
       this.onUpdateSuccess(res.data);
     });

@@ -45,5 +45,9 @@ userSchema.statics.validatePassword = function(password, callback) {
   );
 };
 
+userSchema.statics.confirmWithId = function(userId, callback) {
+  this.find({ userId: userId }, "userId", { sort: "modifiedOn" }, callback);
+};
+
 userSchema.plugin(autoIncrement.plugin, { model: "User", field: "userId" });
 module.exports = mongoose.model("User", userSchema);

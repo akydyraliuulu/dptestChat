@@ -22,6 +22,26 @@ router.post("/", (req, res) => {
   validateForm(req, res);
 });
 
+router.post("/update", (req, res) => {
+  console.log(req);
+  User.confirmWithId(req.body.user.userId, (err, users) => {
+    if (err) {
+      res.status(200).json({
+        status: "error",
+        error: "あなたのアイデンティティを確認できませんでした",
+        hint: ""
+      });
+    } else if (users && users.length > 0) {
+      changeAvatar(req, res);
+    } else {
+      res.status(200).json({
+        status: "error",
+        error: "error"
+      });
+    }
+  });
+});
+
 function save(req, res) {
   let userData = {
     username: req.body.user.username,
@@ -97,6 +117,53 @@ function validateForm(req, res) {
       }
     }
   });
+}
+
+function changeAvatar(req, res) {
+  let buffer = new Buffer(req.body.user.avatarImg.split(",")[1], "base64");
+  Jimp.read(buffer, function(err, avatarImg) {
+    if (err) {
+      throw err;
+    }
+    avatarImg
+      .resize(250, 250) // resize
+      .quality(60) // set JPEG quality
+      .write(
+        `public/assets/${req.body.user.username}/avatar.jpg`,
+        fileSaveCallback
+      ); // save
+  });
+
+  function fileSaveCallback(err, data) {
+    if (err) {
+      res.status(200).json({
+        status: "error",
+        error: "error"
+      });
+    }
+    saveToDatabase(data);
+  }
+
+  function saveToDatabase(data) {
+    let conditions = { userId: req.body.user.userId };
+    let update = { avatarUrl: `assets/${req.body.user.username}/avatar.jpg` };
+    let options = { new: true };
+    User.findOneAndUpdate(conditions, update, options, saveToDatabaseCallback);
+
+    function saveToDatabaseCallback(err, updatedUserDoc) {
+      if (err) {
+        res.status(200).json({
+          status: "error",
+          error: "error"
+        });
+      }
+      res.status(200).json({
+        status: "success",
+        error: "",
+        user: updatedUserDoc
+      });
+    }
+  }
 }
 
 module.exports = router;
