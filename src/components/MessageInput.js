@@ -14,18 +14,20 @@ import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
 import axios from "axios";
+import Dropzone from "react-dropzone";
+import classNames from "classnames";
 
 class MessageInput extends Component {
   constructor(props) {
     super(props);
     this.sendMessage = this.sendMessage.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.handleClickImage = this.handleClickImage.bind(this);
 
     this.state = {
       value: "",
       openSticker: true,
-      image: null
+      image: null,
+      imageName: "image"
     };
   }
 
@@ -43,11 +45,6 @@ class MessageInput extends Component {
         text: this.state.value,
         sticker: "sticker"
       };
-
-      this.setState({
-        value: ""
-      });
-
       axios.post("/api/messages", msg).then(res => {
         console.log("res", res);
         this.onSendMessageSuccess(res.data);
@@ -64,7 +61,9 @@ class MessageInput extends Component {
         console.log(res.messages);
         store.dispatch(messageActions.add(res.messages));
         this.setState({
-          value: ""
+          value: "",
+          image: null,
+          imageName: "image"
         });
         alert("message have been sent successfully");
         break;
@@ -86,46 +85,40 @@ class MessageInput extends Component {
     this.setState(state => ({ openSticker: !state.openSticker }));
   };
 
-  handleClickImage(e) {
-    // e.preventDefault();
-    if (e.target.files[0]) {
-  
-      let reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = e => {
-        console.log("img data", e.target.result);
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    this.setState({
+      image: acceptedFiles[0],
+      imageName: acceptedFiles[0].name
+    });
+    let reader = new FileReader();
+    reader.readAsDataURL(acceptedFiles[0]);
+    reader.onload = e => {
+      console.log("img data", e.target.result);
 
-        let msg = {
-          senderId: this.props.user.userId,
-          receiverId: this.props.receiverUser.userId,
-          text: this.state.value,
-          image: e.target.result,
-          sticker: "sticker"
-        };
-
-        axios.post("/api/messages/image", msg).then(res => {
-          console.log("res", res);
-        });
+      let msg = {
+        senderId: this.props.user.userId,
+        receiverId: this.props.receiverUser.userId,
+        text: this.state.value,
+        image: e.target.result,
+        sticker: "sticker",
+        imgName: acceptedFiles[0].name
       };
-    }
 
-    // if (e.target.files[0]) {
-    //   e.preventDefault();
-    //   const data = new FormData(e.target);
-    //   data.append("file", e.target.files[0]);
-    //   data.append("filename", "nature");
-    //   var options = { content: data };
-    //   console.log(options);
-    //   axios
-    //     .post("/api/messages/images", options)
-    //     .then(function(response) {
-    //       console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       console.log(error);
-    //     });
-    // }
-  }
+      console.log("msg", msg);
+
+      axios.post("/api/messages/image", msg).then(res => {
+        console.log("res", res);
+        if (res.data.status === "success") {
+          store.dispatch(messageActions.add(res.data.messages));
+          this.setState({
+            value: "",
+            image: null,
+            imageName: "image"
+          });
+        }
+      });
+    };
+  };
 
   render() {
     return (
@@ -159,13 +152,21 @@ class MessageInput extends Component {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
-                  <Input
-                    style={{ display: "none" }}
-                    type="file"
-                    onClick={this.handleClickImage}
-                    inputRef={fileInput => (this.fileInput = fileInput)}
-                  />
-                  <PhotoIcon onClick={() => this.fileInput.click()} />
+                  <Dropzone onDrop={this.onDrop}>
+                    {({ getRootProps, getInputProps, isDragActive }) => {
+                      return (
+                        <div
+                          {...getRootProps()}
+                          className={classNames("dropzone", {
+                            "dropzone--isActive": isDragActive
+                          })}
+                        >
+                          <input {...getInputProps()} />
+                          {isDragActive ? <PhotoIcon /> : <PhotoIcon />}
+                        </div>
+                      );
+                    }}
+                  </Dropzone>
                 </IconButton>
               </InputAdornment>
             )

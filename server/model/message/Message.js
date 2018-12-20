@@ -6,7 +6,7 @@ var MessageSchema = new mongoose.Schema({
   senderId: Number,
   receiverId: Number,
   text: String,
-  imageUrl: { data: Buffer, contentType: String },
+  imageUrl: String,
   sticker: String,
   createdOn: { type: Date, default: Date.now }
 });

@@ -1,18 +1,7 @@
 let express = require("express");
-const path = require("path");
 const User = require("mongoose").model("User");
 let router = express.Router();
 let Jimp = require("jimp");
-let uuid = require("uuid");
-const multer = require("multer");
-const fs = require("fs");
-
-const storage = multer.diskStorage({
-  destination: function(req, res, cb) {
-    cb(null, "public/assets/");
-  }
-});
-const upload = multer({ storage: storage });
 
 function saveAvatar(req, res) {
   let buffer = new Buffer(req.body.user.avatarImg.split(",")[1], "base64");
@@ -23,7 +12,7 @@ function saveAvatar(req, res) {
     avatarImg
       .resize(250, 250) // resize
       .quality(60) // set JPEG quality
-      .write(`public/assets/`); // save
+      .write(`public/assets/${req.body.user.username}/avatar.jpg`); // save
     save(req, res);
   });
 }
@@ -37,11 +26,11 @@ function save(req, res) {
   let userData = {
     username: req.body.user.username,
     password: req.body.user.password,
-    avatarUrl: `assets/${uuid()}`
+    avatarUrl: `assets/${req.body.user.username}/avatar.jpg`
   };
 
   let newUser = new User(userData);
-  newUser.save((err,user) => {
+  newUser.save((err, user) => {
     if (err) {
       res.status(200).json({
         status: "error",

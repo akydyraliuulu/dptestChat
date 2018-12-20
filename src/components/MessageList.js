@@ -34,8 +34,11 @@ class MessageList extends Component {
   handleClick = (event, message) => {
     event.preventDefault();
     console.log(message);
-    this.setState({ anchorEl: event.currentTarget, open: !this.state.open });
-    this.setState({ messageItem: message });
+    this.setState({
+      anchorEl: event.currentTarget,
+      open: !this.state.open,
+      messageItem: message
+    });
   };
 
   handleClose = () => {
@@ -83,36 +86,14 @@ class MessageList extends Component {
 
   getMessages = () => {
     axios.get("/api/messages").then(res => {
-
-    //  const img =  new Buffer(res.data.messages.map(message => {
-    //     return message.imageUrl.data.data
-    //   }), 'binary').toString('base64')
-
       console.log("allMessage", res);
-      var base64Flag = "data:image/jpeg;base64,";
-      var imageStr = this.arrayBufferToBase64(
-        res.data.messages.map(message => {
-          return message.imageUrl.data;
-        })
-      );
-      this.setState({
-        img: base64Flag + imageStr
-      });
-      console.log("imageStr",base64Flag + imageStr);
 
       this.props.getAllMessages(res.data.messages);
     });
   };
 
-  arrayBufferToBase64(buffer) {
-    var binary = '';
-    var bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => binary += String.fromCharCode(b));
-    return window.btoa(binary);
-};
-
   render() {
-    const { anchorEl, open, img } = this.state;
+    const { anchorEl, open } = this.state;
     return (
       <div style={{ maxWidth: 550, padding: 10, alignItems: "center" }}>
         <PerfectScrollbar
@@ -134,14 +115,24 @@ class MessageList extends Component {
                   aria-label="When device is locked"
                   onClick={event => this.handleClick(event, message)}
                 >
-                  <Avatar>
+                  <Avatar src={this.props.user.avatarUrl}>
                     <ImageIcon />
                   </Avatar>
                   <ListItemText
-                    primary={message.senderId}
+                    primary={
+                      message.senderId === this.props.user.userId
+                        ? this.props.user.username
+                        : message.senderId
+                    }
                     secondary={message.text}
                   />
-                  <img src={img} />
+                  <img
+                    src={
+                      message.imageUrl === "assets/undefined"
+                        ? ""
+                        : message.imageUrl
+                    }
+                  />
                 </ListItem>
               );
             })}
