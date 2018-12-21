@@ -142,14 +142,7 @@ class MessageList extends Component {
                     }
                     secondary={message.text}
                   />
-                  <img
-                    alt="img"
-                    src={
-                      message.imageUrl === "assets/undefined"
-                        ? ""
-                        : message.imageUrl
-                    }
-                  />
+                  <img src={message.imageUrl === "" ? "" : message.imageUrl} />
                 </ListItem>
               );
             })}
@@ -162,6 +155,7 @@ class MessageList extends Component {
           >
             {options.map((option, index) => (
               <MenuItem
+                key={index}
                 onClick={event => this.handleMenuItemClick(event, index)}
               >
                 <ListItemText primary={option.action} />

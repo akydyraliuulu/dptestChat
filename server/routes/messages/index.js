@@ -41,12 +41,16 @@ index.post("/edit", (req, res) => {
 module.exports = index;
 
 function save(req, res) {
+  const url = "";
+  if (req.body.imgName) {
+    url = `assets/${req.body.imgName}`;
+  }
   console.log(req.body);
   let mData = {
     senderId: req.body.senderId,
     receiverId: req.body.receiverId,
     text: req.body.text,
-    imageUrl: `assets/${req.body.imgName}`,
+    imageUrl: url,
     sticker: req.body.sticker
   };
 
@@ -69,9 +73,13 @@ function save(req, res) {
 
 function editMessage(req, res) {
   let conditions = { msgId: req.body.msgId };
+  const url = "";
+  if (req.body.imgName) {
+    url = `assets/${req.body.imgName}`;
+  }
   let mData = {
     text: req.body.text,
-    imageUrl: `assets/${req.body.imgName}`,
+    imageUrl: url,
     sticker: req.body.sticker
   };
   let options = { new: true };
