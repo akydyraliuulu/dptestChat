@@ -125,7 +125,6 @@ class ProfileSettings extends Component {
       <div className="profileSettings" container spacing={24}>
         <LogoutComponent />
         <FormControl
-          container
           style={{
             marginTop: 60,
             alignItems: "center",
