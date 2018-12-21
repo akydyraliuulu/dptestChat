@@ -9,7 +9,10 @@ var dbURI =
   ":" +
   dbpassword +
   "@ds151452.mlab.com:51452/dreampirates";
-mongoose.connect(dbURI,{ useNewUrlParser: true });
+mongoose.connect(
+  dbURI,
+  { useNewUrlParser: true }
+);
 autoIncrement.initialize(mongoose.connection);
 mongoose.connection.on("connected", function() {
   console.log("Mongoose connected to " + dbURI);

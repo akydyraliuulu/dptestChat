@@ -1,28 +1,7 @@
 var initialState = {
   user: {},
   receiverUser: "",
-  users: [
-    {
-      username: "Beka",
-      userId: 5
-    },
-    {
-      username: "Hasan",
-      userId: 6
-    },
-    {
-      username: "Andrey",
-      userId: 7
-    },
-    {
-      username: "Adilet",
-      userId: 8
-    },
-    {
-      username: "Ulan",
-      userId: 9
-    }
-  ]
+  users: []
 };
 
 const userReducer = (state = initialState, action) => {

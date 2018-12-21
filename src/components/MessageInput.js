@@ -1,21 +1,20 @@
 import { TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Paper from "@material-ui/core/Paper";
-import TagFacesIcon from "@material-ui/icons/TagFaces";
 import KeyboardIcon from "@material-ui/icons/Keyboard";
 import PhotoIcon from "@material-ui/icons/Photo";
+import TagFacesIcon from "@material-ui/icons/TagFaces";
+import axios from "axios";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
-import axios from "axios";
-import Dropzone from "react-dropzone";
-import classNames from "classnames";
 
 class MessageInput extends Component {
   constructor(props) {
@@ -32,6 +31,7 @@ class MessageInput extends Component {
   }
 
   componentDidMount() {
+    console.log("messageinput %s!", JSON.stringify(this.props.editMessage));
     this.setState({ value: this.props.editMessage.text });
   }
 

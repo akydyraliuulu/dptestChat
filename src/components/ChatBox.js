@@ -1,14 +1,14 @@
+import Button from "@material-ui/core/Button";
+import Chip from "@material-ui/core/Chip";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import TagFacesIcon from "@material-ui/icons/TagFaces";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import MessageList from "./MessageList";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
-import Button from "@material-ui/core/Button";
-import Chip from "@material-ui/core/Chip";
-import Paper from "@material-ui/core/Paper";
-import TagFacesIcon from "@material-ui/icons/TagFaces";
-import Grid from "@material-ui/core/Grid";
+import MessageList from "./MessageList";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -67,7 +67,6 @@ class ChatBox extends Component {
           justify="center"
         >
           <MessageList />
-          
         </Grid>
       </div>
     );

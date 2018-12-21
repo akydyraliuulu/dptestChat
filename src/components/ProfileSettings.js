@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -6,12 +5,12 @@ import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AddPhotoIcon from "@material-ui/icons/AddAPhoto";
+import axios from "axios";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import LogoutComponent from "./LogoutComponent";
 import { userActions } from "../actions/UserActions";
-import { store } from "../index";
-import axios from "axios";
+import LogoutComponent from "./LogoutComponent";
 
 class ProfileSettings extends Component {
   constructor(props) {

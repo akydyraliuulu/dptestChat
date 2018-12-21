@@ -1,15 +1,13 @@
+import "@material-ui/core";
 import React from "react";
 import ReactDOM from "react-dom";
-
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { applyMiddleware, compose, createStore } from "redux";
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import App from "./components/App";
-import registerServiceWorker from "./registerServiceWorker";
-import { BrowserRouter } from "react-router-dom";
-import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "./reducers";
-import { Provider } from "react-redux";
-
-import "@material-ui/core";
+import registerServiceWorker from "./registerServiceWorker";
 
 const logger = store => next => action => {
   console.group(action.type);

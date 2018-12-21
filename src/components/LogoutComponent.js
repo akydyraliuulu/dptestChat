@@ -1,15 +1,15 @@
+import { FormLabel } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import AccountIcon from "@material-ui/icons/AccountBox";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import UserSocket from "../socket/socketsApi";
 import Logout from "../utils/Logout";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { FormLabel } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
-import AccountIcon from "@material-ui/icons/AccountBox";
 
 class LogoutComponent extends Component {
   logoutRequest = () => {

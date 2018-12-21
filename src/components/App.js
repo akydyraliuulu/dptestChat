@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import "../App.css";
 import Main from "./Main";
 import NoMatch from "./NoMatch";
+import ProfileSettings from "./ProfileSettings";
 import Registration from "./Registration";
 import Welcome from "./Welcome";
-import ProfileSettings from "./ProfileSettings";
 
 class App extends Component {
   render() {

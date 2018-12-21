@@ -61,49 +61,49 @@ class LoginForm extends Component {
     const { username, password } = this.state;
 
     return (
-        <FormControl
-          container
-          style={{
-            marginTop: 60,
-            alignItems: "center",
-            alignContent: "center"
-          }}
-        >
-          <Typography gutterBottom variant="outlined" component="h1">
-            sign in
-          </Typography>
+      <FormControl
+        container
+        style={{
+          marginTop: 60,
+          alignItems: "center",
+          alignContent: "center"
+        }}
+      >
+        <Typography gutterBottom variant="outlined" component="h1">
+          sign in
+        </Typography>
 
-          <TextField
-            id="outlined-dense"
-            label="username"
-            variant="outlined"
-            margin="normal"
-            onChange={this.handleChange("username")}
-            value={username}
-            placeholder="username"
-          />
-          <TextField
-            id="outlined-dense"
-            label="password"
-            margin="normal"
-            variant="outlined"
-            onChange={this.handleChange("password")}
-            value={password}
-            onKeyPress={this.handleKeyPress}
-            type="password"
-            placeholder="********"
-          />
-          <Button
-            size="large"
-            variant="outlined"
-            color="primary"
-            margin="normal"
-            type="submit"
-            onClick={this.onHandleClick}
-          >
-            LOGIN
-          </Button>
-        </FormControl>
+        <TextField
+          id="outlined-dense"
+          label="username"
+          variant="outlined"
+          margin="normal"
+          onChange={this.handleChange("username")}
+          value={username}
+          placeholder="username"
+        />
+        <TextField
+          id="outlined-dense"
+          label="password"
+          margin="normal"
+          variant="outlined"
+          onChange={this.handleChange("password")}
+          value={password}
+          onKeyPress={this.handleKeyPress}
+          type="password"
+          placeholder="********"
+        />
+        <Button
+          size="large"
+          variant="outlined"
+          color="primary"
+          margin="normal"
+          type="submit"
+          onClick={this.onHandleClick}
+        >
+          LOGIN
+        </Button>
+      </FormControl>
     );
   }
 }

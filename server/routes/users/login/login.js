@@ -12,19 +12,16 @@ module.exports = (req, res) => {
     if (err) {
       res.status(200).json({
         status: "error",
-        error: "Failed to login",
-        hint: ""
+        error: "Failed to login"
       });
     } else if (user.length === 0) {
       res.status(200).json({
         status: "error",
-        error: "not allowed",
-        hint: ""
+        error: "not allowed"
       });
     } else {
       res.status(200).json({
         status: "success",
-        error: "",
         user: user[0],
         hint: "Logged in"
       });

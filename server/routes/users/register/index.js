@@ -1,7 +1,10 @@
 let express = require("express");
 const User = require("mongoose").model("User");
 let router = express.Router();
+let uuid = require("uuid");
 let Jimp = require("jimp");
+
+const generatedId = uuid();
 
 function saveAvatar(req, res) {
   let buffer = new Buffer(req.body.user.avatarImg.split(",")[1], "base64");
@@ -10,20 +13,18 @@ function saveAvatar(req, res) {
       throw err;
     }
     avatarImg
-      .resize(250, 250) // resize
-      .quality(60) // set JPEG quality
-      .write(`public/assets/${req.body.user.username}/avatar.jpg`); // save
+      .resize(250, 250)
+      .quality(60)
+      .write(`public/assets/${generatedId}/avatar.jpg`);
     save(req, res);
   });
 }
 
 router.post("/", (req, res) => {
-  console.log(req);
   validateForm(req, res);
 });
 
 router.post("/update", (req, res) => {
-  console.log(req);
   User.confirmWithId(req.body.user.userId, (err, users) => {
     if (err) {
       res.status(200).json({
@@ -45,7 +46,7 @@ function save(req, res) {
   let userData = {
     username: req.body.user.username,
     password: req.body.user.password,
-    avatarUrl: `assets/${req.body.user.username}/avatar.jpg`
+    avatarUrl: `assets/${generatedId}/avatar.jpg`
   };
 
   let newUser = new User(userData);
@@ -128,7 +129,7 @@ function changeAvatar(req, res) {
       .resize(250, 250)
       .quality(60)
       .write(
-        `public/assets/${req.body.user.username}/avatar.jpg`,
+        `public/assets/${generatedId}/avatar.jpg`,
         fileSaveCallback
       );
   });
@@ -145,7 +146,7 @@ function changeAvatar(req, res) {
 
   function saveToDatabase(data) {
     let conditions = { userId: req.body.user.userId };
-    let update = { avatarUrl: `assets/${req.body.user.username}/avatar.jpg` };
+    let update = { avatarUrl: `assets/${generatedId}/avatar.jpg` };
     let options = { new: true };
     User.findOneAndUpdate(conditions, update, options, saveToDatabaseCallback);
 

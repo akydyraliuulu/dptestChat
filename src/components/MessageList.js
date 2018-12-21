@@ -1,8 +1,14 @@
+import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import ImageIcon from "@material-ui/icons/Image";
+import axios from "axios";
 import React, { Component } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
@@ -10,12 +16,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import axios from "axios";
 import MessageInput from "./MessageInput";
 
 const options = [
@@ -41,6 +41,7 @@ class MessageList extends Component {
 
   componentDidMount() {
     this.scrollToBottom();
+    this.getMessages();
   }
 
   componentDidUpdate() {
@@ -78,7 +79,7 @@ class MessageList extends Component {
           store.dispatch(messageActions.edit(this.state.messageItem));
           break;
         case 1:
-          this.deletMessage(this.state.messageItem._id);
+          this.deleteMessage(this.state.messageItem._id);
           break;
         default:
           console.log("default");
@@ -89,16 +90,12 @@ class MessageList extends Component {
     }
   };
 
-  deletMessage = _id => {
+  deleteMessage = _id => {
     axios.delete(`/api/messages/deleteMessage/${_id}`).then(res => {
       console.log("res", res);
       this.getMessages();
     });
   };
-
-  componentDidMount() {
-    this.getMessages();
-  }
 
   getMessages = () => {
     axios.get("/api/messages").then(res => {
@@ -111,7 +108,7 @@ class MessageList extends Component {
   render() {
     const { anchorEl, open } = this.state;
     return (
-      <div style={{ maxWidth: 550, padding: 10, alignItems: "center" }}>
+      <div style={{ maxWidth: 800, padding: 10, alignItems: "center" }}>
         <PerfectScrollbar
           style={{
             maxHeight: 550,
@@ -146,6 +143,7 @@ class MessageList extends Component {
                     secondary={message.text}
                   />
                   <img
+                    alt="img"
                     src={
                       message.imageUrl === "assets/undefined"
                         ? ""
