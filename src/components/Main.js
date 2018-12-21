@@ -26,7 +26,7 @@ class Main extends Component {
 
   render() {
     return (
-      <div className="main" container spacing={24}>
+      <div>
         <LogoutComponent />
         <ChatBox />
       </div>

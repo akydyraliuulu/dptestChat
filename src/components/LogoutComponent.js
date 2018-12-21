@@ -49,7 +49,7 @@ class LogoutComponent extends Component {
 
   render() {
     return (
-      <AppBar position="static" color="#009688">
+      <AppBar position="static" color="inherit">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             <Avatar

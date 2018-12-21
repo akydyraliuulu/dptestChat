@@ -18,7 +18,7 @@ class App extends Component {
       logedIn = true;
     }
     return (
-      <div className="App">
+      <div>
         <Switch>
           <Route exact path="/" render={() => <Welcome />} />
 

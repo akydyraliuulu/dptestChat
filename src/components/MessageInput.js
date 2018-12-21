@@ -19,11 +19,12 @@ import { store } from "../index";
 class MessageInput extends Component {
   constructor(props) {
     super(props);
+
     this.sendMessage = this.sendMessage.bind(this);
     this.onChange = this.onChange.bind(this);
 
     this.state = {
-      value: this.props.value,
+      value: this.props.editMessage.text,
       openSticker: true,
       image: null,
       imageName: "image"
@@ -145,7 +146,7 @@ class MessageInput extends Component {
     return (
       <Paper>
         <Button variant="text">
-          <Typography gutterBottom="false" variant="caption" component="h6">
+          <Typography variant="caption" component="h6">
             {this.props.receiverUser === ""
               ? "all:"
               : "@" + this.props.receiverUser.username}
