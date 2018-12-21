@@ -16,6 +16,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
+import MessageInput from "./MessageInput";
 
 const options = [
   { action: "Edit", icon: <EditIcon /> },
@@ -23,13 +24,28 @@ const options = [
 ];
 
 class MessageList extends Component {
-  state = {
-    anchorEl: null,
-    open: false,
-    selectedIndex: 0,
-    messageItem: "",
-    img: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      anchorEl: null,
+      open: false,
+      selectedIndex: 0,
+      messageItem: {},
+      img: ""
+    };
+  }
+
+  scrollToBottom = () => {
+    this._scrollbarRef.scrollTo(0, this._scrollbarRef.scrollHeight);
   };
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
 
   handleClick = (event, message) => {
     event.preventDefault();
@@ -103,6 +119,9 @@ class MessageList extends Component {
             overflow: "hidden",
             height: "100%"
           }}
+          containerRef={ref => {
+            this._scrollbarRef = ref;
+          }}
         >
           <List>
             {this.props.messages.map(message => {
@@ -153,6 +172,9 @@ class MessageList extends Component {
             ))}
           </Menu>
         </PerfectScrollbar>
+        <br />
+        <br />
+        <MessageInput value={this.state.messageItem.text} />
       </div>
     );
   }

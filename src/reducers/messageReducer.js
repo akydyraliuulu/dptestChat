@@ -13,7 +13,11 @@ const messageReducer = (state = initialState, action) => {
   }
 };
 function addMessage(state, message) {
-  let newMessages = state.messages.slice();
+  let newMessages = state.messages
+    .filter(oldMessage => {
+      return oldMessage.msgId !== message.msgId;
+    })
+    .slice();
   newMessages.push(message);
   return Object.assign({}, state, {
     messages: newMessages

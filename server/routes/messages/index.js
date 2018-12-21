@@ -19,6 +19,25 @@ index.post("/image", (req, res) => {
   saveImage(req, res);
 });
 
+index.post("/edit", (req, res) => {
+  console.log(req.body);
+  Message.confirmWithId(req.body.msgId, (err, messages) => {
+    if (err) {
+      res.status(200).json({
+        status: "error",
+        error: "error"
+      });
+    } else if (messages && messages.length > 0) {
+      editMessage(req, res);
+    } else {
+      res.status(200).json({
+        status: "error",
+        error: "error"
+      });
+    }
+  });
+});
+
 module.exports = index;
 
 function save(req, res) {
@@ -48,6 +67,31 @@ function save(req, res) {
   });
 }
 
+function editMessage(req, res) {
+  let conditions = { msgId: req.body.msgId };
+  let mData = {
+    text: req.body.text,
+    imageUrl: `assets/${req.body.imgName}`,
+    sticker: req.body.sticker
+  };
+  let options = { new: true };
+
+  Message.findOneAndUpdate(conditions, mData, options, saveToDatabaseCallback);
+
+  function saveToDatabaseCallback(err, updatedMessageDoc) {
+    if (err) {
+      res.status(200).json({
+        status: "error",
+        error: "error"
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      messages: updatedMessageDoc
+    });
+  }
+}
+
 function getAllMessage(req, res) {
   Message.find({}, (err, messages) => {
     res.status(200).json({
@@ -75,7 +119,7 @@ function saveImage(req, res) {
     image
       .resize(250, 250) // resize
       .quality(60) // set JPEG quality
-      .write(`public/assets/${req.body.imgName}`,fileSaveCallback); // save
+      .write(`public/assets/${req.body.imgName}`, fileSaveCallback); // save
 
     function fileSaveCallback(err, data) {
       if (err) {

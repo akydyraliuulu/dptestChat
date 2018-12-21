@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
@@ -68,9 +67,7 @@ class ChatBox extends Component {
           justify="center"
         >
           <MessageList />
-          <br />
-          <br />
-          <MessageInput />
+          
         </Grid>
       </div>
     );

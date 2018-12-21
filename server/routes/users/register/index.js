@@ -28,8 +28,7 @@ router.post("/update", (req, res) => {
     if (err) {
       res.status(200).json({
         status: "error",
-        error: "あなたのアイデンティティを確認できませんでした",
-        hint: ""
+        error: "error"
       });
     } else if (users && users.length > 0) {
       changeAvatar(req, res);
@@ -126,12 +125,12 @@ function changeAvatar(req, res) {
       throw err;
     }
     avatarImg
-      .resize(250, 250) // resize
-      .quality(60) // set JPEG quality
+      .resize(250, 250)
+      .quality(60)
       .write(
         `public/assets/${req.body.user.username}/avatar.jpg`,
         fileSaveCallback
-      ); // save
+      );
   });
 
   function fileSaveCallback(err, data) {

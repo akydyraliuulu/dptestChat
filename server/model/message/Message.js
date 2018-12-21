@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 let autoIncrement = require("mongoose-auto-increment");
 
-var MessageSchema = new mongoose.Schema({
+var messageSchema = new mongoose.Schema({
   msgId: Number,
   senderId: Number,
   receiverId: Number,
@@ -10,8 +10,13 @@ var MessageSchema = new mongoose.Schema({
   sticker: String,
   createdOn: { type: Date, default: Date.now }
 });
-MessageSchema.plugin(autoIncrement.plugin, {
+
+messageSchema.statics.confirmWithId = function(msgId, callback) {
+  this.find({ msgId: msgId }, "msgId", { sort: "modifiedOn" }, callback);
+};
+
+messageSchema.plugin(autoIncrement.plugin, {
   model: "Message",
   field: "msgId"
 });
-module.exports = mongoose.model("Message", MessageSchema);
+module.exports = mongoose.model("Message", messageSchema);

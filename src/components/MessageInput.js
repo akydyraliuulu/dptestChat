@@ -24,11 +24,15 @@ class MessageInput extends Component {
     this.onChange = this.onChange.bind(this);
 
     this.state = {
-      value: "",
+      value: this.props.value,
       openSticker: true,
       image: null,
       imageName: "image"
     };
+  }
+
+  componentDidMount() {
+    this.setState({ value: this.props.editMessage.text });
   }
 
   handleKeyPress = e => {
@@ -39,16 +43,33 @@ class MessageInput extends Component {
 
   sendMessage = e => {
     if (this.state.value !== "") {
-      let msg = {
-        senderId: this.props.user.userId,
-        receiverId: this.props.receiverUser.userId,
-        text: this.state.value,
-        sticker: "sticker"
-      };
-      axios.post("/api/messages", msg).then(res => {
-        console.log("res", res);
-        this.onSendMessageSuccess(res.data);
-      });
+      console.log(this.props.editMessage.text);
+      if (
+        this.props.editMessage.text !== "" &&
+        this.props.editMessage.text !== undefined
+      ) {
+        let msg = {
+          msgId: this.props.editMessage.msgId,
+          text: this.state.value,
+          sticker: "sticker"
+        };
+        axios.post("/api/messages/edit", msg).then(res => {
+          console.log("res", res);
+          store.dispatch(messageActions.edit({}));
+          this.onSendMessageSuccess(res.data);
+        });
+      } else {
+        let msg = {
+          senderId: this.props.user.userId,
+          receiverId: this.props.receiverUser.userId,
+          text: this.state.value,
+          sticker: "sticker"
+        };
+        axios.post("/api/messages", msg).then(res => {
+          console.log("res", res);
+          this.onSendMessageSuccess(res.data);
+        });
+      }
     } else {
       alert("message is empty");
     }
@@ -133,7 +154,7 @@ class MessageInput extends Component {
 
         <TextField
           onChange={this.onChange}
-          value={this.state.value || ""}
+          value={this.state.value}
           type="text"
           id="outlined-dense"
           onKeyPress={this.handleKeyPress}
