@@ -41,10 +41,11 @@ index.post("/edit", (req, res) => {
 module.exports = index;
 
 function save(req, res) {
-  const url = "";
-  if (req.body.imgName) {
-    url = `assets/${req.body.imgName}`;
+  let url = "";
+  if (req.body.uniqId) {
+    url = `assets/${req.body.uniqId}/${req.body.imgName}`;
   }
+
   console.log(req.body);
   let mData = {
     senderId: req.body.senderId,
@@ -73,9 +74,9 @@ function save(req, res) {
 
 function editMessage(req, res) {
   let conditions = { msgId: req.body.msgId };
-  const url = "";
-  if (req.body.imgName) {
-    url = `assets/${req.body.imgName}`;
+  let url = "";
+  if (req.body.uniqId) {
+    url = `assets/${req.body.uniqId}/${req.body.imgName}`;
   }
   let mData = {
     text: req.body.text,
@@ -127,7 +128,10 @@ function saveImage(req, res) {
     image
       .resize(250, 250) // resize
       .quality(60) // set JPEG quality
-      .write(`public/assets/${req.body.imgName}`, fileSaveCallback); // save
+      .write(
+        `public/assets/${req.body.uniqId}/${req.body.imgName}`,
+        fileSaveCallback
+      ); // save
 
     function fileSaveCallback(err, data) {
       if (err) {

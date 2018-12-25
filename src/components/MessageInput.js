@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
+import uuid from "uuid";
 
 class MessageInput extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class MessageInput extends Component {
     this.onChange = this.onChange.bind(this);
 
     this.state = {
-      value: this.props.editMessage.text,
+      value: "",
       openSticker: true,
       image: null,
       imageName: "image"
@@ -121,6 +122,7 @@ class MessageInput extends Component {
         senderId: this.props.user.userId,
         receiverId: this.props.receiverUser.userId,
         text: this.state.value,
+        uniqId: uuid(),
         image: e.target.result,
         sticker: "sticker",
         imgName: acceptedFiles[0].name
@@ -143,6 +145,7 @@ class MessageInput extends Component {
   };
 
   render() {
+    let { value } = this.state;
     return (
       <Paper>
         <Button variant="text">
@@ -155,7 +158,7 @@ class MessageInput extends Component {
 
         <TextField
           onChange={this.onChange}
-          value={this.state.value}
+          value={value}
           type="text"
           id="outlined-dense"
           onKeyPress={this.handleKeyPress}
