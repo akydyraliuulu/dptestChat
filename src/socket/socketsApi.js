@@ -1,6 +1,7 @@
 import { store } from "../index";
 import openSocket from "socket.io-client";
 import { userActions } from "../actions/UserActions";
+import { messageActions } from "../actions/MessageActions";
 
 const socketUrl = "http://localhost";
 class UserSocket {
@@ -57,6 +58,13 @@ class UserSocket {
       });
       store.dispatch(userActions.setOnlineUsers(userList));
     });
+
+    skt.on("getMessage", messages => {
+      console.log("getMessage");
+      console.log(messages);
+      store.dispatch(messageActions.add(messages));
+    });
+
   };
 }
 

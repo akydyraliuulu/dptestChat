@@ -16,6 +16,7 @@ import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
 import uuid from "uuid";
+import UserSocket from "../socket/socketsApi";
 
 class MessageInput extends Component {
   constructor(props) {
@@ -63,7 +64,9 @@ class MessageInput extends Component {
       } else {
         let msg = {
           senderId: this.props.user.userId,
-          receiverId: this.props.receiverUser.userId,
+          receiverId: this.props.receiverUser.userId
+            ? this.props.receiverUser.userId
+            : "all",
           text: this.state.value,
           sticker: "sticker"
         };

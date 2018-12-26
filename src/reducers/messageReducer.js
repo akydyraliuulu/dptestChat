@@ -13,14 +13,24 @@ const messageReducer = (state = initialState, action) => {
   }
 };
 function addMessage(state, message) {
+  let user = sessionStorage.getItem("user");
+  user = JSON.parse(user);
   let newMessages = state.messages
     .filter(oldMessage => {
       return oldMessage.msgId !== message.msgId;
     })
     .slice();
   newMessages.push(message);
+
+  let newMessage = newMessages.filter(messages => {
+    return (
+      messages.senderId === user.userId ||
+      messages.receiverId === user.userId ||
+      messages.receiverId === -1
+    );
+  });
   return Object.assign({}, state, {
-    messages: newMessages
+    messages: newMessage
   });
 }
 
@@ -30,7 +40,9 @@ function allMessage(state, message) {
 
   let newMessage = message.filter(messages => {
     return (
-      messages.senderId === user.userId || messages.receiverId === user.userId
+      messages.senderId === user.userId ||
+      messages.receiverId === user.userId ||
+      messages.receiverId === -1
     );
   });
 

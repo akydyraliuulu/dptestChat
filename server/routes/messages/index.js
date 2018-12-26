@@ -7,7 +7,7 @@ index.post("/", (req, res) => {
   save(req, res);
 });
 
-index.get("/", (req, res) => {
+index.get("/:userId", (req, res) => {
   getAllMessage(req, res);
 });
 
@@ -47,9 +47,12 @@ function save(req, res) {
   }
 
   console.log(req.body);
+  let receiverId = -1;
+  if (req.body.receiverId !== "all") receiverId = req.body.receiverId;
+
   let mData = {
     senderId: req.body.senderId,
-    receiverId: req.body.receiverId,
+    receiverId: receiverId,
     text: req.body.text,
     imageUrl: url,
     sticker: req.body.sticker
@@ -69,6 +72,7 @@ function save(req, res) {
       messages,
       error: ""
     });
+    socketIO.sendToAll("getMessage", messages);
   });
 }
 
@@ -98,16 +102,33 @@ function editMessage(req, res) {
       status: "success",
       messages: updatedMessageDoc
     });
+    socketIO.sendToAll("getMessage", updatedMessageDoc);
   }
 }
 
 function getAllMessage(req, res) {
-  Message.find({}, (err, messages) => {
-    res.status(200).json({
-      messages: messages,
-      status: "success"
+  let condition = {};
+  console.log("userId");
+  console.log(req.params.userId);
+  // if (req.params.userId) {
+  //   condition.senderId = req.params.userId;
+  // }
+  Message.find(condition)
+    .sort("createdOn")
+    .exec((err, messages) => {
+      if (err) {
+        res.status(200).json({
+          status: "error",
+          error: "error"
+        });
+      } else {
+        res.status(200).json({
+          status: "success",
+          hint: "OK",
+          messages
+        });
+      }
     });
-  });
 }
 
 function deleteMessage(req, res) {

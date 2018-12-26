@@ -98,7 +98,7 @@ class MessageList extends Component {
   };
 
   getMessages = () => {
-    axios.get("/api/messages").then(res => {
+    axios.get(`/api/messages/${this.props.user.userId}`).then(res => {
       console.log("allMessage", res);
 
       this.props.getAllMessages(res.data.messages);
