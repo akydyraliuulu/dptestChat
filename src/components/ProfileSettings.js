@@ -19,7 +19,6 @@ class ProfileSettings extends Component {
     user = JSON.parse(user);
     if (user && user !== null && user.username !== "") {
       this.props.login(user);
-      //store.dispatch(userActions.login(user));
     }
     this.state = {
       username: "",

@@ -15,7 +15,6 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
-import { store } from "../index";
 import MessageInput from "./MessageInput";
 
 const options = [
@@ -31,6 +30,7 @@ class MessageList extends Component {
       open: false,
       selectedIndex: 0,
       messageItem: {},
+      value: "",
       img: ""
     };
   }
@@ -76,7 +76,10 @@ class MessageList extends Component {
     if (this.props.user.userId === this.state.messageItem.senderId) {
       switch (index) {
         case 0:
-          store.dispatch(messageActions.edit(this.state.messageItem));
+          this.props.edit(this.state.messageItem);
+          this.setState({
+            value: this.state.messageItem.text
+          })
           break;
         case 1:
           this.deleteMessage(this.state.messageItem._id);
@@ -166,7 +169,7 @@ class MessageList extends Component {
         </PerfectScrollbar>
         <br />
         <br />
-        <MessageInput value={this.state.messageItem.text} />
+        <MessageInput value={this.state.value} />
       </div>
     );
   }
@@ -180,11 +183,14 @@ const mapStateToProps = state => {
 };
 function mapDispatchToProps(dispatch) {
   return {
-    getAllMessages: function(messages) {
+   getAllMessages: function(messages) {
       dispatch(messageActions.getAllMessages(messages));
+    },
+    edit: function(messageItem){
+      dispatch(messageActions.edit(messageItem));
     }
   };
-}
+};
 
 export default withRouter(
   connect(

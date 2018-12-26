@@ -8,13 +8,11 @@ import PhotoIcon from "@material-ui/icons/Photo";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
 import axios from "axios";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
-import { store } from "../index";
 import uuid from "uuid";
 import UserSocket from "../socket/socketsApi";
 
@@ -26,7 +24,7 @@ class MessageInput extends Component {
     this.onChange = this.onChange.bind(this);
 
     this.state = {
-      value: "",
+      value: this.props.value,
       openSticker: true,
       image: null,
       imageName: "image"
@@ -58,7 +56,7 @@ class MessageInput extends Component {
         };
         axios.post("/api/messages/edit", msg).then(res => {
           console.log("res", res);
-          store.dispatch(messageActions.edit({}));
+          this.props.edit({});
           this.onSendMessageSuccess(res.data);
         });
       } else {
@@ -85,7 +83,7 @@ class MessageInput extends Component {
       case "success":
         console.log("Response");
         console.log(res.messages);
-        store.dispatch(messageActions.add(res.messages));
+        this.props.add(res.messages);
         this.setState({
           value: "",
           image: null,
@@ -136,7 +134,7 @@ class MessageInput extends Component {
       axios.post("/api/messages/image", msg).then(res => {
         console.log("res", res);
         if (res.data.status === "success") {
-          store.dispatch(messageActions.add(res.data.messages));
+          this.props.add(res.data.messages);
           this.setState({
             value: "",
             image: null,
@@ -224,8 +222,17 @@ const mapStateToProps = state => {
   };
 };
 
-MessageInput.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+function mapDispatchToProps(dispatch) {
+  return {
+   add: function(messages) {
+      dispatch(messageActions.add(messages));
+    },
+    edit: function(messageItem){
+      dispatch(messageActions.edit(messageItem));
+    }
+  };
+}
 
-export default withRouter(connect(mapStateToProps)(MessageInput));
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MessageInput));

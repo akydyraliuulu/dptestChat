@@ -7,7 +7,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
-import { store } from "../index";
 import MessageList from "./MessageList";
 
 class ChatBox extends Component {
@@ -17,11 +16,11 @@ class ChatBox extends Component {
   }
 
   handleClick = userItem => {
-    store.dispatch(userActions.setReceiver(userItem));
+    this.props.setReceiver(userItem);
   };
 
   resetUser = e => {
-    store.dispatch(userActions.setReceiver(""));
+    this.props.setReceiver("");
   };
 
   render() {
@@ -78,5 +77,12 @@ const mapStateToProps = state => {
     users: state.userReducer.users
   };
 };
+function mapDispatchToProps(dispatch) {
+  return {
+    setReceiver: function(userItem) {
+      dispatch(userActions.setReceiver(userItem));
+    }
+  };
+};
 
-export default withRouter(connect(mapStateToProps)(ChatBox));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChatBox));
