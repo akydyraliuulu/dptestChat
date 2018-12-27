@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { applyMiddleware, compose, createStore } from "redux";
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import App from "./components/App";
 import reducer from "./reducers";
 import registerServiceWorker from "./registerServiceWorker";
