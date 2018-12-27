@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
+import { store } from "../index";
 import UserSocket from "../socket/socketsApi";
 import ChatBox from "./ChatBox";
 import LogoutComponent from "./LogoutComponent";
@@ -12,7 +13,7 @@ class Main extends Component {
     let user = sessionStorage.getItem("user");
     user = JSON.parse(user);
     if (user && user !== null && user.username !== "") {
-      this.props.login(user);
+      store.dispatch(userActions.login(user));
       UserSocket.disconnect();
       UserSocket.connectUser(user.userId, user.username);
     }
@@ -38,12 +39,5 @@ const mapStateToProps = state => {
     user: state.userReducer.user
   };
 };
-function mapDispatchToProps(dispatch) {
-  return {
-    login: function(user) {
-      dispatch(userActions.login(user));
-    }
-  };
-}
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
+export default withRouter(connect(mapStateToProps)(Main));

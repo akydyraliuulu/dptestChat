@@ -1,3 +1,4 @@
+import { store } from "../index";
 import openSocket from "socket.io-client";
 import { userActions } from "../actions/UserActions";
 import { messageActions } from "../actions/MessageActions";
@@ -55,29 +56,16 @@ class UserSocket {
       userList = userList.filter(users => {
         return user.username !== users.username;
       });
-      dispatchUsers(userList);
+      store.dispatch(userActions.setOnlineUsers(userList));
     });
 
     skt.on("getMessage", messages => {
       console.log("getMessage");
       console.log(messages);
-      dispatchMessages(messages);
+      store.dispatch(messageActions.add(messages));
     });
 
   };
-}
-
-function dispatchUsers(dispatch){
-  return {setOnlineUsers: function(userList){
-  dispatch(userActions.setOnlineUsers(userList));
-    }
-  }
-}
-function dispatchMessages(dispatch){
-  return {add: function(messages){
-  dispatch(messageActions.add(messages));
-  }
- }
 }
 
 export default UserSocket;
