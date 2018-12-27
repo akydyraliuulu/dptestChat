@@ -16,7 +16,6 @@ import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
 import uuid from "uuid";
-import UserSocket from "../socket/socketsApi";
 
 class MessageInput extends Component {
   constructor(props) {

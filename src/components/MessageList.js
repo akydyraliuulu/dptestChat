@@ -142,7 +142,7 @@ class MessageList extends Component {
                     }
                     secondary={message.text}
                   />
-                  <img src={message.imageUrl === "" ? "" : message.imageUrl} />
+                  <img alt="" src={message.imageUrl === "" ? "" : message.imageUrl} />
                 </ListItem>
               );
             })}
