@@ -1,7 +1,9 @@
 let express = require("express");
 let index = express.Router();
 const Message = require("mongoose").model("Message");
+const User = require("mongoose").model("User");
 let Jimp = require("jimp");
+let socketIO = require("../../sockets/socketIO");
 
 index.post("/", (req, res) => {
   save(req, res);
@@ -122,11 +124,23 @@ function getAllMessage(req, res) {
           error: "error"
         });
       } else {
-        res.status(200).json({
-          status: "success",
-          hint: "OK",
-          messages
-        });
+        User.find(messages.receiverId)
+          .sort("createdOn")
+          .exec((err, users) => {
+            if (err) {
+              res.status(200).json({
+                status: "error",
+                error: "error"
+              });
+            } else {
+              res.status(200).json({
+                status: "success",
+                hint: "OK",
+                messages,
+                users
+              });
+            }
+          });
       }
     });
 }
@@ -134,6 +148,9 @@ function getAllMessage(req, res) {
 function deleteMessage(req, res) {
   console.log(req.params);
   Message.findByIdAndRemove({ _id: req.params._id }, err => {
+    if (err) {
+      throw err;
+    }
     res.status(200).json({
       status: "success"
     });
@@ -154,8 +171,9 @@ function saveImage(req, res) {
         fileSaveCallback
       ); // save
 
-    function fileSaveCallback(err, data) {
+    function fileSaveCallback(err) {
       if (err) {
+        throw err;
       }
       save(req, res);
     }

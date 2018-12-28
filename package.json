@@ -27,6 +27,7 @@
     "react-dom": "^16.6.3",
     "react-dropzone": "^8.0.2",
     "react-ionicons": "^1.5.9",
+    "react-native-gifted-chat": "^0.5.0",
     "react-perfect-scrollbar": "^1.4.2",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",

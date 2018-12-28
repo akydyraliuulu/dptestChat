@@ -12,14 +12,14 @@ class Welcome extends Component {
   render() {
     return (
       <div>
-        <AppBar position="static" color="#009688">
+        <AppBar position='static' color='#009688'>
           <Toolbar> 
-            <Typography variant="h6">
-              <Link to="/registration">
+            <Typography variant='h6'>
+              <Link to='/registration'>
                 <Button
-                  variant="outlined"
+                  variant='outlined'
                   style={{ position: "absolute", right: 16, bottom: 16 }}
-                  color="primary"
+                  color='primary'
                 >
                   REGISTRATION
                 </Button>

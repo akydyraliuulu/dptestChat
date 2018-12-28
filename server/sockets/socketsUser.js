@@ -6,7 +6,7 @@ class SocketsUser {
     socket.emit("connected", { socketId: socket.id });
   }
 
-  static onDisconnect({ socket, userId }, reason) {
+  static onDisconnect({ socket, userId }, ) {
     onlineUsers.setUserOffline({ socketId: socket.id, userId });
   }
 }

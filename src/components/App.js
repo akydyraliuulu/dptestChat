@@ -18,24 +18,24 @@ class App extends Component {
       logedIn = true;
     }
     return (
-      <div className="App">
+      <div className='App'>
         <Switch>
-          <Route exact path="/" render={() => <Welcome />} />
+          <Route exact path='/' render={() => <Welcome />} />
 
-          <Route exact path="/notfound" component={NoMatch} />
+          <Route exact path='/notfound' component={NoMatch} />
 
           <Route
             exact
-            path="/main"
-            render={() => (logedIn ? <Main /> : <Redirect to="/" />)}
+            path='/main'
+            render={() => (logedIn ? <Main /> : <Redirect to='/' />)}
           />
           <Route
             exact
-            path="/profileSettings"
-            render={() => (logedIn ? <ProfileSettings /> : <Redirect to="/" />)}
+            path='/profileSettings'
+            render={() => (logedIn ? <ProfileSettings /> : <Redirect to='/' />)}
           />
 
-          <Route exact path="/registration" render={() => <Registration />} />
+          <Route exact path='/registration' render={() => <Registration />} />
 
           <Route component={NoMatch} />
         </Switch>

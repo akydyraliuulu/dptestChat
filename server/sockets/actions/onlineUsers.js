@@ -17,13 +17,16 @@ class OnlineUsers {
   }
 
   static async setUserOffline({ socketId, userId }) {
+    console.log(socketId);
     SocketContainer.users = await SocketContainer.users.filter(
       _user => _user.userId !== userId
     );
     socketIO.sendToAll("getUserList", SocketContainer.users);
   }
 
-  static logOutActionUsers(socketId) {}
+  static logOutActionUsers(socketId) {
+    console.log(socketId);
+  }
 }
 
 module.exports = OnlineUsers;

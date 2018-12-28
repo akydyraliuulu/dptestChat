@@ -64,7 +64,6 @@ class UserSocket {
       console.log(messages);
       store.dispatch(messageActions.add(messages));
     });
-
   };
 }
 

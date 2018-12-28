@@ -1,21 +1,44 @@
-import { TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import InputBase from "@material-ui/core/InputBase";
 import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import KeyboardIcon from "@material-ui/icons/Keyboard";
 import PhotoIcon from "@material-ui/icons/Photo";
+import SendIcon from "@material-ui/icons/SendRounded";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
 import axios from "axios";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import uuid from "uuid";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
-import uuid from "uuid";
+
+const styles = {
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 400
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1
+  },
+  iconButton: {
+    padding: 10
+  },
+  divider: {
+    width: 1,
+    height: 28,
+    margin: 4
+  }
+};
 
 class MessageInput extends Component {
   constructor(props) {
@@ -43,13 +66,10 @@ class MessageInput extends Component {
     }
   };
 
-  sendMessage = e => {
+  sendMessage = () => {
     if (this.state.value !== "") {
       console.log(this.props.editMessage.text);
-      if (
-        this.props.editMessage.text !== "" &&
-        this.props.editMessage.text !== undefined
-      ) {
+      if (this.props.editMessage.text !== undefined) {
         let msg = {
           msgId: this.props.editMessage.msgId,
           text: this.state.value,
@@ -104,13 +124,16 @@ class MessageInput extends Component {
     this.setState({
       value: e.target.value
     });
+    let msg = this.props.editMessage;
+    msg.text = "";
+    store.dispatch(messageActions.edit(msg));
   };
 
   handleClickSendSticker = () => {
     this.setState(state => ({ openSticker: !state.openSticker }));
   };
 
-  onDrop = (acceptedFiles, rejectedFiles) => {
+  onDrop = acceptedFiles => {
     this.setState({
       image: acceptedFiles[0],
       imageName: acceptedFiles[0].name
@@ -122,7 +145,9 @@ class MessageInput extends Component {
 
       let msg = {
         senderId: this.props.user.userId,
-        receiverId: this.props.receiverUser.userId,
+        receiverId: this.props.receiverUser.userId
+          ? this.props.receiverUser.userId
+          : "all",
         text: this.state.value,
         uniqId: uuid(),
         image: e.target.result,
@@ -148,67 +173,65 @@ class MessageInput extends Component {
 
   render() {
     let { value } = this.state;
+    const { classes } = this.props;
     return (
-      <Paper>
-        <Button variant="text">
-          <Typography variant="caption" component="h6">
+      <Paper className={classes.root} elevation={1}>
+        <Button variant='text'>
+          <Typography variant='caption' component='h3'>
             {this.props.receiverUser === ""
               ? "all:"
               : "@" + this.props.receiverUser.username}
           </Typography>
         </Button>
-
-        <TextField
-          onChange={this.onChange}
-          value={value}
-          type="text"
-          id="outlined-dense"
-          onKeyPress={this.handleKeyPress}
-          variant="outlined"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconButton
-                  aria-label="Toggle password visibility"
-                  onClick={this.handleClickSendSticker}
-                >
-                  {this.state.openSticker ? <TagFacesIcon /> : <KeyboardIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton>
-                  <Dropzone onDrop={this.onDrop}>
-                    {({ getRootProps, getInputProps, isDragActive }) => {
-                      return (
-                        <div
-                          {...getRootProps()}
-                          className={classNames("dropzone", {
-                            "dropzone--isActive": isDragActive
-                          })}
-                        >
-                          <input {...getInputProps()} />
-                          {isDragActive ? <PhotoIcon /> : <PhotoIcon />}
-                        </div>
-                      );
-                    }}
-                  </Dropzone>
-                </IconButton>
-              </InputAdornment>
-            )
-          }}
-        />
-        <Button
-          style={{ height: 56 }}
-          onClick={this.sendMessage}
-          type="submit"
-          variant="contained"
-          color="primary"
-          size="large"
+        <IconButton
+          className={classes.iconButton}
+          onClick={this.handleClickSendSticker}
         >
-          Send
-        </Button>
+          {this.state.openSticker ? <TagFacesIcon /> : <KeyboardIcon />}
+        </IconButton>
+        <InputBase
+          className={classes.input}
+          placeholder={
+            this.props.editMessage.text !== "" &&
+            this.props.editMessage.text !== undefined
+              ? "edit message"
+              : "send message..."
+          }
+          onChange={this.onChange}
+          onKeyPress={this.handleKeyPress}
+          value={
+            this.props.editMessage.text !== "" &&
+            this.props.editMessage.text !== undefined
+              ? this.props.editMessage.text
+              : value
+          }
+          type='text'
+        />
+        <IconButton className={classes.iconButton}>
+          <Dropzone onDrop={this.onDrop}>
+            {({ getRootProps, getInputProps, isDragActive }) => {
+              return (
+                <div
+                  {...getRootProps()}
+                  className={classNames("dropzone", {
+                    "dropzone--isActive": isDragActive
+                  })}
+                >
+                  <input {...getInputProps()} />
+                  {isDragActive ? <PhotoIcon /> : <PhotoIcon />}
+                </div>
+              );
+            }}
+          </Dropzone>
+        </IconButton>
+        <Divider className={classes.divider} />
+        <IconButton
+          onClick={this.sendMessage}
+          color='primary'
+          className={classes.iconButton}
+        >
+          <SendIcon />
+        </IconButton>
       </Paper>
     );
   }
@@ -223,8 +246,6 @@ const mapStateToProps = state => {
   };
 };
 
-MessageInput.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withRouter(connect(mapStateToProps)(MessageInput));
+export default withStyles(styles)(
+  withRouter(connect(mapStateToProps)(MessageInput))
+);

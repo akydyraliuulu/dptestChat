@@ -49,9 +49,9 @@ class LogoutComponent extends Component {
 
   render() {
     return (
-      <AppBar position="static" color="inherit">
+      <AppBar position='static' color='inherit'>
         <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
+          <Typography variant='h6' style={{ flexGrow: 1 }}>
             <Avatar
               src={this.props.user.avatarUrl}
               onClick={() => this.onHandleClick()}
@@ -70,10 +70,10 @@ class LogoutComponent extends Component {
             </FormLabel>
             <Button
               style={{ position: "absolute", right: 16, top: 16 }}
-              className="colored primary"
-              variant="outlined"
-              color="primary"
-              margin="normal"
+              className='colored primary'
+              variant='outlined'
+              color='primary'
+              margin='normal'
               onClick={() => this.logoutRequest()}
             >
               LOGOUT

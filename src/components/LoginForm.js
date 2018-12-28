@@ -20,7 +20,7 @@ class LoginForm extends Component {
     }
   };
 
-  onHandleClick = e => {
+  onHandleClick = () => {
     const { username, password } = this.state;
 
     console.log(username);
@@ -41,7 +41,7 @@ class LoginForm extends Component {
     switch (res.status) {
       case "success":
         this.props.login(res.user);
-        let userToSave = JSON.stringify(res.user);
+        var userToSave = JSON.stringify(res.user);
         sessionStorage.setItem("user", userToSave);
         this.props.history.push("/main");
         break;
@@ -69,36 +69,36 @@ class LoginForm extends Component {
           alignContent: "center"
         }}
       >
-        <Typography gutterBottom variant="outlined" component="h1">
+        <Typography gutterBottom variant='outlined' component='h1'>
           sign in
         </Typography>
 
         <TextField
-          id="outlined-dense"
-          label="username"
-          variant="outlined"
-          margin="normal"
+          id='outlined-dense'
+          label='username'
+          variant='outlined'
+          margin='normal'
           onChange={this.handleChange("username")}
           value={username}
-          placeholder="username"
+          placeholder='username'
         />
         <TextField
-          id="outlined-dense"
-          label="password"
-          margin="normal"
-          variant="outlined"
+          id='outlined-dense'
+          label='password'
+          margin='normal'
+          variant='outlined'
           onChange={this.handleChange("password")}
           value={password}
           onKeyPress={this.handleKeyPress}
-          type="password"
-          placeholder="********"
+          type='password'
+          placeholder='********'
         />
         <Button
-          size="large"
-          variant="outlined"
-          color="primary"
-          margin="normal"
-          type="submit"
+          size='large'
+          variant='outlined'
+          color='primary'
+          margin='normal'
+          type='submit'
           onClick={this.onHandleClick}
         >
           LOGIN

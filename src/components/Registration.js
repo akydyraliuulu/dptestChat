@@ -12,15 +12,15 @@ class Registration extends Component {
   render() {
     return (
       <div>
-        <AppBar position="static" color="#009688">
+        <AppBar position='static' color='#009688'>
           <Toolbar>
-            <Typography variant="h6">
-              <Link to="/">
+            <Typography variant='h6'>
+              <Link to='/'>
                 <Button
-                  className="colored primary"
-                  variant="outlined"
+                  className='colored primary'
+                  variant='outlined'
                   style={{ position: "absolute", right: 16, bottom: 16 }}
-                  color="primary"
+                  color='primary'
                 >
                   LOGIN
                 </Button>

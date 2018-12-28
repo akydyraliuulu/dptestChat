@@ -128,10 +128,7 @@ function changeAvatar(req, res) {
     avatarImg
       .resize(250, 250)
       .quality(60)
-      .write(
-        `public/assets/${generatedId}/avatar.jpg`,
-        fileSaveCallback
-      );
+      .write(`public/assets/${generatedId}/avatar.jpg`, fileSaveCallback);
   });
 
   function fileSaveCallback(err, data) {
@@ -144,7 +141,7 @@ function changeAvatar(req, res) {
     saveToDatabase(data);
   }
 
-  function saveToDatabase(data) {
+  function saveToDatabase() {
     let conditions = { userId: req.body.user.userId };
     let update = { avatarUrl: `assets/${generatedId}/avatar.jpg` };
     let options = { new: true };

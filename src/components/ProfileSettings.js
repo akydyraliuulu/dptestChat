@@ -19,7 +19,6 @@ class ProfileSettings extends Component {
     user = JSON.parse(user);
     if (user && user !== null && user.username !== "") {
       this.props.login(user);
-      //store.dispatch(userActions.login(user));
     }
     this.state = {
       username: "",
@@ -47,7 +46,7 @@ class ProfileSettings extends Component {
     }
   };
 
-  onHandleClick = e => {
+  onHandleClick = () => {
     const { username, password, userId } = this.state;
 
     var data = {
@@ -73,7 +72,7 @@ class ProfileSettings extends Component {
         console.log("res.user");
         console.log(res.user);
         this.props.login(res.user);
-        let userToSave = JSON.stringify(res.user);
+        var userToSave = JSON.stringify(res.user);
         sessionStorage.setItem("user", userToSave);
         break;
       case "error":
@@ -122,7 +121,7 @@ class ProfileSettings extends Component {
   render() {
     const { username, password } = this.state;
     return (
-      <div className="profileSettings" container spacing={24}>
+      <div className='profileSettings' container spacing={24}>
         <LogoutComponent />
         <FormControl
           style={{
@@ -131,12 +130,12 @@ class ProfileSettings extends Component {
             alignContent: "center"
           }}
         >
-          <Typography gutterBottom variant="outlined" component="h1">
+          <Typography gutterBottom variant='outlined' component='h1'>
             Profile Settings
           </Typography>
           <Input
             style={{ display: "none" }}
-            type="file"
+            type='file'
             onChange={this.onImageChange}
             inputRef={fileInput => (this.fileInput = fileInput)}
           />
@@ -153,34 +152,34 @@ class ProfileSettings extends Component {
           </Avatar>
 
           <TextField
-            id="outlined-dense"
+            id='outlined-dense'
             label={this.state.error ? this.state.error : "username"}
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             onChange={this.handleChange("username")}
             value={username}
             onKeyPress={this.handleKeyPress}
             error={this.state.error}
-            placeholder="username"
+            placeholder='username'
           />
           <TextField
-            id="outlined-dense"
+            id='outlined-dense'
             label={this.state.required ? this.state.required : "password"}
-            margin="normal"
-            variant="outlined"
+            margin='normal'
+            variant='outlined'
             onChange={this.handleChange("password")}
             value={password}
             onKeyPress={this.handleKeyPress}
-            type="password"
+            type='password'
             error={this.state.required}
-            placeholder="********"
+            placeholder='********'
           />
           <Button
-            size="large"
-            variant="outlined"
-            color="primary"
-            margin="normal"
-            type="submit"
+            size='large'
+            variant='outlined'
+            color='primary'
+            margin='normal'
+            type='submit'
             onClick={this.onHandleClick}
           >
             Update

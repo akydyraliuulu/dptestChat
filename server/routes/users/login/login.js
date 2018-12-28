@@ -6,7 +6,6 @@ module.exports = (req, res) => {
     password: req.body.user.password
   };
   console.log(req.body);
-  User.find({}, (err, users) => {});
 
   User.login(userData, (err, user) => {
     if (err) {

@@ -17,6 +17,7 @@ import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
 import MessageInput from "./MessageInput";
+import { userActions } from "../actions/UserActions";
 
 const options = [
   { action: "Edit", icon: <EditIcon /> },
@@ -102,6 +103,7 @@ class MessageList extends Component {
       console.log("allMessage", res);
 
       this.props.getAllMessages(res.data.messages);
+      this.props.allUsers(res.data.users);
     });
   };
 
@@ -122,33 +124,38 @@ class MessageList extends Component {
         >
           <List>
             {this.props.messages.map(message => {
-              return (
-                <ListItem
-                  key={message._id}
-                  button
-                  aria-haspopup="true"
-                  aria-controls="lock-menu"
-                  aria-label="When device is locked"
-                  onClick={event => this.handleClick(event, message)}
-                >
-                  <Avatar src={this.props.user.avatarUrl}>
-                    <ImageIcon />
-                  </Avatar>
-                  <ListItemText
-                    primary={
-                      message.senderId === this.props.user.userId
-                        ? this.props.user.username
-                        : message.senderId
-                    }
-                    secondary={message.text}
-                  />
-                  <img alt="" src={message.imageUrl === "" ? "" : message.imageUrl} />
-                </ListItem>
-              );
+              return this.props.all_users
+                .filter(user => user.userId === message.senderId)
+                .map(user => {
+                  return (
+                    <ListItem
+                      key={message._id}
+                      button
+                      aria-haspopup='true'
+                      aria-controls='lock-menu'
+                      aria-label='When device is locked'
+                      onClick={event => this.handleClick(event, message)}
+                    >
+                      <Avatar src={user.avatarUrl}>
+                        <ImageIcon />
+                      </Avatar>
+
+                      <ListItemText
+                        primary={user.username}
+                        secondary={message.text}
+                      />
+
+                      <img
+                        alt=''
+                        src={message.imageUrl !== "" ? message.imageUrl : ""}
+                      />
+                    </ListItem>
+                  );
+                });
             })}
           </List>
           <Menu
-            id="lock-menu"
+            id='lock-menu'
             anchorEl={anchorEl}
             open={open}
             onClose={this.handleClose}
@@ -175,13 +182,17 @@ class MessageList extends Component {
 const mapStateToProps = state => {
   return {
     messages: state.messageReducer.messages,
-    user: state.userReducer.user
+    user: state.userReducer.user,
+    all_users: state.userReducer.all_users
   };
 };
 function mapDispatchToProps(dispatch) {
   return {
     getAllMessages: function(messages) {
       dispatch(messageActions.getAllMessages(messages));
+    },
+    allUsers: function(all_users) {
+      dispatch(userActions.allUsers(all_users));
     }
   };
 }

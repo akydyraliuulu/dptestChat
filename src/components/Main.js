@@ -10,7 +10,7 @@ import LogoutComponent from "./LogoutComponent";
 class Main extends Component {
   constructor(props) {
     super(props);
-    let user = sessionStorage.getItem("user");
+    var user = sessionStorage.getItem("user");
     user = JSON.parse(user);
     if (user && user !== null && user.username !== "") {
       store.dispatch(userActions.login(user));
