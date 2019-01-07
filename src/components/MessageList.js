@@ -227,11 +227,7 @@ class MessageList extends Component {
                                 <img
                                   className='image'
                                   alt=''
-                                  src={
-                                    message.imageUrl !== ""
-                                      ? message.imageUrl
-                                      : ""
-                                  }
+                                  src={message.imageUrl}
                                 />
                               ) : (
                                 message.text
