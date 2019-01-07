@@ -188,9 +188,9 @@ class MessageList extends Component {
                       <ListItem
                         key={message._id}
                         button
-                        aria-haspopup="true"
-                        aria-controls="lock-menu"
-                        aria-label="When device is locked"
+                        aria-haspopup='true'
+                        aria-controls='lock-menu'
+                        aria-label='When device is locked'
                         onClick={event => this.handleClick(event, message)}
                       >
                         <Avatar src={user.avatarUrl}>
@@ -226,7 +226,7 @@ class MessageList extends Component {
                         />
 
                         <img
-                          alt=""
+                          alt=''
                           src={message.imageUrl !== "" ? message.imageUrl : ""}
                         />
                       </ListItem>
@@ -236,7 +236,7 @@ class MessageList extends Component {
             })}
           </List>
           <Menu
-            id="lock-menu"
+            id='lock-menu'
             anchorEl={anchorEl}
             open={open}
             onClose={this.handleClose}
