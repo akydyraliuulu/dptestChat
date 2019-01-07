@@ -10,7 +10,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
-import LogoutComponent from "./LogoutComponent";
+import AppBarComponent from "./AppBarComponent";
 
 class ProfileSettings extends Component {
   constructor(props) {
@@ -122,7 +122,7 @@ class ProfileSettings extends Component {
     const { username, password } = this.state;
     return (
       <div className='profileSettings' container spacing={24}>
-        <LogoutComponent />
+        <AppBarComponent />
         <FormControl
           style={{
             marginTop: 60,

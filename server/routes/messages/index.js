@@ -147,6 +147,7 @@ function getAllMessage(req, res) {
 
 function deleteMessage(req, res) {
   console.log(req.params);
+  let msgId = req.params._id;
   Message.findByIdAndRemove({ _id: req.params._id }, err => {
     if (err) {
       throw err;
@@ -154,6 +155,7 @@ function deleteMessage(req, res) {
     res.status(200).json({
       status: "success"
     });
+    socketIO.sendToAll("deleteMessage", msgId);
   });
 }
 

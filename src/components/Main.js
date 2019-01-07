@@ -5,7 +5,7 @@ import { userActions } from "../actions/UserActions";
 import { store } from "../index";
 import UserSocket from "../socket/socketsApi";
 import ChatBox from "./ChatBox";
-import LogoutComponent from "./LogoutComponent";
+import AppBarComponent from "./AppBarComponent";
 
 class Main extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <LogoutComponent />
+        <AppBarComponent />
         <ChatBox />
       </div>
     );

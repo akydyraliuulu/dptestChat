@@ -64,6 +64,12 @@ class UserSocket {
       console.log(messages);
       store.dispatch(messageActions.add(messages));
     });
+
+    skt.on("deleteMessage", index => {
+      console.log("deleteMessage");
+      console.log(index);
+      store.dispatch(messageActions.delete(index));
+    });
   };
 }
 

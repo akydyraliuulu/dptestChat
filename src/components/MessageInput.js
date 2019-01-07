@@ -56,7 +56,6 @@ class MessageInput extends Component {
   }
 
   componentDidMount() {
-    console.log("messageinput %s!", JSON.stringify(this.props.editMessage));
     this.setState({ value: this.props.editMessage.text });
   }
 
@@ -68,15 +67,13 @@ class MessageInput extends Component {
 
   sendMessage = () => {
     if (this.state.value !== "") {
-      console.log(this.props.editMessage.text);
-      if (this.props.editMessage.text !== undefined) {
+      if (this.props.editMessage.msgId !== undefined) {
         let msg = {
           msgId: this.props.editMessage.msgId,
           text: this.state.value,
           sticker: "sticker"
         };
         axios.post("/api/messages/edit", msg).then(res => {
-          console.log("res", res);
           store.dispatch(messageActions.edit({}));
           this.onSendMessageSuccess(res.data);
         });
@@ -90,7 +87,6 @@ class MessageInput extends Component {
           sticker: "sticker"
         };
         axios.post("/api/messages", msg).then(res => {
-          console.log("res", res);
           this.onSendMessageSuccess(res.data);
         });
       }
@@ -201,7 +197,7 @@ class MessageInput extends Component {
           onKeyPress={this.handleKeyPress}
           value={
             this.props.editMessage.text !== "" &&
-            this.props.editMessage.text !== undefined
+            this.props.editMessage.msgId !== undefined
               ? this.props.editMessage.text
               : value
           }

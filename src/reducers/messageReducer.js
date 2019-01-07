@@ -8,6 +8,8 @@ const messageReducer = (state = initialState, action) => {
       return allMessage(state, action.msg);
     case "EDIT_MESSAGE":
       return editMessage(state, action.msg);
+      case "DELETE_MESSAGE":
+      return deleteMessage(state, action.index)
     default:
       return state;
   }
@@ -54,6 +56,15 @@ function allMessage(state, message) {
 function editMessage(state, message) {
   return Object.assign({}, state, {
     editMessage: message
+  });
+}
+
+function deleteMessage(state, index) {
+  let newMessage = state.messages.filter(m => {
+    return(m._id !== index);
+  });
+  return Object.assign({}, state, {
+    messages: newMessage
   });
 }
 

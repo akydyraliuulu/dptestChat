@@ -3,13 +3,14 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ImageIcon from "@material-ui/icons/Image";
 import axios from "axios";
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { connect } from "react-redux";
@@ -17,7 +18,10 @@ import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
 import MessageInput from "./MessageInput";
+import moment from "moment";
 import { userActions } from "../actions/UserActions";
+require("moment/locale/ja");
+moment.locale("ja");
 
 const options = [
   { action: "Edit", icon: <EditIcon /> },
@@ -108,6 +112,11 @@ class MessageList extends Component {
   };
 
   render() {
+    let today = new Date().toISOString();
+    let yesterday = new Date().setDate(new Date().getDate() - 1);
+    let lastDate = new Date().toISOString();
+    let todayIsSet = false;
+    let yesterdayIsSet = false;
     const { anchorEl, open } = this.state;
     return (
       <div style={{ maxWidth: 800, padding: 10, alignItems: "center" }}>
@@ -124,38 +133,110 @@ class MessageList extends Component {
         >
           <List>
             {this.props.messages.map(message => {
+              let todayB =
+                moment(message.createdOn).isSame(today, "day") &&
+                todayIsSet === false;
+              if (todayB) {
+                todayIsSet = true;
+              }
+              let yesterdayB =
+                moment(message.createdOn).isSame(yesterday, "day") &&
+                yesterdayIsSet === false;
+              if (yesterdayB) {
+                yesterdayIsSet = true;
+              }
+              let sameDay = moment(message.createdOn).isSame(lastDate, "day");
+              if (!sameDay) {
+                lastDate = message.createdOn;
+              }
+
               return this.props.all_users
                 .filter(user => user.userId === message.senderId)
                 .map(user => {
                   return (
-                    <ListItem
-                      key={message._id}
-                      button
-                      aria-haspopup='true'
-                      aria-controls='lock-menu'
-                      aria-label='When device is locked'
-                      onClick={event => this.handleClick(event, message)}
-                    >
-                      <Avatar src={user.avatarUrl}>
-                        <ImageIcon />
-                      </Avatar>
+                    <Fragment key={message._id}>
+                      {todayB && (
+                        <ListSubheader
+                          style={{
+                            background:
+                              "linear-gradient(to right, #FFFFFF, #ECE9E6)"
+                          }}
+                        >
+                          Today
+                        </ListSubheader>
+                      )}
+                      {yesterdayB && (
+                        <ListSubheader
+                          style={{
+                            background:
+                              "linear-gradient(to right, #FFFFFF, #ECE9E6)"
+                          }}
+                        >
+                          Yesterday
+                        </ListSubheader>
+                      )}
+                      {!sameDay && !todayB && !yesterdayB && (
+                        <ListSubheader
+                          style={{
+                            background:
+                              "linear-gradient(to right, #FFFFFF, #ECE9E6)"
+                          }}
+                        >{`${moment(message.createdOn).format(
+                          "MM月DD日"
+                        )}`}</ListSubheader>
+                      )}
+                      <ListItem
+                        key={message._id}
+                        button
+                        aria-haspopup="true"
+                        aria-controls="lock-menu"
+                        aria-label="When device is locked"
+                        onClick={event => this.handleClick(event, message)}
+                      >
+                        <Avatar src={user.avatarUrl}>
+                          <ImageIcon />
+                        </Avatar>
 
-                      <ListItemText
-                        primary={user.username}
-                        secondary={message.text}
-                      />
+                        <ListItemText
+                          primary={
+                            <div
+                              style={{
+                                direction: "row",
+                                display: "flex",
+                                width: "100%",
+                                justifyContent: "space-between"
+                              }}
+                            >
+                              <p>{`${user.username}`}</p>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row"
+                                }}
+                              >
+                                <p
+                                  style={{ color: "#999999", fontSize: 10 }}
+                                >{`${moment(message.createdOn).format(
+                                  "h:mm "
+                                )}`}</p>
+                              </div>
+                            </div>
+                          }
+                          secondary={message.text}
+                        />
 
-                      <img
-                        alt=''
-                        src={message.imageUrl !== "" ? message.imageUrl : ""}
-                      />
-                    </ListItem>
+                        <img
+                          alt=""
+                          src={message.imageUrl !== "" ? message.imageUrl : ""}
+                        />
+                      </ListItem>
+                    </Fragment>
                   );
                 });
             })}
           </List>
           <Menu
-            id='lock-menu'
+            id="lock-menu"
             anchorEl={anchorEl}
             open={open}
             onClose={this.handleClose}
