@@ -10,6 +10,7 @@ import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
 import MessageList from "./MessageList";
+import "../MessageList.css";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class ChatBox extends Component {
             </Chip>
           ))}
         </Paper>
+        
         <Grid
           container
           spacing={0}
@@ -59,7 +61,9 @@ class ChatBox extends Component {
           alignItems='center'
           justify='center'
         >
+        <div className='MessageList'>
           <MessageList />
+          </div>
         </Grid>
       </div>
     );

@@ -19,6 +19,7 @@ import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
 import MessageInput from "./MessageInput";
 import moment from "moment";
+import "../MessageList.css";
 import { userActions } from "../actions/UserActions";
 require("moment/locale/ja");
 moment.locale("ja");
@@ -119,18 +120,14 @@ class MessageList extends Component {
     let yesterdayIsSet = false;
     const { anchorEl, open } = this.state;
     return (
-      <div style={{ maxWidth: 800, padding: 10, alignItems: "center" }}>
+      <div >
         <PerfectScrollbar
-          style={{
-            maxHeight: 550,
-            minHeight: 550,
-            overflow: "hidden",
-            height: "100%"
-          }}
+        className='perfectScrollbarMessageList'
           containerRef={ref => {
             this._scrollbarRef = ref;
           }}
         >
+        <div className='MessagesContainer'>
           <List>
             {this.props.messages.map(message => {
               let todayB =
@@ -224,17 +221,20 @@ class MessageList extends Component {
                           }
                           secondary={message.text}
                         />
-
+                        <div>
                         <img
+                          className='image'
                           alt=''
                           src={message.imageUrl !== "" ? message.imageUrl : ""}
                         />
+                        </div>
                       </ListItem>
                     </Fragment>
                   );
                 });
             })}
           </List>
+          </div>
           <Menu
             id='lock-menu'
             anchorEl={anchorEl}
@@ -252,8 +252,6 @@ class MessageList extends Component {
             ))}
           </Menu>
         </PerfectScrollbar>
-        <br />
-        <br />
         <MessageInput value={this.state.messageItem.text} />
       </div>
     );
