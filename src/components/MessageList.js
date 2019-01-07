@@ -1,6 +1,8 @@
 import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -10,17 +12,17 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ImageIcon from "@material-ui/icons/Image";
 import axios from "axios";
+import moment from "moment";
 import React, { Component, Fragment } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { messageActions } from "../actions/MessageActions";
-import { store } from "../index";
-import MessageInput from "./MessageInput";
-import moment from "moment";
-import "../MessageList.css";
 import { userActions } from "../actions/UserActions";
+import { store } from "../index";
+import "../MessageList.css";
+import MessageInput from "./MessageInput";
 require("moment/locale/ja");
 moment.locale("ja");
 
@@ -120,120 +122,130 @@ class MessageList extends Component {
     let yesterdayIsSet = false;
     const { anchorEl, open } = this.state;
     return (
-      <div >
+      <div>
         <PerfectScrollbar
-        className='perfectScrollbarMessageList'
+          className='perfectScrollbarMessageList'
           containerRef={ref => {
             this._scrollbarRef = ref;
           }}
         >
-        <div className='MessagesContainer'>
-          <List>
-            {this.props.messages.map(message => {
-              let todayB =
-                moment(message.createdOn).isSame(today, "day") &&
-                todayIsSet === false;
-              if (todayB) {
-                todayIsSet = true;
-              }
-              let yesterdayB =
-                moment(message.createdOn).isSame(yesterday, "day") &&
-                yesterdayIsSet === false;
-              if (yesterdayB) {
-                yesterdayIsSet = true;
-              }
-              let sameDay = moment(message.createdOn).isSame(lastDate, "day");
-              if (!sameDay) {
-                lastDate = message.createdOn;
-              }
+          <div className='MessagesContainer'>
+            <List>
+              {this.props.messages.map(message => {
+                let todayB =
+                  moment(message.createdOn).isSame(today, "day") &&
+                  todayIsSet === false;
+                if (todayB) {
+                  todayIsSet = true;
+                }
+                let yesterdayB =
+                  moment(message.createdOn).isSame(yesterday, "day") &&
+                  yesterdayIsSet === false;
+                if (yesterdayB) {
+                  yesterdayIsSet = true;
+                }
+                let sameDay = moment(message.createdOn).isSame(lastDate, "day");
+                if (!sameDay) {
+                  lastDate = message.createdOn;
+                }
 
-              return this.props.all_users
-                .filter(user => user.userId === message.senderId)
-                .map(user => {
-                  return (
-                    <Fragment key={message._id}>
-                      {todayB && (
-                        <ListSubheader
-                          style={{
-                            background:
-                              "linear-gradient(to right, #FFFFFF, #ECE9E6)"
-                          }}
+                return this.props.all_users
+                  .filter(user => user.userId === message.senderId)
+                  .map(user => {
+                    return (
+                      <Fragment key={message._id}>
+                        {todayB && (
+                          <ListSubheader
+                            style={{
+                              background:
+                                "linear-gradient(to right, #FFFFFF, #ECE9E6)"
+                            }}
+                          >
+                            Today
+                          </ListSubheader>
+                        )}
+                        {yesterdayB && (
+                          <ListSubheader
+                            style={{
+                              background:
+                                "linear-gradient(to right, #FFFFFF, #ECE9E6)"
+                            }}
+                          >
+                            Yesterday
+                          </ListSubheader>
+                        )}
+                        {!sameDay && !todayB && !yesterdayB && (
+                          <ListSubheader
+                            style={{
+                              background:
+                                "linear-gradient(to right, #FFFFFF, #ECE9E6)"
+                            }}
+                          >{`${moment(message.createdOn).format(
+                            "MM月DD日"
+                          )}`}</ListSubheader>
+                        )}
+                        <ListItem
+                          alignItems='flex-start'
+                          key={message._id}
+                          button
+                          aria-haspopup='true'
+                          onClick={event => this.handleClick(event, message)}
                         >
-                          Today
-                        </ListSubheader>
-                      )}
-                      {yesterdayB && (
-                        <ListSubheader
-                          style={{
-                            background:
-                              "linear-gradient(to right, #FFFFFF, #ECE9E6)"
-                          }}
-                        >
-                          Yesterday
-                        </ListSubheader>
-                      )}
-                      {!sameDay && !todayB && !yesterdayB && (
-                        <ListSubheader
-                          style={{
-                            background:
-                              "linear-gradient(to right, #FFFFFF, #ECE9E6)"
-                          }}
-                        >{`${moment(message.createdOn).format(
-                          "MM月DD日"
-                        )}`}</ListSubheader>
-                      )}
-                      <ListItem
-                        key={message._id}
-                        button
-                        aria-haspopup='true'
-                        aria-controls='lock-menu'
-                        aria-label='When device is locked'
-                        onClick={event => this.handleClick(event, message)}
-                      >
-                        <Avatar src={user.avatarUrl}>
-                          <ImageIcon />
-                        </Avatar>
+                          <ListItemAvatar>
+                            <Avatar src={user.avatarUrl}>
+                              <ImageIcon />
+                            </Avatar>
+                          </ListItemAvatar>
 
-                        <ListItemText
-                          primary={
-                            <div
-                              style={{
-                                direction: "row",
-                                display: "flex",
-                                width: "100%",
-                                justifyContent: "space-between"
-                              }}
-                            >
-                              <p>{`${user.username}`}</p>
+                          <ListItemText
+                            primary={
                               <div
                                 style={{
+                                  direction: "row",
                                   display: "flex",
-                                  flexDirection: "row"
+                                  width: "100%",
+                                  justifyContent: "space-between"
                                 }}
                               >
-                                <p
-                                  style={{ color: "#999999", fontSize: 10 }}
-                                >{`${moment(message.createdOn).format(
-                                  "h:mm "
-                                )}`}</p>
+                                <p>{`${user.username}`}</p>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row"
+                                  }}
+                                >
+                                  <p
+                                    style={{ color: "#999999", fontSize: 10 }}
+                                  >{`${moment(message.createdOn).format(
+                                    "h:mm "
+                                  )}`}</p>
+                                </div>
                               </div>
-                            </div>
-                          }
-                          secondary={message.text}
-                        />
-                        <div>
-                        <img
-                          className='image'
-                          alt=''
-                          src={message.imageUrl !== "" ? message.imageUrl : ""}
-                        />
-                        </div>
-                      </ListItem>
-                    </Fragment>
-                  );
-                });
-            })}
-          </List>
+                            }
+                            secondary={
+                              message.imageUrl !== "" ? (
+                                <img
+                                  className='image'
+                                  alt=''
+                                  src={
+                                    message.imageUrl !== ""
+                                      ? message.imageUrl
+                                      : ""
+                                  }
+                                />
+                              ) : (
+                                message.text
+                              )
+                            }
+                          />
+                          <div />
+                        </ListItem>
+                        <Divider variant='inset' />
+                      </Fragment>
+                    );
+                  });
+              })}
+            </List>
           </div>
           <Menu
             id='lock-menu'
