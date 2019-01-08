@@ -10,7 +10,6 @@ import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import { store } from "../index";
 import MessageList from "./MessageList";
-import "../MessageList.css";
 
 class ChatBox extends Component {
   constructor(props) {
@@ -30,40 +29,39 @@ class ChatBox extends Component {
     console.log(this.props.users);
     return (
       <div>
-        <Paper
-          style={{
-            display: "flex",
-            justifyContent: "left",
-            flexWrap: "wrap",
-            padding: 12
-          }}
-        >
-          <IconButton onClick={this.resetUser}>
-            <MessageIcon />
-          </IconButton>
-          {this.props.users.map((userItem, i) => (
-            <Chip
-              style={{ margin: 4, marginTop: 15 }}
-              key={i}
-              icon={<TagFacesIcon />}
-              label={userItem.username}
-              onClick={() => this.handleClick(userItem)}
-            >
-              {userItem.username}
-            </Chip>
-          ))}
-        </Paper>
-        
+        {this.props.users.length > 0 ? (
+          <Paper
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              flexWrap: "wrap",
+              padding: 12
+            }}
+          >
+            <IconButton onClick={this.resetUser}>
+              <MessageIcon />
+            </IconButton>
+            {this.props.users.map((userItem, i) => (
+              <Chip
+                style={{ margin: 4, marginTop: 15 }}
+                key={i}
+                icon={<TagFacesIcon />}
+                label={userItem.username}
+                onClick={() => this.handleClick(userItem)}
+              >
+                {userItem.username}
+              </Chip>
+            ))}
+          </Paper>
+        ) : null}
+
         <Grid
           container
-          spacing={0}
           direction='column'
           alignItems='center'
           justify='center'
         >
-        <div className='MessageList'>
           <MessageList />
-          </div>
         </Grid>
       </div>
     );

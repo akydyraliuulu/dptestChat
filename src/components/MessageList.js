@@ -122,7 +122,7 @@ class MessageList extends Component {
     let yesterdayIsSet = false;
     const { anchorEl, open } = this.state;
     return (
-      <div>
+      <div className={this.props.messages.length > 0 ? "MessageList"  : null}>
         <PerfectScrollbar
           className='perfectScrollbarMessageList'
           containerRef={ref => {
@@ -181,7 +181,7 @@ class MessageList extends Component {
                                 "linear-gradient(to right, #FFFFFF, #ECE9E6)"
                             }}
                           >{`${moment(message.createdOn).format(
-                            "MM月DD日"
+                            "DD-MM-YYYY"
                           )}`}</ListSubheader>
                         )}
                         <ListItem
@@ -260,7 +260,7 @@ class MessageList extends Component {
             ))}
           </Menu>
         </PerfectScrollbar>
-        <MessageInput value={this.state.messageItem.text} />
+        {this.props.messages.length > 0 ? <MessageInput value={this.state.messageItem.text} />  : null}   
       </div>
     );
   }

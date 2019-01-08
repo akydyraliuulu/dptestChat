@@ -61,7 +61,7 @@ class AppBarComponent extends Component {
         this.props.history.push("/");
         break;
       case "error":
-        alert("something was error!");
+        alert("something was wrong!");
         console.log("errorResponse");
         break;
       default:
