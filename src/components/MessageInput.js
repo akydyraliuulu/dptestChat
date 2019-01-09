@@ -18,6 +18,7 @@ import { withRouter } from "react-router";
 import uuid from "uuid";
 import { messageActions } from "../actions/MessageActions";
 import { store } from "../index";
+import AppBarComponent from "./AppBarComponent";
 
 const styles = {
   root: {

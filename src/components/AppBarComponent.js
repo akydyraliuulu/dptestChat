@@ -14,6 +14,7 @@ import UserSocket from "../socket/socketsApi";
 import { withStyles } from "@material-ui/core/styles";
 import Logout from "../utils/Logout";
 
+
 const styles = {
   root: {
     flexGrow: 1
@@ -83,18 +84,18 @@ class AppBarComponent extends Component {
     const open = Boolean(anchorEl);
 
     return (
-      <AppBar position='static' color='inherit'>
+      <AppBar position="static" color="inherit">
         <Toolbar>
           <IconButton
             className={classes.menuButton}
-            color='inherit'
-            aria-label='Menu'
+            color="inherit"
+            aria-label="Menu"
           >
             <MenuIcon />
           </IconButton>
           <Typography
-            variant='h6'
-            color='inherit'
+            variant="h6"
+            color="inherit"
             className={classes.grow}
             onClick={() => this.onNameClick()}
           >
@@ -104,15 +105,15 @@ class AppBarComponent extends Component {
             <div>
               <Avatar
                 src={this.props.user.avatarUrl}
-                aria-owns='menu-appbar'
-                aria-haspopup='true'
+                aria-owns="menu-appbar"
+                aria-haspopup="true"
                 onClick={this.handleMenu}
-                color='inherit'
+                color="inherit"
               >
                 <AccountIcon />
               </Avatar>
               <Menu
-                id='menu-appbar'
+                id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: "top",

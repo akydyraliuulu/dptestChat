@@ -6,6 +6,7 @@ import NoMatch from "./NoMatch";
 import ProfileSettings from "./ProfileSettings";
 import Registration from "./Registration";
 import Welcome from "./Welcome";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class App extends Component {
   render() {
@@ -32,7 +33,15 @@ class App extends Component {
           <Route
             exact
             path='/profileSettings'
-            render={() => (logedIn ? <ProfileSettings /> : <Redirect to='/' />)}
+            render={() =>
+              logedIn ? (
+                <MuiThemeProvider>
+                  <ProfileSettings />
+                </MuiThemeProvider>
+              ) : (
+                <Redirect to='/' />
+              )
+            }
           />
 
           <Route exact path='/registration' render={() => <Registration />} />

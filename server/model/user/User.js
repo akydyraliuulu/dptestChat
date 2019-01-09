@@ -45,6 +45,15 @@ userSchema.statics.validatePassword = function(password, callback) {
   );
 };
 
+userSchema.statics.confirmWithPassword = function(userData, callback) {
+  this.find(
+    { _id: userData._id, password: userData.password },
+    "_id username",
+    { sort: "modifiedOn" },
+    callback
+  );
+};
+
 userSchema.statics.confirmWithId = function(userId, callback) {
   this.find({ userId: userId }, "userId", { sort: "modifiedOn" }, callback);
 };
