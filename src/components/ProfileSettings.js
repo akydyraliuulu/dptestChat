@@ -20,6 +20,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import AppBarComponent from "./AppBarComponent";
+import { IconButton, Input } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/EditRounded";
 
 const styles = {
   hintStyle: {
@@ -281,7 +283,7 @@ class ProfileSettings extends Component {
 
       this.setState(state);
     } else {
-      state.changePasswordErrors.passwordConfirm = "Passwords do not match";
+      state.changePasswordErrors.passwordConfirm = "Passwords did not match";
       state.changePasswordHints.passwordConfirm = "";
 
       this.setState(state);
@@ -453,7 +455,7 @@ class ProfileSettings extends Component {
     return (
       <div>
         <AppBarComponent />
-        <Card className='CONTAINER'>
+        <Card className='CONTAINER' style={{ padding: "40px" }}>
           <h2 className='CARD-HEADING'>Profile</h2>
 
           <div
@@ -482,13 +484,14 @@ class ProfileSettings extends Component {
                     <AvatarEditor
                       ref={this.setAvatarEditorRef}
                       image={this.state.userSettingsToChange.avatarUrl}
-                      width={250}
-                      height={250}
-                      border={50}
+                      width={200}
+                      height={200}
+                      border={25}
                       rotate={this.state.avatarRotation}
                       color={[0, 204, 204, 0.6]} // RGBA
-                      borderRadius={125}
+                      borderRadius={100}
                       scale={this.state.avatarScale}
+                      title='Drag the image and drop here'
                     />
                   </div>
                 );
@@ -556,7 +559,7 @@ class ProfileSettings extends Component {
                 this.props.user.username
               }
               backgroundColor={yellowA400}
-              label='update'
+              label='edit'
             />
             <FlatButton
               onClick={() => {
@@ -574,18 +577,38 @@ class ProfileSettings extends Component {
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "start",
+              alignItems: "center",
               justifyContent: "center"
             }}
           >
-            <p> edit password</p>
+            <Input style={{ marginRight: "40px" }}
+              value={this.state.userSettingsToChange.password}
+              disabled
+              type='password'
+              inputProps={{
+                "aria-label": "Description"
+              }}
+            />
 
-            <RaisedButton
+            <IconButton
               style={{ marginLeft: "40px" }}
               onClick={this.handleConfirmChangePasswordDialogOpen}
               backgroundColor={yellowA400}
               label='edit'
+            >
+              <EditIcon />
+            </IconButton>
+            <FlatButton
+              onClick={() => {
+                this.resetField("password");
+              }}
+              disabled={
+                this.state.userSettingsToChange.password ===
+                this.props.user.password
+              }
+              label='reset'
             />
+            
           </div>
         </Card>
 

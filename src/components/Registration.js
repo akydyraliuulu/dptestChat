@@ -12,7 +12,7 @@ class Registration extends Component {
   render() {
     return (
       <div>
-        <AppBar position='static' color='#009688'>
+        <AppBar position='static' color='inherit'>
           <Toolbar>
             <Typography variant='h6'>
               <Link to='/'>
