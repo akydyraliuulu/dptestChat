@@ -157,6 +157,8 @@ class ProfileSettings extends Component {
     axios.post("/api/users/profileSettings/changeAvatar", data).then(res => {
       console.log("res", res);
       this.onAvatarChanged(res.data);
+    }).catch(function (error) {
+      console.log(error);
     });
   };
 
