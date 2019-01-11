@@ -234,6 +234,7 @@ class ProfileSettings extends Component {
 
   onPasswordChanged = res => {
     if (res.status === "success") {
+      console.log("respassword", res);
       this.props.login(res.user);
       var userToSave = JSON.stringify(res.user);
       sessionStorage.setItem("user", userToSave);
@@ -355,6 +356,7 @@ class ProfileSettings extends Component {
             value={this.state.password}
             floatingLabelText='New password'
             floatingLabelFixed={true}
+            type='password'
             name='newAccountPassword'
           />
         </div>
@@ -388,6 +390,7 @@ class ProfileSettings extends Component {
             value={this.state.passwordConfirm}
             floatingLabelText='Re-enter new password'
             floatingLabelFixed={true}
+            type='password'
             name='newAccountPasswordConfirm'
           />
         </div>
@@ -436,7 +439,7 @@ class ProfileSettings extends Component {
         onClick={this.handleConfirmChangePasswordDialogClose}
       />,
       <FlatButton
-        label='password'
+        label='edit'
         disabled={
           this.state.changePasswordHints.password === "" ||
           this.state.changePasswordHints.passwordConfirm === ""
@@ -453,111 +456,6 @@ class ProfileSettings extends Component {
         <Card className='CONTAINER'>
           <h2 className='CARD-HEADING'>Profile</h2>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <TextField
-              floatingLabelText='username'
-              floatingLabelFixed={true}
-              underlineStyle={{
-                borderColor: `${
-                  this.state.userSettingsToChange.username ===
-                  this.props.user.username
-                    ? grey300
-                    : yellowA400
-                }`
-              }}
-              floatingLabelStyle={{
-                color: `${
-                  this.state.userSettingsToChange.username ===
-                  this.props.user.username
-                    ? grey300
-                    : yellowA400
-                }`
-              }}
-              floatingLabelFocusStyle={{ color: blue500 }}
-              value={this.state.userSettingsToChange.username}
-              onChange={this.onInputChange}
-              name='username'
-            />
-            <RaisedButton
-              onClick={this.confirmUpdateName}
-              disabled={
-                this.state.userSettingsToChange.username ===
-                this.props.user.username
-              }
-              backgroundColor={yellowA400}
-              label='update'
-            />
-            <FlatButton
-              onClick={() => {
-                this.resetField("username");
-              }}
-              disabled={
-                this.state.userSettingsToChange.username ===
-                this.props.user.username
-              }
-              label='reset'
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <TextField
-              floatingLabelText='password'
-              floatingLabelFixed={true}
-              underlineStyle={{
-                borderColor: `${
-                  this.state.userSettingsToChange.password ===
-                  this.props.user.password
-                    ? grey300
-                    : yellowA400
-                }`
-              }}
-              floatingLabelStyle={{
-                color: `${
-                  this.state.userSettingsToChange.password ===
-                  this.props.user.password
-                    ? grey300
-                    : yellowA400
-                }`
-              }}
-              floatingLabelFocusStyle={{ color: blue500 }}
-              value={this.state.userSettingsToChange.password}
-              onChange={this.onInputChange}
-              type='password'
-              name='password'
-            />
-            <RaisedButton
-              onClick={this.checkPassword}
-              disabled={
-                this.state.userSettingsToChange.password ===
-                this.props.user.password
-              }
-              backgroundColor={yellowA400}
-              label='update'
-            />
-            <FlatButton
-              onClick={() => {
-                this.resetField("password");
-              }}
-              disabled={
-                this.state.userSettingsToChange.password ===
-                this.props.user.password
-              }
-              label='reset'
-            />
-          </div>
           <div
             style={{
               display: "flex",
@@ -618,6 +516,77 @@ class ProfileSettings extends Component {
               />
             </div>
           </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <TextField
+              floatingLabelText='username'
+              floatingLabelFixed={true}
+              underlineStyle={{
+                borderColor: `${
+                  this.state.userSettingsToChange.username ===
+                  this.props.user.username
+                    ? grey300
+                    : yellowA400
+                }`
+              }}
+              floatingLabelStyle={{
+                color: `${
+                  this.state.userSettingsToChange.username ===
+                  this.props.user.username
+                    ? grey300
+                    : yellowA400
+                }`
+              }}
+              floatingLabelFocusStyle={{ color: blue500 }}
+              value={this.state.userSettingsToChange.username}
+              onChange={this.onInputChange}
+              name='username'
+            />
+            <RaisedButton
+              onClick={this.confirmUpdateName}
+              disabled={
+                this.state.userSettingsToChange.username ===
+                this.props.user.username
+              }
+              backgroundColor={yellowA400}
+              label='update'
+            />
+            <FlatButton
+              onClick={() => {
+                this.resetField("username");
+              }}
+              disabled={
+                this.state.userSettingsToChange.username ===
+                this.props.user.username
+              }
+              label='reset'
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "start",
+              justifyContent: "center"
+            }}
+          >
+            <p> edit password</p>
+
+            <RaisedButton
+              style={{ marginLeft: "40px" }}
+              onClick={this.handleConfirmChangePasswordDialogOpen}
+              backgroundColor={yellowA400}
+              label='edit'
+            />
+          </div>
         </Card>
 
         <Dialog
@@ -641,67 +610,6 @@ class ProfileSettings extends Component {
       </div>
     );
   }
-
-  // render() {
-  //   const { username, password } = this.state;
-  //   return (
-  //     <div className="profileSettings" container spacing={24}>
-  //       <AppBarComponent />
-  //       <FormControl
-  //         style={{
-  //           marginTop: 60,
-  //           alignItems: "center",
-  //           alignContent: "center"
-  //         }}
-  //       >
-  //         <Typography gutterBottom variant="outlined" component="h1">
-  //           Profile Settings
-  //         </Typography>
-  //         <Input
-  //           style={{ display: "none" }}
-  //           type="file"
-  //           onChange={this.onImageChange}
-  //           inputRef={fileInput => (this.fileInput = fileInput)}
-  //         />
-  //         <Avatar
-  //           style={{
-  //             margin: 10,
-  //             width: 70,
-  //             height: 70
-  //           }}
-  //           onClick={() => this.fileInput.click()}
-  //           src={this.state.review}
-  //         >
-  //           <AddPhotoIcon />
-  //         </Avatar>
-
-  //         <TextField
-  //           id="outlined-dense"
-  //           label={this.state.error ? this.state.error : "username"}
-  //           variant="outlined"
-  //           margin="normal"
-  //           onChange={this.handleChange("username")}
-  //           value={username}
-  //           onKeyPress={this.handleKeyPress}
-  //           error={this.state.error}
-  //           placeholder="username"
-  //         />
-  //         <TextField
-  //           id="outlined-dense"
-  //           label={this.state.required ? this.state.required : "password"}
-  //           margin="normal"
-  //           variant="outlined"
-  //           onChange={this.handleChange("password")}
-  //           value={password}
-  //           onKeyPress={this.handleKeyPress}
-  //           type="password"
-  //           error={this.state.required}
-  //           placeholder="********"
-  //         />
-  //       </FormControl>
-  //     </div>
-  //   );
-  // }
 }
 
 const mapStateToProps = state => {

@@ -13,7 +13,7 @@ module.exports = (req, res) => {
       if (err) {
         res.status(200).json({
           status: "error",
-          error: "あなたのアイデンティティを確認できませんでした",
+          error: "could not confirm your identity",
           hint: ""
         });
       } else if (users && users.length > 0) {
@@ -23,7 +23,7 @@ module.exports = (req, res) => {
         res.status(200).json({
           status: "error",
           error:
-            "マネージャーが存在しない。或いはパスワードが違っています。 あなたのアイデンティティを確認できませんでした",
+            "The user does not exist. Or the password is wrong. I could not confirm your identity",
           hint: ""
         });
       }
@@ -40,14 +40,14 @@ module.exports = (req, res) => {
       if (err) {
         res.status(200).json({
           status: "error",
-          error: "項目を変更できませんでした",
+          error: "The item could not be changed",
           hint: ""
         });
       }
       res.status(200).json({
         status: "success",
         error: "",
-        hint: "項目を変更しました",
+        hint: "Item changed",
         user: updatedUserDoc
       });
     }
