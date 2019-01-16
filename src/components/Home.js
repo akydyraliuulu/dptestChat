@@ -7,7 +7,7 @@ import UserSocket from "../socket/socketsApi";
 import ChatBox from "./ChatBox";
 import AppBarComponent from "./AppBarComponent";
 
-class Main extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     var user = sessionStorage.getItem("user");
@@ -40,4 +40,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps)(Home));

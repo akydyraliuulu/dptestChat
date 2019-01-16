@@ -75,7 +75,7 @@ class AppBarComponent extends Component {
   };
 
   onHomeClick = () => {
-    this.props.history.push("/main");
+    this.props.history.push("/home");
   };
 
   render() {

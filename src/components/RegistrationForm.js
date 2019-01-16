@@ -59,7 +59,7 @@ class RegistrationForm extends Component {
         this.props.login(res.user);
         var userToSave = JSON.stringify(res.user);
         sessionStorage.setItem("user", userToSave);
-        this.props.history.push("/main");
+        this.props.history.push("/home");
         break;
       case "error":
         console.log("errorResponse");

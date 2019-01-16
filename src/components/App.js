@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import "../App.css";
-import Main from "./Main";
+import Home from "./Home";
 import NoMatch from "./NoMatch";
 import ProfileSettings from "./ProfileSettings";
 import Registration from "./Registration";
@@ -27,8 +27,8 @@ class App extends Component {
 
           <Route
             exact
-            path='/main'
-            render={() => (logedIn ? <Main /> : <Redirect to='/' />)}
+            path='/home'
+            render={() => (logedIn ? <Home /> : <Redirect to='/' />)}
           />
           <Route
             exact
