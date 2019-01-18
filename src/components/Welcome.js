@@ -1,5 +1,6 @@
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import React, { Component } from "react";
@@ -13,7 +14,7 @@ class Welcome extends Component {
     return (
       <div>
         <AppBar position='static' color='inherit'>
-          <Toolbar> 
+          <Toolbar>
             <Typography variant='h6'>
               <Link to='/registration'>
                 <Button
@@ -27,7 +28,18 @@ class Welcome extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <LoginForm />
+        <Grid
+          container
+          spacing={0}
+          direction='column'
+          alignItems='center'
+          justify='center'
+          style={{ minHeight: "90vh" }}
+        >
+          <Grid>
+            <LoginForm />
+          </Grid>
+        </Grid>
       </div>
     );
   }

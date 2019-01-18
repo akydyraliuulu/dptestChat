@@ -10,6 +10,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
+import { Paper } from "@material-ui/core";
 
 class RegistrationForm extends Component {
   constructor(props) {
@@ -108,10 +109,12 @@ class RegistrationForm extends Component {
     const { username, password } = this.state;
 
     return (
+      <Paper  style={{width:400}}>
       <FormControl
         container
         style={{
           marginTop: 60,
+          marginBottom: 60,
           alignItems: "center",
           alignContent: "center"
         }}
@@ -161,6 +164,7 @@ class RegistrationForm extends Component {
           placeholder='********'
         />
         <Button
+          style={{marginTop:16}}
           size='large'
           variant='outlined'
           color='primary'
@@ -171,6 +175,7 @@ class RegistrationForm extends Component {
           REGISTER
         </Button>
       </FormControl>
+      </Paper>
     );
   }
 }

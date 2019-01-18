@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import RegistrationForm from "./RegistrationForm";
 
@@ -28,7 +29,18 @@ class Registration extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <RegistrationForm />
+        <Grid
+          container
+          spacing={0}
+          direction='column'
+          alignItems='center'
+          justify='center'
+          style={{ minHeight: "85vh" }}
+        >
+          <Grid>
+            <RegistrationForm />
+          </Grid>
+        </Grid>
       </div>
     );
   }

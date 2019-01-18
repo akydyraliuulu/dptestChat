@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { userActions } from "../actions/UserActions";
 import Login from "../utils/Login";
-
+import { Paper } from "@material-ui/core";
 class LoginForm extends Component {
   state = {
     username: "",
@@ -61,10 +61,12 @@ class LoginForm extends Component {
     const { username, password } = this.state;
 
     return (
+      <Paper style={{width:400}} >
       <FormControl
         container
         style={{
           marginTop: 60,
+          marginBottom: 60,
           alignItems: "center",
           alignContent: "center"
         }}
@@ -94,6 +96,7 @@ class LoginForm extends Component {
           placeholder='********'
         />
         <Button
+          style={{marginTop:16}}
           size='large'
           variant='outlined'
           color='primary'
@@ -103,7 +106,9 @@ class LoginForm extends Component {
         >
           LOGIN
         </Button>
+        
       </FormControl>
+      </Paper>
     );
   }
 }
