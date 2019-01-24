@@ -7,6 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountIcon from "@material-ui/icons/AccountBox";
 import HomeIcon from "@material-ui/icons/Home";
+import AddIcon from "@material-ui/icons/Add";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -77,6 +78,9 @@ class AppBarComponent extends Component {
   onHomeClick = () => {
     this.props.history.push("/home");
   };
+  onAddClick = () => {
+    this.props.history.push("/giftEdit");
+  };
 
   render() {
     const { classes } = this.props;
@@ -93,6 +97,14 @@ class AppBarComponent extends Component {
             onClick={() => this.onHomeClick()}
           >
             <HomeIcon />
+          </IconButton>
+          <IconButton
+            className={classes.menuButton}
+            color='inherit'
+            aria-label='Menu'
+            onClick={() => this.onAddClick()}
+          >
+            <AddIcon />
           </IconButton>
           <Typography
             variant='h6'

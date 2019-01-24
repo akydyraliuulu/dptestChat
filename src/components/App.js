@@ -4,6 +4,7 @@ import "../App.css";
 import Home from "./Home";
 import NoMatch from "./NoMatch";
 import ProfileSettings from "./ProfileSettings";
+import GiftEditor from "./giftsEditor";
 import Registration from "./Registration";
 import Welcome from "./Welcome";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -29,6 +30,11 @@ class App extends Component {
             exact
             path='/home'
             render={() => (logedIn ? <Home /> : <Redirect to='/' />)}
+          />
+          <Route
+            exact
+            path='/giftEdit'
+            render={() => (logedIn ? <GiftEditor /> : <Redirect to='/' />)}
           />
           <Route
             exact

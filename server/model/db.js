@@ -32,6 +32,7 @@ process.on("SIGINT", function() {
 
 require("./message/Message");
 require("./user/User");
+require("./gift/Gift");
 
 var projectSchema = new mongoose.Schema({
   projectName: String,
